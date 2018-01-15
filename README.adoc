@@ -132,7 +132,7 @@ Create `src/main/java/io/openliberty/guides/rest/inventory/InventoryManager.java
 
 [source, Java]
 ----
-include::finish/src/main/java/io/openliberty/guides/rest/inventory/InventoryManager.java[tags=**;!comment;]
+include::finish/src/main/java/io/openliberty/guides/rest/inventory/InventoryManager.java[tags=**;!copyright;]
 ----
 
 Your inventory is ultimately just a `ConcurrentMap` object where the key is a hostname and the value
@@ -169,7 +169,7 @@ Create `src/main/java/io/openliberty/guides/rest/inventory/InventoryResource.jav
 
 [source, Java]
 ----
-include::finish/src/main/java/io/openliberty/guides/rest/inventory/InventoryResource.java[tags=**;!comment]
+include::finish/src/main/java/io/openliberty/guides/rest/inventory/InventoryResource.java[tags=**;!copyright]
 ----
 
 First and foremost, the `@Path` annotation on the class indicates that this service is served at the `hosts`
@@ -212,7 +212,7 @@ Create `src/main/java/io/openliberty/guides/rest/inventory/InventoryApplication.
 
 [source, Java]
 ----
-include::finish/src/main/java/io/openliberty/guides/rest/inventory/InventoryApplication.java[tags=**;!comment]
+include::finish/src/main/java/io/openliberty/guides/rest/inventory/InventoryApplication.java[tags=**;!copyright]
 ----
 
 The `@ApplicationPath` annotation is a part of JAX-RS and it indicates the common endpoint under which
@@ -322,7 +322,7 @@ Begin by creating a test class `src/test/java/it/io/openliberty/guides/rest/Endp
 
 [source, Java]
 ----
-include::finish/src/test/java/it/io/openliberty/guides/rest/EndpointTest.java[tags=testClass;!comment;!tests;!helpers]
+include::finish/src/test/java/it/io/openliberty/guides/rest/EndpointTest.java[tags=testClass;!copyright;!tests;!helpers]
 ----
 
 The `@BeforeClass` annotation is placed on a method that executes before any of the test cases.
