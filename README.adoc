@@ -1,0 +1,424 @@
+:source-highlighter: prettify
+:figure-caption!:
+= Creating a MicroProfile application
+
+Learn how to build a simple application using MicroProfile technologies.
+
+== What you'll Learn
+
+You will learn how to use MicroProfile to build a simple inventory management application. This
+application acts as an `inventory` service, storing the information about various JVMs running on
+different hosts. The `inventory` service has an entry for a particular host if that host exposes its
+JVM's system properties via another RESTful web service, which you can refer to
+as the `system` service. The `inventory` service communicates with the `system` service whenever
+it does not contain an entry for a particular host to retrieve the host's JVM information. Once
+an entry for a host is made, that host no longer needs to expose its JVM's system properties as they
+would be recorded in the `inventory` service and can be accessed directly from it. At that point, the
+host can stop its `system` service.
+
+The `system` service that you will use is the same RESTful web service that you built in
+https://openliberty.io/guides/rest-intro.html[Creating a RESTful web service].
+Feel free to use your own, but a complete implementation is provided for you under `start/src/main/java/io/openliberty/guides/rest`.
+
+The following diagram shows the overall layout of the inventory application:
+
+[#diagram]
+.When a request is sent to http://localhost:9080/inventory/hosts/{hostname}, the `inventory` service first checks if the inventory has an entry for the specified hostname. If it does not, then the `inventory` service attempts to talk to `system` service running on hostname to retrieve its JVM system properties. These properties are then stored in the inventory.
+image::resources/diagram.png[Diagram, 450, , align="center"]
+
+
+== What is MicroProfile?
+
+MicroProfile is an initiative to optimize Java for the microservices architecture. It is a very small,
+but powerful, subset of Java EE specifications.
+
+This guide focuses on JAX-RS, CDI, and JSON-P, which were introduced  in release 1.0 of MicroProfile.
+
+
+// =================================================================================================
+// Getting Started
+// =================================================================================================
+
+// include::{common-includes}/gitclone.adoc[]
+
+== Getting Started
+
+The fastest way to work through this guide is to clone the git repository and use the starting project
+that is provided in the `start` directory. To do this, run the following commands:
+
+```
+git clone https://github.com/openliberty/guide-microprofile-intro.git
+cd guide-microprofile-intro/start
+```
+
+=== Try what you'll build
+
+The `finish` directory in the root of this guide contains the finished inventory application. Feel
+free to give it a try before you proceed with building your own.
+
+To try out the application, first navigate to the `finish` directory and then execute the following
+Maven goals to build the application and run it inside Open Liberty:
+
+```
+mvn install liberty:start-server
+```
+
+Point your browser to http://localhost:9080/inventory/hosts. This is the staring point of the `inventory`
+service and it displays the current contents of the inventory. As you might expect, these are empty since
+nothing is stored in the inventory yet. Next, point your browser to http://localhost:9080/inventory/hosts/localhost.
+You see a JSON with the system properties of your local JVM. By visiting this URL, these system
+properties are automatically stored in the inventory. Go back to http://localhost:9080/inventory/hosts and
+you see a new entry for `localhost`. For simplicity, only the OS name and username are shown here for
+every host. You can repeat this process for your own hostname or any other local machine that is running
+the `system` service.
+
+Once you are done checking out the application, stop the Open Liberty server:
+
+```
+mvn liberty:stop-server
+```
+
+Now, navigate back to the `start` directory to begin.
+
+
+== Creating the inventory management application
+
+First, let's break down the different components your application will be made out of, as well as which
+part of MicroProfile each component will complement.
+
+1. You will need some kind of inventory manager that edits the inventory contents, adding new entries,
+removing old entries, and so on. As far as MicroProfile goes, this component will use CDI so that it can
+be used as an injectable bean.
+
+2. You will need a means of establishing communication between the client and the inventory manager.
+This can be done using a RESTful web service, that responds to various HTTP requests. You will
+build this service using JAX-RS and inject the inventory manager bean into it using CDI.
+
+3. Finally, you will need some kind of wrapper for all of your RESTful web services (or just one such
+  service in this guide). You will use JAX-RS to create this wrapper class.
+
+While it was not mentioned yet, JSON-P will be used to process all JSON resources provided by the two
+services.
+
+=== Creating the inventory manager bean
+
+The inventory manager bean is responsible for storing and retrieving various JVM system properties.
+
+For this bean, use a simple Java Collection to store JSON objects. A more advanced application should
+use a database to persist all the data, but in this example it's not necessary.
+
+Create `src/main/java/io/openliberty/guides/microprofile/InventoryManager.java`:
+
+[source, Java]
+----
+include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryManager.java[tags=**;!comment;]
+----
+
+Your inventory is ultimately just a `ConcurrentMap` object where the key is a hostname and the value
+is a JSON Java object full of various JVM system properties:
+
+[source, Java, role="no_copy"]
+----
+private ConcurrentMap<String, JsonObject> inv = new ConcurrentHashMap<>();
+----
+
+Your inventory manager bean contains three simple methods for retrieving (`get`) entries from the inventory,
+adding (`add`) entries to the inventory, and listing (`list`) all entries currently stored in the inventory.
+
+The `@ApplicationScoped` annotation on the class is a part of CDI and it indicates that this particular
+bean is to be initialized once per the application scope. Intuitively, we want this bean to be created
+just once and shared between all the clients.
+
+// is "clients" the right word to use here^? or should be RESTful services? or something else?
+
+Use JSON-P to process all of the JSON objects.
+
+Finally, we are giving you two utility components: a `InventoryUtil` class and the `JsonMessages` enum.
+Both of these can be found under `src/main/java/io/openliberty/guides/microprofile/util`.
+
+- The `InventoryUtil` class is responsible for communicating with the `system` service to retrieve JVM
+system properties for a particular host that exposes them.\
+- The `JsonMessages` enum is used to build JSON Java objects for various error cases. Currently its
+only used to build an error JSON whenever a particular host does not exist or is not running the `system` service.
+
+Both of these contain detailed Javadocs, so feel free to read them for reference.
+
+
+=== Creating the inventory resource
+
+Create a JAX-RS service that is served at the `hosts` endpoint. This class will enable the client to
+communicate with the inventory manager via HTTP methods.
+
+Create `src/main/java/io/openliberty/guides/microprofile/InventoryResource.java`:
+
+[source, Java]
+----
+include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryResource.java[tags=**;!comment]
+----
+
+First and foremost, the `@Path` annotation on the class indicates that this service is served at the `hosts`
+endpoint.
+
+The `@RequestScoped` annotation on the class is a part of CDI and it indicates that this bean is
+to be initialized once for every request. This makes sense, since
+
+The `@Inject` annotation indicates a dependency injection. In this case, you are injecting your `InventoryManager` bean.
+This makes all functionalities of your bean available in this JAX-RS service without the need of
+instantiating the bean yourself.
+
+The `@GET` annotation on a method is a part of JAX-RS and it indicates the type of HTTP request that
+the method handles. GET requests always respond with some type of resource. In this case, both methods
+respond with a JSON object and this is indicated by the `@Produces` annotation.
+
+An optional `@Path` annotation can also be placed on a method to indicate the endpoint at which the
+HTTP request is handled. Additional curly braces can be used in the `@Path` annotation to treat the
+endpoint as a parameter, which can then be added to the method signature using the `@PathParam` annotation.
+You can see these annotations used in the `getPropertiesForHost` method signature.
+
+Let's break down the methods:
+
+- `getPropertiesForHost` returns the JVM system properties for the specific host by calling the injected
+`InventoryManager` bean.
+- `listContents` returns a JSON with the current contents of the inventory. This method also calls
+the injected `InventoryManager` bean.
+
+
+=== Creating the JAX-RS application
+
+The last piece that you need is a JAX-RS application. This is a small wrapper class which groups all resources
+under a common endpoint.
+
+Create `src/main/java/io/openliberty/guides/microprofile/InventoryApplication.java`:
+
+[source, Java]
+----
+include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryApplication.java[tags=**;!comment]
+----
+
+The `@ApplicationPath` annotation is a part of JAX-RS and it indicates the common endpoint under which
+all resources are grouped. In this case, everything is grouped under `inventory`. This makes
+the starting point of your `inventory` service to be http://localhost:9080/inventory/hosts.
+
+The `getPropertiesForHost` method is then served at http://localhost:9080/inventory/hosts/\{hostname}
+and the `listContents` method at http://localhost:9080/inventory/hosts (since it didn't have a defined `@Path` annotation).
+
+Your inventory application is now finished.
+
+
+// =================================================================================================
+// Building the application
+// =================================================================================================
+
+// == Building the application
+//
+// To build the application, run the Maven `install` goal form the command line:
+//
+// ```
+// mvn install
+// ```
+//
+// This goal builds the application and creates a `.war` file in the target directory. It also configures
+// and installs Liberty into the `target/liberty/wlp` directory.
+//
+// If the server is running, running the installation can cause issues because the installation attempts
+// to start a server. You can instead run the following command:
+//
+//
+// // =================================================================================================
+// // Starting the application
+// // =================================================================================================
+//
+// == Starting the application
+//
+// To start your inventory application run the Maven `liberty:start-server` goal from the command line:
+//
+// ```
+// mvn liberty:start-server
+// ```
+//
+// This will start an Open Liberty server on your machine. Your POM is already configured to start the
+// `inventory` and `system` services in this server instance. These can then be accessed at:
+//
+// - http://localhost:9080/inventory
+// - http://localhost:9080/system
+//
+// After making changes to the code, use the Maven `package` goal to rebuild the application and have the
+// running Open Liberty server pick up these changes automatically:
+//
+// ```
+// mvn package
+// ```
+//
+// To stop the Open Liberty server, run the Maven `liberty:stop-server` goal from the command line:
+//
+// ```
+// mvn liberty:stop-server
+// ```
+
+== Building and running the application
+
+// include::{common-includes}/mvnbuild.adoc[]
+
+To build the application and run it inside Open Liberty, execute the following Maven goals from the
+command line:
+
+```
+mvn install liberty:start-server
+```
+
+Your POM is already configured to start the `inventory` and `system` services in this server instance.
+These can then be accessed at:
+
+- http://localhost:9080/inventory/hosts
+- http://localhost:9080/system/properties
+
+// include::{common-includes}/mvnpackackge.adoc[]
+
+After making changes to the code, use the Maven `package` goal to rebuild the application and have the
+running Open Liberty server pick up these changes automatically:
+
+```
+mvn package
+```
+
+To stop the Open Liberty server, run the Maven `liberty:stop-server` goal from the command line:
+
+```
+mvn liberty:stop-server
+```
+
+
+// =================================================================================================
+// Testing
+// =================================================================================================
+
+== Testing the inventory application
+
+While you can test your application manually, you should rely on automated tests since they will trigger
+a failure whenever a code change introduces a defect. JUnit and the JAX-RS Client API provide a simple environment
+for you to write tests.
+
+Begin by creating a test class `src/test/java/it/io/openliberty/guides/microprofile/EndpointTest.java`:
+
+[source, Java]
+----
+include::finish/src/test/java/it/io/openliberty/guides/microprofile/EndpointTest.java[tags=testClass;!comment;!tests;!helpers]
+----
+
+The `@BeforeClass` annotation is placed on a method that executes before any of the test cases.
+In this case, the `oneTimeSetup` method retrieves the port number for the Open Liberty server and builds
+a base URL string that is used throughout the tests.
+
+The `@Before` and `@After` annotations are placed on methods that execute before and after every test case.
+These methods are generally used to perform any setup and teardown tasks. In this case, the `setup` method
+creates a JAX-RS client in order to make HTTP requests to the `inventory` service. This client must
+also be registered with a JSON-P provider to process JSON resources. The `teardown` method simply
+destroys this client instance.
+
+Next, add a few test case methods to test the functionality of your inventory application. Start by
+creating a method that verifies that the inventory is initially empty when the server first starts up:
+
+Create `testEmptyInventory()`:
+
+[source, Java, indent=0]
+----
+include::finish/src/test/java/it/io/openliberty/guides/microprofile/EndpointTest.java[tags=testEmptyInventory]
+----
+
+Next, create a method that verifies that a host is correctly added to the inventory.
+
+Create `testHostRegistration()`:
+
+[source, Java, indent=0]
+----
+include::finish/src/test/java/it/io/openliberty/guides/microprofile/EndpointTest.java[tags=testHostRegistration]
+----
+
+Next, create a method that verifies that the JVM system properties returned by the `system` service match
+the ones stored in the `inventory` service.
+
+Create `testSystemPropertiesMatch()`:
+
+[source, Java, indent=0]
+----
+include::finish/src/test/java/it/io/openliberty/guides/microprofile/EndpointTest.java[tags=testSystemPropertiesMatch]
+----
+
+Finally, create a method that verifies that an unknown host or a host that does not expose their JVM system
+properties is correctly handled as an error.
+
+Create `testUnknownHost()`:
+
+[source, Java, indent=0]
+----
+include::finish/src/test/java/it/io/openliberty/guides/microprofile/EndpointTest.java[tags=testUnknownHost]
+----
+
+To force these test cases to execute in a particular order, create a test "suite" method and label
+it with a `@Test` annotation so that it automatically executes when your test class run.
+
+Create `testSuite()`:
+
+[source, Java, indent=0]
+----
+include::finish/src/test/java/it/io/openliberty/guides/microprofile/EndpointTest.java[tags=testSuite]
+----
+
+One last bit is to add the unimplemented helper methods that are used throughout the tests:
+
+[source, Java, indent=0]
+----
+include::finish/src/test/java/it/io/openliberty/guides/microprofile/EndpointTest.java[tags=helpers;!javadoc]
+----
+
+Complete Javadocs for these methods are available under the `finish` directory for reference:
+`finish/src/test/java/it/io/openliberty/guides/microprofile/EndpointTest.java`.
+
+
+=== Running the tests
+
+// include::{common-includes}/mvnverify.adoc[]
+
+If the server is still running from the previous steps, stop it first using the Maven `liberty:stop-server` goal:
+
+```
+mvn liberty:stop-server
+```
+
+Then, verify that the tests pass using the Maven `verify` goal:
+
+```
+mvn verify
+```
+
+It may take some time before build is complete. If the tests pass, you will see a similar output to the following:
+
+[source, role="no_copy"]
+----
+-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+Running it.io.openliberty.guides.microprofile.EndpointTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.655 sec - in it.io.openliberty.guides.microprofile.EndpointTest
+
+Results :
+
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
+----
+
+
+== Great work! You're done!
+
+
+include::{common-includes}/finish.adoc[]
+
+// JAX-RS: is the Java EE API for creating RESTful web services
+// - We’ll use JAX-RS to expose REST services for the list of meetings, a
+// particular meeting’s details, and updating both
+//
+// CDI (Context and Dependency Injection): provides for simple POJO managed beans
+// – We’ll use CDI managed beans to ensure that we only have a single list of meetings and users (which can then be injected into other beans)
+//
+// JSON-P: provides for parsing JSON documents
+// – We’ll use JSON-P for processing the JSON arguments on the JAX-RS
+// services
