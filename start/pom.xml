@@ -6,7 +6,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.openliberty.guides</groupId>
-    <artifactId>io.openliberty.guides.microprofile</artifactId>
+    <artifactId>io.openliberty.guides.rest-cdi</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
 
@@ -16,8 +16,10 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <app.name>LibertyProject</app.name>
+        <!-- tag::ports[] -->
         <testServerHttpPort>9080</testServerHttpPort>
         <testServerHttpsPort>9443</testServerHttpsPort>
+        <!-- end::ports[] -->
         <package.file>${project.build.directory}/${app.name}.zip</package.file>
         <packaging.type>usr</packaging.type>
     </properties>
@@ -123,7 +125,7 @@
                     <assemblyArtifact>
                         <groupId>io.openliberty</groupId>
                         <artifactId>openliberty-runtime</artifactId>
-                        <version>17.0.0.3</version>
+                        <version>LATEST</version>
                         <type>zip</type>
                     </assemblyArtifact>
                     <configFile>src/main/liberty/config/server.xml</configFile>
@@ -196,9 +198,11 @@
                             <includes>
                                 <include>**/it/**</include>
                             </includes>
+                            <!-- tag::system-props[] -->
                             <systemPropertyVariables>
                                 <liberty.test.port>${testServerHttpPort}</liberty.test.port>
                             </systemPropertyVariables>
+                            <!-- end::system-props[] -->
                         </configuration>
                     </execution>
                     <execution>

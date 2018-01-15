@@ -10,12 +10,13 @@
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
  // end::comment[]
-package io.openliberty.guides.rest;
+package io.openliberty.guides.rest.inventory;
 
-import javax.ws.rs.core.Application;
+// JAX-RS
 import javax.ws.rs.ApplicationPath;
+import javax.ws.rs.core.Application;
 
-@ApplicationPath("system")
-public class SystemApplication extends Application {
+@ApplicationPath("inventory")
+public class InventoryApplication extends Application {
 
 }

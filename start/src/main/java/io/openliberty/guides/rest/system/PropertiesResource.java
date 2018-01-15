@@ -10,26 +10,26 @@
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
  // end::comment[]
-package io.openliberty.guides.rest;
+package io.openliberty.guides.rest.system;
 
+// JAX-RS
 import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
-
 import javax.ws.rs.GET;
 import javax.ws.rs.Produces;
+
+// JSON-P
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 
+// CDI
 import javax.enterprise.context.RequestScoped;
 
-//tag::class[]
 @RequestScoped
 @Path("properties")
 public class PropertiesResource {
-// end::class[]
 
-    // tag::getProperties[]
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public JsonObject getProperties() {
@@ -43,6 +43,5 @@ public class PropertiesResource {
 
         return builder.build();
     }
-    // end::getProperties[]
-
+    
 }

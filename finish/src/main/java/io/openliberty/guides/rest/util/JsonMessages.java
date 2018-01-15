@@ -10,7 +10,7 @@
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
  // end::comment[]
-package io.openliberty.guides.microprofile.util;
+package io.openliberty.guides.rest.util;
 
 // JSON-P
 import javax.json.Json;

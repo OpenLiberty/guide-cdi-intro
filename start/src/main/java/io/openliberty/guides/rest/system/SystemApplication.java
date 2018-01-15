@@ -10,8 +10,9 @@
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
  // end::comment[]
-package io.openliberty.guides.rest;
+package io.openliberty.guides.rest.system;
 
+// JAX-RS
 import javax.ws.rs.core.Application;
 import javax.ws.rs.ApplicationPath;
 

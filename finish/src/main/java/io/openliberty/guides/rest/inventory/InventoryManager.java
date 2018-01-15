@@ -10,7 +10,7 @@
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
  // end::comment[]
-package io.openliberty.guides.microprofile;
+package io.openliberty.guides.rest.inventory;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -23,9 +23,8 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 
-// Utils
-import io.openliberty.guides.microprofile.util.InventoryUtil;
-import io.openliberty.guides.microprofile.util.JsonMessages;
+import io.openliberty.guides.rest.util.InventoryUtil;
+import io.openliberty.guides.rest.util.JsonMessages;
 
 @ApplicationScoped
 public class InventoryManager {

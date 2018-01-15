@@ -10,7 +10,7 @@
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
  // end::comment[]
-package io.openliberty.guides.microprofile;
+package io.openliberty.guides.rest.inventory;
 
 // CDI
 import javax.enterprise.context.RequestScoped;
@@ -30,8 +30,7 @@ import javax.ws.rs.core.MediaType;
 @Path("hosts")
 public class InventoryResource {
 
-    @Inject
-    InventoryManager manager;
+    @Inject InventoryManager manager;
     
     @GET
     @Path("{hostname}")

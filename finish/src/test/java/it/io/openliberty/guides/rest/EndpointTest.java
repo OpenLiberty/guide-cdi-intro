@@ -11,7 +11,7 @@
  *******************************************************************************/
  // end::comment[]
 // tag::testClass[]
-package it.io.openliberty.guides.microprofile;
+package it.io.openliberty.guides.rest;
 
 import static org.junit.Assert.*;
 
@@ -74,7 +74,7 @@ public class EndpointTest {
 
         int expected = 0;
         int actual = obj.getInt("total");
-        assertEquals("The systems should be empty", expected, actual);
+        assertEquals("The inventory should be empty on application start but it wasn't", expected, actual);
 
         response.close();
     }
@@ -84,19 +84,19 @@ public class EndpointTest {
     public void testHostRegistration() {
         this.visitLocalhost();
 
-        Response invResponse = this.getResponse(baseUrl + INVENTORY_HOSTS);
-        this.assertResponse(baseUrl, invResponse);
+        Response response = this.getResponse(baseUrl + INVENTORY_HOSTS);
+        this.assertResponse(baseUrl, response);
 
-        JsonObject obj = invResponse.readEntity(JsonObject.class);
+        JsonObject obj = response.readEntity(JsonObject.class);
 
         int expected = 1;
         int actual = obj.getInt("total");
-        assertEquals("The inventory must have one entry for localhost", expected, actual);
+        assertEquals("The inventory should have one entry for localhost", expected, actual);
 
         boolean localhostExists = obj.getJsonObject("hosts").containsKey("localhost");
         assertTrue("A host was registered, but it was not localhost", localhostExists);
 
-        invResponse.close();
+        response.close();
     }
     // end::testHostRegistration[]
 
@@ -104,6 +104,7 @@ public class EndpointTest {
     public void testSystemPropertiesMatch() {
         Response invResponse = this.getResponse(baseUrl + INVENTORY_HOSTS);
         Response sysResponse = this.getResponse(baseUrl + SYSTEM_PROPERTIES);
+        
         this.assertResponse(baseUrl, invResponse);
         this.assertResponse(baseUrl, sysResponse);
 
@@ -114,11 +115,10 @@ public class EndpointTest {
 
         String osNameFromInventory = jsonFromInventory.getString("os.name");
         String osNameFromSystem = jsonFromSystem.getString("os.name");
+        this.assertProperty("os.name", "localhost", osNameFromSystem, osNameFromInventory);
 
         String userNameFromInventory = jsonFromInventory.getString("user.name");
         String userNameFromSystem = jsonFromSystem.getString("user.name");
-
-        this.assertProperty("os.name", "localhost", osNameFromSystem, osNameFromInventory);
         this.assertProperty("user.name", "localhost", userNameFromSystem, userNameFromInventory);
 
         invResponse.close();
@@ -138,7 +138,7 @@ public class EndpointTest {
         JsonObject obj = badResponse.readEntity(JsonObject.class);
 
         boolean isError = obj.containsKey("ERROR");
-        assertTrue("[badhostname] is invalid but didn't raise an error", isError);
+        assertTrue("badhostname is not a valid host but it didn't raise an error", isError);
 
         response.close();
         badResponse.close();
@@ -167,7 +167,7 @@ public class EndpointTest {
      */
     // end::javadoc[]
     private void assertResponse(String url, Response response) {
-        assertEquals("Incorrect response code from " + url, 200, response.getStatus());;
+        assertEquals("Incorrect response code from " + url, 200, response.getStatus());
     }
 
     // tag::javadoc[]
