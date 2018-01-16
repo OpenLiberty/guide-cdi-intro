@@ -22,7 +22,7 @@ Learn how to build a REST service with JAX-RS, CDI, and Open Liberty.
 == What you'll Learn
 
 You will learn how to build a simple inventory management application using JAX-RS and CDI. This
-application acts as an `inventory` service, storing the information about various JVMs running on
+application acts as an `inventory` service, storing/caching the information about various JVMs running on
 different hosts. The `inventory` service has an entry for a particular host if that host exposes its
 JVM's system properties via another RESTful web service, which you can refer to
 as the `system` service. Whenever a request is made to the `inventory` service to retrieve the JVM
@@ -39,7 +39,7 @@ Feel free to use your own, but a complete implementation is provided for you und
 The following diagram shows the overall layout of the inventory application:
 
 [#diagram]
-.When a request is sent to http://localhost:9080/inventory/hosts/{hostname}, the `inventory` service first checks if the inventory has an entry for the specified hostname. If it does not, the `inventory` service attempts to talk to `system` service running on hostname to retrieve its JVM system properties. These properties are then stored in the inventory.
+.When a request is sent to http://localhost:9080/inventory/hosts/{hostname}, the `inventory` service attempts to talk to `system` service running on hostname to retrieve its JVM system properties. These properties are then cached and returned.
 image::resources/diagram.png[Diagram, 450, , align="center"]
 
 
