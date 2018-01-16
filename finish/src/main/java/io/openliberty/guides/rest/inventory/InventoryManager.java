@@ -32,20 +32,13 @@ public class InventoryManager {
     private ConcurrentMap<String, JsonObject> inv = new ConcurrentHashMap<>();
 
     public JsonObject get(String hostname) {
-        JsonObject properties = inv.get(hostname);
-        if (properties == null) {
-            if (InventoryUtil.responseOk(hostname)) {
-                properties = InventoryUtil.getProperties(hostname);
-                this.add(hostname, properties);
-            } else {
-                return JsonMessages.SERVICE_UNREACHABLE.getJson();
-            }
+        if (InventoryUtil.responseOk(hostname)) {
+            JsonObject properties = InventoryUtil.getProperties(hostname);
+            inv.putIfAbsent(hostname, properties);
+            return properties;
+        } else {
+            return JsonMessages.SERVICE_UNREACHABLE.getJson();
         }
-        return properties;
-    }
-
-    public void add(String hostname, JsonObject systemProps) {
-        inv.putIfAbsent(hostname, systemProps);
     }
 
     public JsonObject list() {
