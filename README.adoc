@@ -22,14 +22,12 @@ Learn how to build a REST service with JAX-RS, CDI, and Open Liberty.
 == What you'll Learn
 
 You will learn how to build a simple inventory management application using JAX-RS and CDI. This
-application acts as an `inventory` service, storing the information about various JVMs running on
+application acts as an `inventory` service, storing/caching the information about various JVMs running on
 different hosts. The `inventory` service has an entry for a particular host if that host exposes its
 JVM's system properties via another RESTful web service, which you can refer to
-as the `system` service. The `inventory` service communicates with the `system` service whenever
-it does not contain an entry for a particular host to retrieve that host's JVM information. Once
-an entry for a host is made, that host no longer needs to expose its JVM's system properties as they
-would be recorded in the `inventory` service and can be accessed directly from it. At that point, the
-host can stop its `system` service.
+as the `system` service. Whenever a request is made to the `inventory` service to retrieve the JVM
+system properties of a particular host, the `inventory` service will communicate with the `system`
+service to get these system properties. The system properties are then stored and returned.
 
 You will use JAX-RS to build your REST services and CDI to inject dependencies and manage the lifecycle
 of your objects.
@@ -41,7 +39,7 @@ Feel free to use your own, but a complete implementation is provided for you und
 The following diagram shows the overall layout of the inventory application:
 
 [#diagram]
-.When a request is sent to http://localhost:9080/inventory/hosts/{hostname}, the `inventory` service first checks if the inventory has an entry for the specified hostname. If it does not, the `inventory` service attempts to talk to `system` service running on hostname to retrieve its JVM system properties. These properties are then stored in the inventory.
+.When a request is sent to http://localhost:9080/inventory/hosts/{hostname}, the `inventory` service attempts to talk to `system` service running on hostname to retrieve its JVM system properties. These properties are then cached and returned.
 image::resources/diagram.png[Diagram, 450, , align="center"]
 
 
@@ -144,8 +142,8 @@ is essentially our database, we want the inventory manger bean to be persistent 
 By making it application-scoped, the container ensures that the same instance of the bean is used whenever
 its injected in the application.
 
-Your inventory manager bean contains three simple methods for retrieving (`get`) entries from the inventory,
-adding (`add`) entries to the inventory, and listing (`list`) all entries currently stored in the inventory.
+Your inventory manager bean contains two simple methods for retrieving (`get`) entries from the inventory
+and listing (`list`) all entries currently stored in the inventory.
 
 Use JSON-P to process all of the JSON objects.
 
