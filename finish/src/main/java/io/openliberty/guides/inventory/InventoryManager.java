@@ -10,7 +10,7 @@
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
  // end::copyright[]
-package io.openliberty.guides.rest.inventory;
+package io.openliberty.guides.inventory;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -23,8 +23,8 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 
-import io.openliberty.guides.rest.util.InventoryUtil;
-import io.openliberty.guides.rest.util.JsonMessages;
+import io.openliberty.guides.common.JsonMessages;
+import io.openliberty.guides.inventory.util.InventoryUtil;
 
 @ApplicationScoped
 public class InventoryManager {

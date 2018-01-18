@@ -11,7 +11,7 @@
  *******************************************************************************/
  // end::copyright[]
 // tag::testClass[]
-package it.io.openliberty.guides.rest;
+package it.io.openliberty.guides.inventory;
 
 import static org.junit.Assert.*;
 

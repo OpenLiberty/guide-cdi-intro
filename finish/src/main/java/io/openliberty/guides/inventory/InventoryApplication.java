@@ -10,7 +10,7 @@
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
  // end::copyright[]
-package io.openliberty.guides.rest.inventory;
+package io.openliberty.guides.inventory;
 
 // JAX-RS
 import javax.ws.rs.ApplicationPath;

@@ -10,7 +10,7 @@
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
  // end::copyright[]
-package io.openliberty.guides.rest.util;
+package io.openliberty.guides.common;
 
 // JSON-P
 import javax.json.Json;
