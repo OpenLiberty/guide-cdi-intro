@@ -132,8 +132,8 @@ public class EndpointTest {
         this.assertResponse(baseUrl, response);
 
         Response badResponse = client.target(baseUrl + INVENTORY_HOSTS + "/" + "badhostname")
-                                      .request(MediaType.APPLICATION_JSON)
-                                      .get();
+                                     .request(MediaType.APPLICATION_JSON)
+                                     .get();
 
         JsonObject obj = badResponse.readEntity(JsonObject.class);
 
