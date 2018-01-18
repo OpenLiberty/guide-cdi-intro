@@ -8,7 +8,7 @@
 :projectid: rest-cdi
 :page-layout: guide
 :page-duration: 30 minutes
-:page-releasedate:
+:page-releasedate: 2017-12-11
 :page-description: Learn how to build a REST service with JAX-RS, CDI, and Open Liberty.
 :page-tags: ['REST', 'CDI']
 :page-permalink: /guides/{projectid}
