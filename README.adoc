@@ -5,49 +5,57 @@
 //
 // Contributors:
 //   IBM Corporation
-:projectid: rest-cdi
+:projectid: cdi-intro
 :page-layout: guide
 :page-duration: 30 minutes
 :page-releasedate: 2017-12-11
-:page-description: Learn how to build a REST service with JAX-RS, CDI, and Open Liberty.
-:page-tags: ['REST', 'CDI']
+:page-description: Learn how to use CDI in a RESTful web service.
+:page-tags: ['CDI', 'REST']
 :page-permalink: /guides/{projectid}
 :page-related-guides: ['rest-intro']
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/master
 :source-highlighter: prettify
 :figure-caption!:
-= Creating a RESTful web service with contexts and dependency injection
+= Applying CDI on RESTful web services
 
-Learn how to build a REST service with JAX-RS, CDI, and Open Liberty.
+Learn how to apply Contexts and Dependency Injection on a REST service application in Open Liberty to manage scopes and inject dependencies.
 
 == What you'll Learn
 
-You will learn how to build a simple inventory management application using JAX-RS and CDI. This
-application acts as an `inventory` service, storing/caching the information about various JVMs running on
-different hosts. The `inventory` service has an entry for a particular host if that host exposes its
+You will learn how to use CDI in a simple inventory management application that contains two RESTful web services.
+These are the `system` and `inventory` services.
+They are provided to you in this guide.
+If you want to learn how to build a RESTful web service, you can follow
+https://openliberty.io/guides/rest-intro.html[Creating a RESTful web service] guide
+which has detail instructions on how to build the `system` service.
+The `inventory` service is similar, thus it's provided as a starting point for you in this guide.
+
+You will apply Contexts and Dependency Injection on a single application that acts as an `inventory` service,
+storing the information about various JVMs running on different hosts.
+
+The `inventory` service has an entry for a particular host if that host exposes its
 JVM's system properties via another RESTful web service, which you can refer to
 as the `system` service. Whenever a request is made to the `inventory` service to retrieve the JVM
 system properties of a particular host, the `inventory` service will communicate with the `system`
 service to get these system properties. The system properties are then stored and returned.
 
-You will use JAX-RS to build your REST services and CDI to inject dependencies and manage the lifecycle
-of your objects.
+You will use CDI to inject dependencies into the application and you will learn how to manage the lifecycle of your objects.
 
-The `system` service that you will use is the same RESTful web service that you built in
-https://openliberty.io/guides/rest-intro.html[Creating a RESTful web service].
-Feel free to use your own, but a complete implementation is provided for you under `start/src/main/java/io/openliberty/guides/rest/system`.
+The `system` and `inventory` services that you will use in this application are provided for you under `start/src/main/java/io/openliberty/guides/rest/system`.
 
 The following diagram shows the overall layout of the inventory application:
 
 [#diagram]
-.When a request is sent to http://localhost:9080/inventory/hosts/{hostname}, the `inventory` service attempts to talk to `system` service running on hostname to retrieve its JVM system properties. These properties are then cached and returned.
+.When a request is sent to http://localhost:9080/inventory/hosts/{hostname}, the `inventory` service attempts to talk to `system` service running on hostname to retrieve its JVM system properties.
+These properties are then stored and returned. The `system` service can be run on any other server and the results are returned back to the `inventory` service.
 image::resources/diagram.png[Diagram, 450, , align="center"]
 
 
 === What is CDI?
 
-Contexts and dependency injection (CDI) is a set of services that bring together enterprise Java beans and
-JavaServer Faces technology in web applications.
+Contexts and Dependency Injection (CDI) defines a rich set of complementary services that improve the application structure.
+The most fundamental services provided by CDI are Contexts (bind the lifecycle of stateful components to well-defined lifecycle contexts)
+and Dependency Injection (the ability to inject components into an application in a typesafe way).
 
 With CDI, the container does all the daunting work of instantiating dependencies, giving us, the developers,
 the ability to inject components into an application in a typesafe way. Moreover, CDI also makes it
@@ -107,18 +115,14 @@ Now, navigate back to the `start` directory to begin.
 First, let's break down the different components your application will be made out of, as well as which
 technologies each component will use.
 
-1. You will need some kind of inventory manager that edits the inventory contents, adding new entries,
-removing old entries, and so on. This component will use CDI so that it can be used as an injectable bean.
+1. You will need an inventory manager that edits the inventory contents, adding new entries,
+removing old entries, and so on. CDI is used in this component to handle the interactions in order to
+establish a loosely coupled infrastructure.
 
 2. You will need a means of establishing communication between the client and the inventory manager.
-This can be done using a RESTful web service. You will build this service using JAX-RS and inject the
-inventory manager bean into it using CDI.
+This is simply done by injecting the inventory manager bean into the inventory resource using CDI.
 
-3. Finally, you will need some kind of wrapper for all of your RESTful web services (or just one such
-  service in this guide). You will use JAX-RS to create this wrapper class.
-
-While it was not mentioned yet, JSON-P will be used to process all JSON resources provided by the two
-services.
+The results you will see from the two services are provided as JSON objects.
 
 === Creating the inventory manager bean
 
@@ -137,7 +141,7 @@ include::finish/src/main/java/io/openliberty/guides/rest/inventory/InventoryMana
 Your inventory is ultimately just a `ConcurrentMap` object where the key is a hostname and the value
 is a JSON Java object full of various JVM system properties.
 
-The `@ApplicationScoped` annotation on the class is a part of CDI and it indicates that this particular
+The `@ApplicationScoped` annotation on the class is a CDI API and it indicates that this particular
 bean is to be initialized once per the application scope. Intuitively, since the `ConcurrentMap` object
 is essentially our database, we want the inventory manger bean to be persistent between all the clients.
 By making it application-scoped, the container ensures that the same instance of the bean is used whenever
@@ -159,67 +163,36 @@ only used to build an error JSON whenever a particular host does not exist or is
 Both of these contain detailed Javadocs, so feel free to read them for reference.
 
 
-=== Creating the inventory resource
+=== Adding injection into the inventory resource
 
-Create a JAX-RS service that is served at the `hosts` endpoint. This class will enable the client to
+The inventory resource is a RESTful service that is served at the `hosts` endpoint. It enables the client to
 communicate with the inventory manager via HTTP methods.
 
-Create `src/main/java/io/openliberty/guides/rest/inventory/InventoryResource.java`:
+Reference to `src/main/java/io/openliberty/guides/inventory/InventoryResource.java`:
 
 [source, Java]
 ----
-include::finish/src/main/java/io/openliberty/guides/rest/inventory/InventoryResource.java[tags=**;!copyright]
+include::finish/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[tags=**;!copyright]
 ----
 
-First and foremost, the `@Path` annotation on the class indicates that this service is served at the `hosts`
-endpoint.
+First and foremost, the `@Inject` annotation indicates a dependency injection.
+In this case, you are injecting your `InventoryManager` bean.
+This injects the bean in its specified context (application-scoped) and makes all of its functionalities
+available without the need of instantiating it yourself.
 
-The `@RequestScoped` annotation on the class is a part of CDI and it indicates that this bean is
+The `@RequestScoped` annotation on the class is also a CDI API and it indicates that this bean is
 to be initialized once for every request. In other words, the bean is instantiated when the request
 is received and destroyed when a response is sent back to the client. Note that while this bean can
 also be application-scoped, request scope is short-lived and is therefore ideal for HTTP requests.
 
-The `@Inject` annotation indicates a dependency injection. In this case, you are injecting your `InventoryManager` bean.
-This injects the bean in its specified context (application-scoped) and makes all of its functionalities
-available without the need of instantiating it yourself.
-
-The `@GET` annotation on a method is a part of JAX-RS and it indicates the type of HTTP request that
-the method handles. GET requests always respond with some type of resource. In this case, both methods
-respond with a JSON object which is indicated by the `@Produces` annotation.
-
-The `@Path` annotation on a method is a part of JAX-RS and it indicates the endpoint at which the
-HTTP request is handled. If the `@Path` annotation is omitted, the endpoint for the method will be the
-same as the endpoint for the class. Additional curly braces can be used in the `@Path` annotation to treat the
-endpoint as a parameter, which is then bound in the method signature using the `@PathParam` annotation.
-You can see these annotations used in the `getPropertiesForHost` method signature.
-
-Let's break down the methods:
+Let's break down the methods in this REST service to understand how the application work:
 
 - `getPropertiesForHost` returns the JVM system properties for the specific host by calling the injected
 `InventoryManager` bean.
 - `listContents` returns a JSON with the current contents of the inventory. This method also calls
 the injected `InventoryManager` bean.
 
-These two methods make up your basic REST service.
-
-=== Creating the JAX-RS application
-
-The last piece that you need is a JAX-RS application. This is a small wrapper class which groups all resources
-under a common endpoint.
-
-Create `src/main/java/io/openliberty/guides/rest/inventory/InventoryApplication.java`:
-
-[source, Java]
-----
-include::finish/src/main/java/io/openliberty/guides/rest/inventory/InventoryApplication.java[tags=**;!copyright]
-----
-
-The `@ApplicationPath` annotation is a part of JAX-RS and it indicates the common endpoint under which
-all resources are grouped. In this case, everything is grouped under `inventory`. This makes
-the starting point of your `inventory` service to be http://localhost:9080/inventory/hosts.
-
-The `getPropertiesForHost` method is then served at http://localhost:9080/inventory/hosts/\{hostname}
-and the `listContents` method at http://localhost:9080/inventory/hosts (since it didn't have a defined `@Path` annotation).
+Lastly, the `InventoryApplication` wrapper class groups all resources under a common endpoint.
 
 Your inventory application is now finished.
 
@@ -281,11 +254,11 @@ While you can test your application manually, you should rely on automated tests
 a failure whenever a code change introduces a defect. JUnit and the JAX-RS Client API provide a simple environment
 for you to write tests.
 
-Begin by creating a test class `src/test/java/it/io/openliberty/guides/rest/EndpointTest.java`:
+Begin by creating a test class `src/test/java/it/io/openliberty/guides/inventory/EndpointTest.java`:
 
 [source, Java]
 ----
-include::finish/src/test/java/it/io/openliberty/guides/rest/EndpointTest.java[tags=testClass;!copyright;!tests;!helpers]
+include::finish/src/test/java/it/io/openliberty/guides/inventory/EndpointTest.java[tags=testClass;!copyright;!tests;!helpers]
 ----
 
 The `@BeforeClass` annotation is placed on a method that executes before any of the test cases.
@@ -305,7 +278,7 @@ Create `testEmptyInventory()`:
 
 [source, Java, indent=0]
 ----
-include::finish/src/test/java/it/io/openliberty/guides/rest/EndpointTest.java[tags=testEmptyInventory]
+include::finish/src/test/java/it/io/openliberty/guides/inventory/EndpointTest.java[tags=testEmptyInventory]
 ----
 
 Next, create a method that verifies that a host is correctly added to the inventory.
@@ -314,7 +287,7 @@ Create `testHostRegistration()`:
 
 [source, Java, indent=0]
 ----
-include::finish/src/test/java/it/io/openliberty/guides/rest/EndpointTest.java[tags=testHostRegistration]
+include::finish/src/test/java/it/io/openliberty/guides/inventory/EndpointTest.java[tags=testHostRegistration]
 ----
 
 Next, create a method that verifies that the JVM system properties returned by the `system` service match
@@ -324,7 +297,7 @@ Create `testSystemPropertiesMatch()`:
 
 [source, Java, indent=0]
 ----
-include::finish/src/test/java/it/io/openliberty/guides/rest/EndpointTest.java[tags=testSystemPropertiesMatch]
+include::finish/src/test/java/it/io/openliberty/guides/inventory/EndpointTest.java[tags=testSystemPropertiesMatch]
 ----
 
 Finally, create a method that verifies that an unknown host or a host that does not expose their JVM system
@@ -334,7 +307,7 @@ Create `testUnknownHost()`:
 
 [source, Java, indent=0]
 ----
-include::finish/src/test/java/it/io/openliberty/guides/rest/EndpointTest.java[tags=testUnknownHost]
+include::finish/src/test/java/it/io/openliberty/guides/inventory/EndpointTest.java[tags=testUnknownHost]
 ----
 
 To force these test cases to execute in a particular order, put them in a test "suite" method and label
@@ -344,18 +317,18 @@ Create `testSuite()`:
 
 [source, Java, indent=0]
 ----
-include::finish/src/test/java/it/io/openliberty/guides/rest/EndpointTest.java[tags=testSuite]
+include::finish/src/test/java/it/io/openliberty/guides/inventory/EndpointTest.java[tags=testSuite]
 ----
 
 One last bit is to add the unimplemented helper methods that are used throughout the tests:
 
 [source, Java, indent=0]
 ----
-include::finish/src/test/java/it/io/openliberty/guides/rest/EndpointTest.java[tags=helpers;!javadoc]
+include::finish/src/test/java/it/io/openliberty/guides/inventory/EndpointTest.java[tags=helpers;!javadoc]
 ----
 
 Complete Javadocs for these helper methods are available under the `finish` directory for reference:
-`finish/src/test/java/it/io/openliberty/guides/rest/EndpointTest.java`.
+`finish/src/test/java/it/io/openliberty/guides/inventory/EndpointTest.java`.
 
 
 === Running the tests
@@ -381,8 +354,8 @@ It may take some time before build is complete. If the tests pass, you will see 
 -------------------------------------------------------
  T E S T S
 -------------------------------------------------------
-Running it.io.openliberty.guides.rest.EndpointTest
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.128 sec - in it.io.openliberty.guides.rest.EndpointTest
+Running it.io.openliberty.guides.inventory.EndpointTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.128 sec - in it.io.openliberty.guides.inventory.EndpointTest
 
 Results :
 
@@ -390,7 +363,7 @@ Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
 ----
 
 To see whether the tests detect a failure, change the endpoint for the `inventory` service in
-`src/main/java/io/openliberty/guides/rest/inventory/InventoryResource.java` to something else, then
+`src/main/java/io/openliberty/guides/inventory/InventoryResource.java` to something else, then
 re-run the Maven build. You will see a test failure occur.
 
 
