@@ -12,20 +12,20 @@
  // end::copyright[]
 package io.openliberty.guides.inventory;
 
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
+import io.openliberty.guides.common.JsonMessages;
+import io.openliberty.guides.inventory.util.InventoryUtil;
+
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 // CDI
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 
-// JSON-P
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
-
-import io.openliberty.guides.common.JsonMessages;
-import io.openliberty.guides.inventory.util.InventoryUtil;
-
+@Default
 @ApplicationScoped
 public class InventoryManager {
 
