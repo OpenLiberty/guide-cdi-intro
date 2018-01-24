@@ -29,7 +29,7 @@ import javax.enterprise.inject.Default;
 @ApplicationScoped
 public class InventoryManager {
 
-    private ConcurrentMap<String, JsonObject> inv = new ConcurrentHashMap<>();
+    public final static ConcurrentMap<String, JsonObject> inv = new ConcurrentHashMap<>();
 
     public JsonObject get(String hostname) {
         if (InventoryUtil.responseOk(hostname)) {
