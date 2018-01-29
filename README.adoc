@@ -16,38 +16,31 @@
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/master
 :source-highlighter: prettify
 :figure-caption!:
-= Using CDI with RESTful web services
+= Handling dependencies with RESTful web services
 
-Learn how to use Contexts and Dependency Injection with a RESTful application in Open Liberty.
+Learn how to use Contexts and Dependency Injection to manage and inject dependencies into RESTful web services.
 
 == What you'll Learn
 
-You will learn how to use CDI in a simple inventory management application to manage scopes and inject dependencies.
-This application contains two RESTful web services, the `system` and `inventory` services. The `system` service is provided for you.
-If you want to learn how to build a RESTful web service, you can follow
-https://openliberty.io/guides/rest-intro.html[Creating a RESTful web service]
-which has details on how to build the `system` service.
-The starting point of the `inventory` service is also provided for you.
-This guide will complete building this application using CDI services.
+You will learn how to use CDI in a simple inventory management application to manage scopes, inject dependencies(TBD: and use qualifiers).
 
-You will build a single application that acts as an `inventory` service which stores the information about various JVMs running on different hosts.
+The application that you will be working is an `inventory` service which stores the information about various JVMs running on different hosts.
 Whenever a request is made to the `inventory` service to retrieve the JVM
 system properties of a particular host, the `inventory` service will communicate with the `system`
 service on that host to get these system properties. The system properties are then stored and returned.
 
-You will use CDI to inject dependencies into the application and you will learn how to manage the lifecycle of your objects.
+This application contains two RESTful web services, the `system` and `inventory` services.
+These services is provided for you.
+If you want to learn how to build a RESTful web service, you can follow
+https://openliberty.io/guides/rest-intro.html[Creating a RESTful web service]
+which has details on how to build the `system` service.
+The `inventory` service is similar, and is also provided for you.
 
-The `system` service and `InventoryApplication` that you will use in this guide are provided for you
+You will use CDI to inject dependencies into the application and you will learn how to manage the life cycle of your objects.
+
+The `system` and `Inventory` services that you will use in this guide are provided for you
 under `start/src/main/java/io/openliberty/guides`, in the `system` and `inventory` subfolders respectively.
 
-The following diagram shows the overall layout of the inventory application:
-
-image::resources/diagram.png[Diagram, 450, , align="center"]
-
-When a request is sent to http://localhost:9080/inventory/hosts/{hostname}, the `inventory` service attempts to
-contact the `system` service running on _hostname_ to retrieve its JVM system properties.
-These properties are then stored and returned. The `system` service can be run on any number of hosts and the results
-are returned back to the `inventory` service.
 
 === What is CDI?
 
@@ -78,7 +71,7 @@ cd guide-cdi-intro/start
 === Try what you'll build
 
 The `finish` directory in the root of this guide contains the finished inventory application. Feel
-free to give it a try before you proceed with building your own.
+free to give it a try before you proceed.
 
 To try out the application, first navigate to the `finish` directory and then run the following
 Maven goals to build the application and run it inside Open Liberty:
@@ -105,30 +98,15 @@ mvn liberty:stop-server
 Now, navigate back to the `start` directory to begin.
 
 
-== Creating the inventory management application
+== Handling dependencies in the application
 
-First, let's break down the different components your application will be made out of, as well as which
-CDI services each component will use.
-
-1. You will build an inventory manager that edits the inventory contents, adding new entries,
-removing old entries, and so on. CDI scopes and contexts are used in this component to handle the interactions in order to
+You will apply CDI scopes and contexts to this application to handle the interactions in order to
 establish a loosely coupled infrastructure.
+You will also use CDI to inject a dependency from one class into another class.
 
-2. You will complete building a RESTful web service that acts as a means of establishing communication between the
-client and the inventory manager.
-CDI is used to inject the inventory manager bean into the inventory resource.
+=== Managing scopes and contexts
 
-The `InventoryApplication` REST application is provided for you.
-The results you will see from the RESTful services are provided as JSON objects.
-
-=== Creating the inventory manager bean
-
-The inventory manager bean is responsible for storing and retrieving various JVM system properties.
-
-For this bean, use a simple Java Collection to store JSON objects. A more advanced application should
-use a database to persist all the data, but in this example it's not necessary.
-
-Create `src/main/java/io/openliberty/guides/inventory/InventoryManager.java`:
+Refer to `src/main/java/io/openliberty/guides/inventory/InventoryManager.java`:
 
 [source, Java]
 ----
@@ -144,53 +122,46 @@ is essentially our database, we want the inventory manger bean to be persistent 
 By making it application-scoped, the container ensures that the same instance of the bean is used whenever
 it is injected into the application.
 
-Your inventory manager bean contains two simple methods for retrieving entries from the inventory (`get`)
-and listing all entries currently stored in the inventory (`list`). Use JSON-P to process all of the JSON objects.
-
-Finally, we are giving you two utility components: an `InventoryUtil` class and the `JsonMessages` enum.
-Both of these can be found under `src/main/java/io/openliberty/guides/util`.
-
-- The `InventoryUtil` class is responsible for communicating with the `system` service to retrieve JVM
-system properties for a particular host that exposes them.
-- The `JsonMessages` enum is used to build JSON Java objects for various error cases. Currently it is
-only used to build an error JSON whenever a particular host does not exist or is not running the `system` service.
-
-Both of these contain detailed Javadocs, so feel free to read them for reference.
-
-
-=== Injecting dependency into the inventory resource
-
-The inventory resource is a RESTful service that is served at the `hosts` endpoint. It enables the client to
-communicate with the inventory manager via HTTP methods.
-
-Create `src/main/java/io/openliberty/guides/inventory/InventoryResource.java`:
+Refer to `src/main/java/io/openliberty/guides/inventory/InventoryResource.java`:
 
 [source, Java]
 ----
 include::finish/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[tags=**;!copyright]
 ----
 
-First and foremost, the `@Inject` annotation indicates a dependency injection.
-In this case, you are injecting your `InventoryManager` bean.
-This injects the bean in its specified context (application-scoped) and makes all of its functionalities
-available without the need of instantiating it yourself.
-
 The `@RequestScoped` annotation on the class is also from the CDI API and it indicates that this bean is
 to be initialized once for every request. In other words, the bean is instantiated when the request
 is received and destroyed when a response is sent back to the client. Note that while this bean can
 also be application-scoped, request scope is short-lived and is therefore ideal for HTTP requests.
 
-Let's break down the methods in this REST service to understand how the application works:
+There are utility components written to make communication with the `system` service to
+retrieve the JVM system properties for a particular host,
+and JSON object builders to display various error messages.
+These utility components are located in the util folders.
+There are detailed Javadocs that you can refer to if you learn more about the applcation
 
-- `getPropertiesForHost` returns the JVM system properties for the specific host by calling the injected
-`InventoryManager` bean.
-- `listContents` returns a JSON object with the current contents of the inventory. This method also calls
-the injected `InventoryManager` bean.
 
-Lastly, the `InventoryApplication` wrapper class groups all resources under a common endpoint.
+=== Injecting dependency
 
-Your inventory application is now finished.
+The inventory resource is a RESTful service that is served at the `hosts` endpoint. It enables the client to
+communicate with the inventory manager via HTTP methods.
 
+Refer to `src/main/java/io/openliberty/guides/inventory/InventoryResource.java`:
+
+[source, Java]
+----
+include::finish/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[tags=**;!copyright]
+----
+
+The `@Inject` annotation indicates a dependency injection.
+In this case, you are injecting your `InventoryManager` bean.
+This injects the bean in its specified context (application-scoped) and makes all of its functionalities
+available without the need of instantiating it yourself.
+
+
+=== Using a qualifier
+
+TBD
 
 // =================================================================================================
 // Building the application
@@ -249,6 +220,7 @@ While you can test your application manually, you should rely on automated tests
 a failure whenever a code change introduces a defect.
 Since the application is a RESTful web service application, you can use
 JUnit and the RESTful web service Client API to write tests.
+In testing the functionality of the application, the scopes and dependencies are being tested.
 
 Create test class `src/test/java/it/io/openliberty/guides/inventory/EndpointTest.java`:
 

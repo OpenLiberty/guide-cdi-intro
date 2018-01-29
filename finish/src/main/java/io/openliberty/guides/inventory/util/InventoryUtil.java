@@ -18,11 +18,11 @@ import java.net.URL;
 
 // JSON-P
 import javax.json.JsonObject;
-
 // JAX-RS
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.UriBuilder;
+import javax.xml.crypto.dsig.XMLObject;
 
 public class InventoryUtil {
 
@@ -30,6 +30,7 @@ public class InventoryUtil {
     private static final int DEFAULT_PORT = 9080;
     private static final String PROTOCOL = "http";
     private static final String SYSTEM_PROPERTIES = "/system/properties";
+    private static final String SYSTEM_XMLPROPERTIES = "/system/xmlproperties";
 
     /**
      * <p>Retrieves the JVM system properties of a particular host.</p>
@@ -56,6 +57,17 @@ public class InventoryUtil {
      */
     public static JsonObject getProperties(String hostname, int port) {
         return getPropertiesHelper(hostname, port);
+    }
+    
+    /**
+     * <p>TBA</p>
+     * @param hostname
+     * @return
+     */
+    public static String getPropertiesInXML(String hostname) {
+      Client client = ClientBuilder.newClient();
+      URI propURI = InventoryUtil.buildUriForXML(SYSTEM_XMLPROPERTIES, hostname, DEFAULT_PORT);
+      return client.target(propURI).request().get(String.class);
     }
     
     /**
@@ -122,5 +134,13 @@ public class InventoryUtil {
                          .scheme(PROTOCOL)
                          .build();
     }
+    
+    private static URI buildUriForXML(String uri, String hostname, int port) {
+      return UriBuilder.fromUri(uri)
+                       .host(hostname)
+                       .port(port)
+                       .scheme(PROTOCOL)
+                       .build();
+  }
 
 }

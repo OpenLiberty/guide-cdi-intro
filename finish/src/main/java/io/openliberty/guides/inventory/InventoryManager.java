@@ -12,24 +12,24 @@
  // end::copyright[]
 package io.openliberty.guides.inventory;
 
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
-import io.openliberty.guides.common.JsonMessages;
-import io.openliberty.guides.inventory.util.InventoryUtil;
-
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 // CDI
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Default;
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
+
+import io.openliberty.guides.common.JsonMessages;
+import io.openliberty.guides.inventory.util.InventoryUtil;
 
 @Default
 @ApplicationScoped
 public class InventoryManager {
 
-    public final static ConcurrentMap<String, JsonObject> inv = new ConcurrentHashMap<>();
+    private ConcurrentMap<String, JsonObject> inv = new ConcurrentHashMap<>();
 
     public JsonObject get(String hostname) {
         if (InventoryUtil.responseOk(hostname)) {
@@ -53,5 +53,13 @@ public class InventoryManager {
         systems.add("hosts", systems);
         systems.add("total", inv.size());
         return systems.build();
+    }
+    
+    public String getXML(String hostname) {
+      return null;
+    }
+    
+    public String listXML() {
+      return null;
     }
 }
