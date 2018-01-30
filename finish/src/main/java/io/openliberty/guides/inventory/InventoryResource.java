@@ -15,11 +15,7 @@ package io.openliberty.guides.inventory;
 // CDI
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
-
-// JSON-P
 import javax.json.JsonObject;
-
-// JAX-RS
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -31,17 +27,32 @@ import javax.ws.rs.core.MediaType;
 public class InventoryResource {
 
     @Inject InventoryManager manager;
-    
+    @Inject @ResultType InventoryManager xmlManager;
+
     @GET
     @Path("{hostname}")
     @Produces(MediaType.APPLICATION_JSON)
     public JsonObject getPropertiesForHost(@PathParam("hostname") String hostname) {
         return manager.get(hostname);
     }
-
+    
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public JsonObject listContents() {
         return manager.list();
+    }
+    
+    @GET
+    @Path("xml/{hostname}")
+    @Produces(MediaType.APPLICATION_XML)
+    public String getPropertiesForHostsInXML(@PathParam("hostname") String hostname) {
+        return xmlManager.getXML(hostname);
+    }
+    
+    @GET
+    @Path("xml")
+    @Produces(MediaType.APPLICATION_XML)
+    public String listContentsInXML() {
+        return xmlManager.listXML();
     }
 }

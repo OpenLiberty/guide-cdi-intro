@@ -17,8 +17,7 @@ import java.util.concurrent.ConcurrentMap;
 
 // CDI
 import javax.enterprise.context.ApplicationScoped;
-
-// JSON-P
+import javax.enterprise.inject.Default;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
@@ -26,6 +25,7 @@ import javax.json.JsonObjectBuilder;
 import io.openliberty.guides.common.JsonMessages;
 import io.openliberty.guides.inventory.util.InventoryUtil;
 
+@Default
 @ApplicationScoped
 public class InventoryManager {
 
@@ -53,5 +53,13 @@ public class InventoryManager {
         systems.add("hosts", systems);
         systems.add("total", inv.size());
         return systems.build();
+    }
+    
+    public String getXML(String hostname) {
+      return null;
+    }
+    
+    public String listXML() {
+      return null;
     }
 }
