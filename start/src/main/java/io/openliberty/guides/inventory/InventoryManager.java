@@ -24,7 +24,7 @@ import io.openliberty.guides.inventory.util.InventoryUtil;
 import javax.enterprise.context.ApplicationScoped;
 
 // tag::ApplicationScoped[]
-@ApplicationScoped
+
 // end::ApplicationScoped[]
 public class InventoryManager {
 

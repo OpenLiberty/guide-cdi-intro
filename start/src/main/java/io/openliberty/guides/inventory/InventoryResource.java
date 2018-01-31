@@ -24,13 +24,13 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 
 // tag::RequestScoped[]
-@RequestScoped
+
 // end::RequestScoped[]
 @Path("hosts")
 public class InventoryResource {
 
     // tag::Inject[]
-    @Inject InventoryManager manager;
+    
     // end::Inject[]
 
     @GET
