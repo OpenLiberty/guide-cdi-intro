@@ -14,19 +14,18 @@ package io.openliberty.guides.inventory;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
+import io.openliberty.guides.common.JsonMessages;
+import io.openliberty.guides.inventory.util.InventoryUtil;
 
 // CDI
 import javax.enterprise.context.ApplicationScoped;
 
-// JSON-P
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
+// tag::ApplicationScoped[]
 
-import io.openliberty.guides.common.JsonMessages;
-import io.openliberty.guides.inventory.util.InventoryUtil;
-
-@ApplicationScoped
+// end::ApplicationScoped[]
 public class InventoryManager {
 
     private ConcurrentMap<String, JsonObject> inv = new ConcurrentHashMap<>();
