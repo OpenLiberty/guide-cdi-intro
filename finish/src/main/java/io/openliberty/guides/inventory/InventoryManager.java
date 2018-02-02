@@ -12,45 +12,46 @@
  // end::copyright[]
 package io.openliberty.guides.inventory;
 
+import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
-import io.openliberty.guides.common.JsonMessages;
-import io.openliberty.guides.inventory.util.InventoryUtil;
 
 // CDI
 import javax.enterprise.context.ApplicationScoped;
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
+
+import io.openliberty.guides.inventory.util.InventoryUtil;
 
 // tag::ApplicationScoped[]
 @ApplicationScoped
 // end::ApplicationScoped[]
 public class InventoryManager {
 
-    private ConcurrentMap<String, JsonObject> inv = new ConcurrentHashMap<>();
+    private ConcurrentMap<String, Properties> inv = new ConcurrentHashMap<>();
 
-    public JsonObject get(String hostname) {
+    public Properties get(String hostname) {
         if (InventoryUtil.responseOk(hostname)) {
-            JsonObject properties = InventoryUtil.getProperties(hostname);
+          Properties properties = InventoryUtil.getProperties(hostname);
             inv.putIfAbsent(hostname, properties);
             return properties;
         } else {
-            return JsonMessages.SERVICE_UNREACHABLE.getJson();
+            return null;
         }
     }
 
-    public JsonObject list() {
-        JsonObjectBuilder systems = Json.createObjectBuilder();
-        inv.forEach((host, props) -> {
-            JsonObject systemProps = Json.createObjectBuilder()
-                                         .add("os.name", props.getString("os.name"))
-                                         .add("user.name", props.getString("user.name"))
-                                         .build();
-            systems.add(host, systemProps);
-        });
-        systems.add("hosts", systems);
-        systems.add("total", inv.size());
-        return systems.build();
+    public JsonObject list() {      
+      JsonObjectBuilder systems = Json.createObjectBuilder();
+      inv.forEach((host, props) -> {
+          JsonObject systemProps = Json.createObjectBuilder()
+                                       .add("os.name", props.getProperty("os.name"))
+                                       .add("user.name", props.getProperty("user.name"))
+                                       .build();
+          systems.add(host, systemProps);
+      });
+      systems.add("hosts", systems);
+      systems.add("total", inv.size());
+      return systems.build();
     }
 }
