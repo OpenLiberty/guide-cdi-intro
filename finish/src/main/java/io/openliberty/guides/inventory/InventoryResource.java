@@ -26,6 +26,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import io.openliberty.guides.common.JsonMessages;
+import io.openliberty.guides.inventory.models.Inventory;
 
 // tag::RequestScoped[]
 @RequestScoped
@@ -50,7 +51,7 @@ public class InventoryResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public JsonObject listContents() {
+    public Inventory listContents() {
         return manager.list();
     }
 }
