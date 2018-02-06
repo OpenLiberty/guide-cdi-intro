@@ -12,8 +12,6 @@
 // end::copyright[]
 package io.openliberty.guides.inventory;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -21,9 +19,7 @@ import java.util.concurrent.ConcurrentMap;
 // CDI
 import javax.enterprise.context.ApplicationScoped;
 
-import io.openliberty.guides.inventory.models.Host;
 import io.openliberty.guides.inventory.models.Inventory;
-import io.openliberty.guides.inventory.models.Property;
 import io.openliberty.guides.inventory.util.InventoryUtil;
 
 // tag::ApplicationScoped[]
@@ -31,14 +27,12 @@ import io.openliberty.guides.inventory.util.InventoryUtil;
 // end::ApplicationScoped[]
 public class InventoryManager {
 
-  private ConcurrentMap<String, Properties> inv = new ConcurrentHashMap<>();
-  private Inventory invModel = new Inventory();
+  private static final ConcurrentMap<String, Properties> invMap = new ConcurrentHashMap<>();
   
   public Properties get(String hostname) {
     if (InventoryUtil.responseOk(hostname)) {
       Properties properties = InventoryUtil.getProperties(hostname);
-      buildInvModel(hostname, properties);
-      inv.putIfAbsent(hostname, properties);
+      invMap.putIfAbsent(hostname, properties);
       return properties;
     } else {
       return null;
@@ -46,22 +40,16 @@ public class InventoryManager {
   }
 
   public Inventory list() {
-    return invModel;
-  }
-  
-  private void buildInvModel(String hostname, Properties properties) {
-    List<Property> propsList = new ArrayList<Property>();
+    Inventory inv = new Inventory();
     
-    Property prop1 = new Property("os.name", properties.getProperty("os.name"));
-    propsList.add(prop1);
-
-    Property prop2 = new Property("user.name", properties.getProperty("user.name"));
-    propsList.add(prop2);
-
-    Host host = new Host(hostname, propsList);
-    
-    if (!invModel.getHosts().contains(host)) {
-      invModel.getHosts().add(host);
+    for (String host : invMap.keySet()) {
+      Properties systemProps = invMap.get(host);
+      Properties props = new Properties();
+      props.setProperty("os.name", systemProps.getProperty("os.name"));
+      props.setProperty("user.name", systemProps.getProperty("user.name"));
+          
+      inv.addHost(host, props);
     }
+    return inv;
   }
 }

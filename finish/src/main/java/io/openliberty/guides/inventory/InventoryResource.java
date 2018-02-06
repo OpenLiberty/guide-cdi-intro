@@ -9,7 +9,7 @@
  * Contributors:
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
- // end::copyright[]
+// end::copyright[]
 package io.openliberty.guides.inventory;
 
 import java.util.Properties;
@@ -17,7 +17,6 @@ import java.util.Properties;
 // CDI
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
-import javax.json.JsonObject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -34,24 +33,28 @@ import io.openliberty.guides.inventory.models.Inventory;
 @Path("hosts")
 public class InventoryResource {
 
-    // tag::Inject[]
-    @Inject InventoryManager manager;
-    // end::Inject[]
+  // tag::Inject[]
+  @Inject
+  InventoryManager manager;
+  // end::Inject[]
 
-    @GET
-    @Path("{hostname}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getPropertiesForHost(@PathParam("hostname") String hostname) {
-      Properties props = manager.get(hostname);
-      if (props == null) {
-        return Response.ok(JsonMessages.SERVICE_UNREACHABLE.getJson()).build();
-      }
-      return Response.ok(props).build();
+  @GET
+  @Path("{hostname}")
+  @Produces(MediaType.APPLICATION_JSON)
+  public Response getPropertiesForHost(@PathParam("hostname") String hostname) {
+    Properties props = manager.get(hostname);
+    if (props == null) {
+      return Response.ok(JsonMessages.SERVICE_UNREACHABLE.getJson()).build();
+      /*return Response.status(Response.Status.BAD_REQUEST)
+                     .entity("Unknown hostname or the resource may not be running on the host machine")
+                     .build();*/
     }
+    return Response.ok(props).build();
+  }
 
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public Inventory listContents() {
-        return manager.list();
-    }
+  @GET
+  @Produces(MediaType.APPLICATION_JSON)
+  public Inventory listContents() {
+    return manager.list();
+  }
 }

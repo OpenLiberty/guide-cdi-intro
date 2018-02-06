@@ -13,9 +13,11 @@
 // tag::testClass[]
 package it.io.openliberty.guides.inventory;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import javax.json.JsonObject;
+import javax.json.JsonValue;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.MediaType;
@@ -93,7 +95,9 @@ public class EndpointTest {
         int actual = obj.getInt("total");
         assertEquals("The inventory should have one entry for localhost", expected, actual);
 
-        boolean localhostExists = obj.getJsonObject("hosts").containsKey("localhost");
+        //boolean localhostExists = obj.getJsonObject("hosts").containsKey("localhost");
+        System.out.println(obj.getJsonArray("hosts").getJsonObject(0).get("hostname").toString());
+        boolean localhostExists = obj.getJsonArray("hosts").getJsonObject(0).get("hostname").toString().contains("localhost");
         assertTrue("A host was registered, but it was not localhost", localhostExists);
 
         response.close();
@@ -108,9 +112,12 @@ public class EndpointTest {
         this.assertResponse(baseUrl, invResponse);
         this.assertResponse(baseUrl, sysResponse);
 
-        JsonObject jsonFromInventory = invResponse.readEntity(JsonObject.class)
+        /*JsonObject jsonFromInventory = invResponse.readEntity(JsonObject.class)
                                                   .getJsonObject("hosts")
-                                                  .getJsonObject("localhost");
+                                                  .getJsonObject("localhost");*/
+        JsonObject jsonFromInventory = (JsonObject) invResponse.readEntity(JsonObject.class).getJsonArray("hosts").getJsonObject(0).get("properties");
+        //JsonValue jsonValueFromInventory = jsonFromInventory.get("properties");
+        
         JsonObject jsonFromSystem = sysResponse.readEntity(JsonObject.class);
 
         String osNameFromInventory = jsonFromInventory.getString("os.name");
