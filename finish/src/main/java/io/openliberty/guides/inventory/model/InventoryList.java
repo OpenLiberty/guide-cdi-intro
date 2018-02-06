@@ -33,12 +33,7 @@ public class InventoryList {
     props.setProperty("os.name", systemProps.getProperty("os.name"));
     props.setProperty("user.name", systemProps.getProperty("user.name"));
 
-    this.addHost(hostname, props);
-
-  }
-
-  public void addHost(String hostname, Properties properties) {
-    Host host = new Host(hostname, properties);
+    Host host = new Host(hostname, props);
     if (!hosts.contains(host))
       hosts.add(host);
   }
