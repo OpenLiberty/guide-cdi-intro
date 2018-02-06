@@ -1,6 +1,6 @@
 // tag::copyright[]
 /*******************************************************************************
- * Copyright (c) 2017 IBM Corporation and others.
+ * Copyright (c) 2017, 2018 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -24,8 +24,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import io.openliberty.guides.common.JsonMessages;
-import io.openliberty.guides.inventory.models.Inventory;
+import io.openliberty.guides.inventory.model.InventoryList;
 
 // tag::RequestScoped[]
 @RequestScoped
@@ -44,17 +43,16 @@ public class InventoryResource {
   public Response getPropertiesForHost(@PathParam("hostname") String hostname) {
     Properties props = manager.get(hostname);
     if (props == null) {
-      return Response.ok(JsonMessages.SERVICE_UNREACHABLE.getJson()).build();
-      /*return Response.status(Response.Status.BAD_REQUEST)
-                     .entity("Unknown hostname or the resource may not be running on the host machine")
-                     .build();*/
+      return Response.status(Response.Status.BAD_REQUEST)
+                     .entity("ERROR: Unknown hostname or the resource may not be running on the host machine")
+                     .build();
     }
     return Response.ok(props).build();
   }
 
   @GET
   @Produces(MediaType.APPLICATION_JSON)
-  public Inventory listContents() {
+  public InventoryList listContents() {
     return manager.list();
   }
 }
