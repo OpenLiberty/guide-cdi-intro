@@ -15,9 +15,7 @@ package io.openliberty.guides.inventory.util;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
-
-// JSON-P
-import javax.json.JsonObject;
+import java.util.Properties;
 
 // JAX-RS
 import javax.ws.rs.client.Client;
@@ -40,7 +38,7 @@ public class InventoryUtil {
      * @param hostname - name of host.
      * @return JSON Java object containing the system properties of the host's JVM.
      */
-    public static JsonObject getProperties(String hostname) {
+    public static Properties getProperties(String hostname) {
         return getPropertiesHelper(hostname, DEFAULT_PORT);
     }
     
@@ -54,7 +52,7 @@ public class InventoryUtil {
      * @param port     - port number for the system service.
      * @return JSON Java object containing the system properties of the host's JVM.
      */
-    public static JsonObject getProperties(String hostname, int port) {
+    public static Properties getProperties(String hostname, int port) {
         return getPropertiesHelper(hostname, port);
     }
     
@@ -62,10 +60,10 @@ public class InventoryUtil {
      * <p>Creates a JAX-RS client that retrieves the JVM system properties for the particular host 
      * on the given port number.</p>
      */
-    private static JsonObject getPropertiesHelper(String hostname, int port) {
+    private static Properties getPropertiesHelper(String hostname, int port) {
         Client client = ClientBuilder.newClient();
         URI propURI = InventoryUtil.buildUri(hostname, port);
-        return client.target(propURI).request().get(JsonObject.class);
+        return client.target(propURI).request().get(Properties.class);
     }
 
     /**
