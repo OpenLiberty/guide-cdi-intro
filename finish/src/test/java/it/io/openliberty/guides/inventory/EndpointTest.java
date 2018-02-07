@@ -36,7 +36,7 @@ public class EndpointTest {
   private Client client;
 
   private final String SYSTEM_PROPERTIES = "system/properties";
-  private final String INVENTORY_HOSTS = "inventory/hosts";
+  private final String INVENTORY_HOSTS = "inventory/systems";
 
   @BeforeClass
   public static void oneTimeSetup() {
@@ -96,9 +96,9 @@ public class EndpointTest {
     assertEquals("The inventory should have one entry for localhost", expected,
                  actual);
 
-    System.out.println(obj.getJsonArray("hosts").getJsonObject(0)
+    System.out.println(obj.getJsonArray("systems").getJsonObject(0)
                           .get("hostname").toString());
-    boolean localhostExists = obj.getJsonArray("hosts").getJsonObject(0)
+    boolean localhostExists = obj.getJsonArray("systems").getJsonObject(0)
                                  .get("hostname").toString()
                                  .contains("localhost");
     assertTrue("A host was registered, but it was not localhost",
@@ -117,7 +117,7 @@ public class EndpointTest {
     this.assertResponse(baseUrl, sysResponse);
 
     JsonObject jsonFromInventory = (JsonObject) invResponse.readEntity(JsonObject.class)
-                                                           .getJsonArray("hosts")
+                                                           .getJsonArray("systems")
                                                            .getJsonObject(0)
                                                            .get("properties");
 
