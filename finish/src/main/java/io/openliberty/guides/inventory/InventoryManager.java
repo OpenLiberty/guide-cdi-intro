@@ -14,10 +14,8 @@ package io.openliberty.guides.inventory;
 
 
 import io.openliberty.guides.inventory.client.SystemClient;
-
-import java.util.Properties;
 import io.openliberty.guides.inventory.model.InventoryList;
-import io.openliberty.guides.inventory.util.InventoryUtil;
+import java.util.Properties;
 
 
 //CDI

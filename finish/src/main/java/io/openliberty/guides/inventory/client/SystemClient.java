@@ -41,23 +41,27 @@ public class SystemClient {
     private boolean status;
     private Properties content;
 
+    // Used by the following guides: CDI, MP-METRICS
     public SystemClient(String hostname) {
-      this.url = setUrl(PROTOCOL, hostname, DEFAULT_PORT, SYSTEM_PROPERTIES);
-      Builder builder = createClientBuilder();
-      setStatusAndContent(builder);
+      systemClientHelper(PROTOCOL, hostname, DEFAULT_PORT, null);
     }
 
+    // Used by the following guides: MP-CONFIG, MP-HEALTH, FAULT-TOLERANCE
     public SystemClient(String hostname, int port) {
-      this.url = setUrl(PROTOCOL, hostname, port, SYSTEM_PROPERTIES);
-      Builder builder = createClientBuilder();
-      setStatusAndContent(builder);
+      systemClientHelper(PROTOCOL, hostname, port, null);
     }
 
+    // Used by the following guides: MP-JWT
     public SystemClient(String hostname, String authHeader) {
-      this.url = setUrl(SECURED_PROTOCOL, hostname, DEFAULT_PORT, SYSTEM_PROPERTIES);
-      Builder builder = createClientBuilder();
-      builder.header(HttpHeaders.AUTHORIZATION, authHeader);
-      setStatusAndContent(builder);
+      systemClientHelper(SECURED_PROTOCOL, hostname, DEFAULT_PORT, authHeader);
+    }
+
+    private void systemClientHelper(String protocol, String hostname, int port, String authHeader){
+      this.setUrl(protocol, hostname, port, SYSTEM_PROPERTIES);
+      this.setStatus();
+      if (this.status){
+        this.setContent(authHeader);
+      }
     }
 
     public String getUrl(){
@@ -80,35 +84,39 @@ public class SystemClient {
      * @param path - Note that the path needs to start with a slash!!!
      * @return String representation of the URI to the system properties service.
      */
-    public static String setUrl(String protocol, String host, int port, String path){
-        String auth = null;
-        String query = null;
-        String fragment = null;
+    private void setUrl(String protocol, String host, int port, String path){
         try {
-          URI uri =  new URI(protocol, auth, host, port, path, query, fragment);
-          return uri.toString();
+          URI uri =  new URI(protocol, null, host, port, path, null, null);
+          this.url = uri.toString();
         } catch (Exception e){
           System.out.println("URISyntaxException");
+          this.url = null;
         }
-        return "";
     }
 
-    public Builder createClientBuilder() {
+    private void setStatus() {
+      try {
+          URL target = new URL(this.url);
+          HttpURLConnection http = (HttpURLConnection) target.openConnection();
+          http.setConnectTimeout(50);
+          int response = http.getResponseCode();
+          this.status = (response != 200) ? false : true;
+      } catch (Exception e) {
+          this.status = false;
+      }
+    }
+
+
+    private void setContent(String authHeader) {
       Client client = ClientBuilder.newClient();
       WebTarget target = client.target(this.url);
       Builder builder = target.request();
       builder.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON);
-      return builder;
-    }
-
-    public void setStatusAndContent(Builder clientBuilder) {
-      try {
-        Response response = clientBuilder.build("GET").invoke();
-        this.status = true;
-        this.content = response.readEntity(Properties.class);
-      } catch (Exception e) {
-        this.status = false;
+      if (authHeader != null){
+        builder.header(HttpHeaders.AUTHORIZATION, authHeader);
       }
+      Response response = builder.build("GET").invoke();
+      this.content = response.readEntity(Properties.class);
     }
 
 
