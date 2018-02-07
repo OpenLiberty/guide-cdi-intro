@@ -38,20 +38,20 @@ public class SystemClient {
 
     // Used by the following guides: CDI, MP-METRICS
     public SystemClient(String hostname) {
-      systemClientHelper(PROTOCOL, hostname, DEFAULT_PORT, null);
+      init(PROTOCOL, hostname, DEFAULT_PORT, null);
     }
 
     // Used by the following guides: MP-CONFIG, MP-HEALTH, FAULT-TOLERANCE
     public SystemClient(String hostname, int port) {
-      systemClientHelper(PROTOCOL, hostname, port, null);
+      init(PROTOCOL, hostname, port, null);
     }
 
     // Used by the following guides: MP-JWT
     public SystemClient(String hostname, String authHeader) {
-      systemClientHelper(SECURED_PROTOCOL, hostname, DEFAULT_PORT, authHeader);
+      init(SECURED_PROTOCOL, hostname, DEFAULT_PORT, authHeader);
     }
 
-    private void systemClientHelper(String protocol, String hostname, int port, String authHeader){
+    private void init(String protocol, String hostname, int port, String authHeader){
       this.setUrl(protocol, hostname, port, SYSTEM_PROPERTIES);
       this.setStatus();
       if (this.status){
