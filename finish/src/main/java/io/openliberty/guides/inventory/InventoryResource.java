@@ -33,8 +33,7 @@ import io.openliberty.guides.inventory.model.InventoryList;
 public class InventoryResource {
 
   // tag::Inject[]
-  @Inject
-  InventoryManager manager;
+  @Inject InventoryManager manager;
   // end::Inject[]
 
   @GET
@@ -43,7 +42,7 @@ public class InventoryResource {
   public Response getPropertiesForHost(@PathParam("hostname") String hostname) {
     Properties props = manager.get(hostname);
     if (props == null) {
-      return Response.status(Response.Status.BAD_REQUEST)
+      return Response.status(Response.Status.NOT_FOUND)
                      .entity("ERROR: Unknown hostname or the resource may not be running on the host machine")
                      .build();
     }
