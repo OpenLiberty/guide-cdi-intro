@@ -29,7 +29,7 @@ import io.openliberty.guides.inventory.model.InventoryList;
 // tag::RequestScoped[]
 @RequestScoped
 // end::RequestScoped[]
-@Path("hosts")
+@Path("systems")
 public class InventoryResource {
 
   // tag::Inject[]
