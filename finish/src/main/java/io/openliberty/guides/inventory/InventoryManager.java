@@ -13,12 +13,6 @@
 package io.openliberty.guides.inventory;
 
 
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
-import io.openliberty.guides.common.JsonMessages;
 import io.openliberty.guides.inventory.client.SystemClient;
 
 import java.util.Properties;

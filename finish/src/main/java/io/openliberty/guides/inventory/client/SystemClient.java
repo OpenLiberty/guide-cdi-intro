@@ -12,10 +12,6 @@
  // end::copyright[]
 package io.openliberty.guides.inventory.client;
 
-import java.io.StringReader;
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonReader;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -27,8 +23,11 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import java.net.URI;
 import java.net.URISyntaxException;
-import io.openliberty.guides.common.JsonMessages;
 import java.util.Properties;
+
+import java.net.HttpURLConnection;
+import java.net.URI;
+import java.net.URL;
 
 public class SystemClient {
 
@@ -69,7 +68,7 @@ public class SystemClient {
       return this.status;
     }
 
-    public JsonObject getContent(){
+    public Properties getContent(){
       return this.content;
     }
 
@@ -110,11 +109,6 @@ public class SystemClient {
       } catch (Exception e) {
         this.status = false;
       }
-    }
-
-    public static JsonObject toJsonObj(String json) {
-        JsonReader jReader = Json.createReader(new StringReader(json));
-          return jReader.readObject();
     }
 
 
