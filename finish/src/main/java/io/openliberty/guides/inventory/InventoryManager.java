@@ -12,11 +12,9 @@
 // end::copyright[]
 package io.openliberty.guides.inventory;
 
-
+import java.util.Properties;
 import io.openliberty.guides.inventory.client.SystemClient;
 import io.openliberty.guides.inventory.model.InventoryList;
-import java.util.Properties;
-
 
 //CDI
 import javax.enterprise.context.ApplicationScoped;
@@ -37,7 +35,6 @@ public class InventoryManager {
     }
     return null;
   }
-
 
   public InventoryList list() {
     return invList;

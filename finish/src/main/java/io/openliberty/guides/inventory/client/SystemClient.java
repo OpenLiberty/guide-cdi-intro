@@ -14,15 +14,10 @@ package io.openliberty.guides.inventory.client;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.Invocation.Builder;
-import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.Properties;
 
 import java.net.HttpURLConnection;
@@ -109,8 +104,7 @@ public class SystemClient {
 
     private void setContent(String authHeader) {
       Client client = ClientBuilder.newClient();
-      WebTarget target = client.target(this.url);
-      Builder builder = target.request();
+      Builder builder = client.target(this.url).request();
       builder.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON);
       if (authHeader != null){
         builder.header(HttpHeaders.AUTHORIZATION, authHeader);
