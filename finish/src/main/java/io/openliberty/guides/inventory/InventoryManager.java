@@ -13,8 +13,8 @@
 package io.openliberty.guides.inventory;
 
 import java.util.Properties;
+import io.openliberty.guides.inventory.client.SystemClient;
 import io.openliberty.guides.inventory.model.InventoryList;
-import io.openliberty.guides.inventory.util.InventoryUtil;
 
 //CDI
 import javax.enterprise.context.ApplicationScoped;
@@ -27,8 +27,9 @@ public class InventoryManager {
   private InventoryList invList = new InventoryList();
 
   public Properties get(String hostname) {
-    if (InventoryUtil.responseOk(hostname)) {
-      Properties properties = InventoryUtil.getProperties(hostname);
+    SystemClient systemClient = new SystemClient(hostname);
+    if (systemClient.isResponseOk()) {
+      Properties properties = systemClient.getContent();
       invList.addToInventoryList(hostname, properties);
       return properties;
     }
