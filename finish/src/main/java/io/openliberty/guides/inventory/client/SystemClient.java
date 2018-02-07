@@ -28,6 +28,7 @@ import javax.ws.rs.core.Response.Status;
 import java.net.URI;
 import java.net.URISyntaxException;
 import io.openliberty.guides.common.JsonMessages;
+import java.util.Properties;
 
 public class SystemClient {
 
@@ -39,7 +40,7 @@ public class SystemClient {
 
     private String url;
     private boolean status;
-    private JsonObject content;
+    private Properties content;
 
     public SystemClient(String hostname) {
       this.url = setUrl(PROTOCOL, hostname, DEFAULT_PORT, SYSTEM_PROPERTIES);
@@ -105,10 +106,9 @@ public class SystemClient {
       try {
         Response response = clientBuilder.build("GET").invoke();
         this.status = true;
-        this.content = toJsonObj(response.readEntity(String.class));
+        this.content = response.readEntity(Properties.class);
       } catch (Exception e) {
         this.status = false;
-        this.content = JsonMessages.SERVICE_UNREACHABLE.getJson();
       }
     }
 

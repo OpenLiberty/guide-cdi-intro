@@ -1,6 +1,6 @@
 // tag::copyright[]
 /*******************************************************************************
- * Copyright (c) 2017 IBM Corporation and others.
+ * Copyright (c) 2017, 2018 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -9,8 +9,9 @@
  * Contributors:
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
- // end::copyright[]
+// end::copyright[]
 package io.openliberty.guides.inventory;
+
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -20,7 +21,12 @@ import javax.json.JsonObjectBuilder;
 import io.openliberty.guides.common.JsonMessages;
 import io.openliberty.guides.inventory.client.SystemClient;
 
-// CDI
+import java.util.Properties;
+import io.openliberty.guides.inventory.model.InventoryList;
+import io.openliberty.guides.inventory.util.InventoryUtil;
+
+
+//CDI
 import javax.enterprise.context.ApplicationScoped;
 
 // tag::ApplicationScoped[]
@@ -28,30 +34,20 @@ import javax.enterprise.context.ApplicationScoped;
 // end::ApplicationScoped[]
 public class InventoryManager {
 
-    private ConcurrentMap<String, JsonObject> inv = new ConcurrentHashMap<>();
+  private InventoryList invList = new InventoryList();
 
-    public JsonObject get(String hostname) {
-      SystemClient systemClient = new SystemClient(hostname);
-      if (systemClient.isResponseOk()) {
-        JsonObject properties = systemClient.getContent();
-        inv.putIfAbsent(hostname, properties);
-        return properties;
-      } else {
-        return systemClient.getContent();
-      }
+  public Properties get(String hostname) {
+    SystemClient systemClient = new SystemClient(hostname);
+    if (systemClient.isResponseOk()) {
+      Properties properties = systemClient.getContent();
+      invList.addToInventoryList(hostname, properties);
+      return properties;
     }
+    return null;
+  }
 
-    public JsonObject list() {
-        JsonObjectBuilder systems = Json.createObjectBuilder();
-        inv.forEach((host, props) -> {
-            JsonObject systemProps = Json.createObjectBuilder()
-                                         .add("os.name", props.getString("os.name"))
-                                         .add("user.name", props.getString("user.name"))
-                                         .build();
-            systems.add(host, systemProps);
-        });
-        systems.add("hosts", systems);
-        systems.add("total", inv.size());
-        return systems.build();
-    }
+
+  public InventoryList list() {
+    return invList;
+  }
 }
