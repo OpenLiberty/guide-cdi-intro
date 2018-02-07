@@ -1,4 +1,4 @@
-// Copyright (c) 2017 IBM Corporation and others.
+// Copyright (c) 2017, 2018 IBM Corporation and others.
 // Licensed under Creative Commons Attribution-NoDerivatives
 // 4.0 International (CC BY-ND 4.0)
 //   https://creativecommons.org/licenses/by-nd/4.0/
@@ -24,22 +24,26 @@ Learn how to use Contexts and Dependency Injection to manage and inject dependen
 
 You will learn how to use CDI in a simple inventory management application to manage scopes and inject dependencies.
 
-The application that you will be working with is an `inventory` service which stores the information about various JVMs running on different hosts.
+The application that you will be working with is an `inventory` service
+which stores the information about various JVMs running on different systems.
 Whenever a request is made to the `inventory` service to retrieve the JVM
 system properties of a particular host, the `inventory` service will communicate with the `system`
 service on that host to get these system properties. The system properties are then stored and returned.
 
-The implementation of the application and its services are provided for you.
-If you want to learn how to build a RESTful web service, follow
+You will use scopes to bound objects in this application to their well defined-contexts.
+CDI provides a variety of scopes for you to work with and while you will not use all of them in this guide,
+there is one for almost every scenario that you may encounter. Scopes are defined using CDI annotations.
+You will also use dependency injection to inject one bean into another to make use of its functionalities.
+This enables you to inject the bean in its specified context without having to instantiate it yourself.
+
+The implementation of the application and its services are provided for you under the `start/src` directory.
+The `system` service can be found
+under `start/src/main/java/io/openliberty/guides/system`, and the `inventory` service can be found
+under `start/src/main/java/io/openliberty/guides/inventory`.
+If you want to learn more about RESTful web services and how to build them, see
 https://openliberty.io/guides/rest-intro.html[Creating a RESTful web service]
 which has details on how to build the `system` service.
 The `inventory` service is built in a similar way.
-
-You will use CDI to inject dependencies into the application and you will learn how to manage the life cycles of your objects.
-
-The `system` and `Inventory` services that you will use in this guide can be found
-under `start/src/main/java/io/openliberty/guides`, in the `system` and `inventory` subfolders respectively.
-
 
 === What is CDI?
 
@@ -49,12 +53,6 @@ and Dependency Injection that is the ability to inject components into an applic
 With CDI, the container does all the daunting work of instantiating dependencies, and
 controlling exactly when and how these components are instantiated and destroyed.
 
-
-// =================================================================================================
-// Getting Started
-// =================================================================================================
-
-// include::{common-includes}/gitclone.adoc[]
 
 == Getting started
 
@@ -79,11 +77,11 @@ Maven goals to build the application and run it inside Open Liberty:
 mvn install liberty:start-server
 ```
 
-Point your browser to http://localhost:9080/inventory/hosts. This is the staring point of the `inventory`
+Point your browser to http://localhost:9080/inventory/systems. This is the staring point of the `inventory`
 service and it displays the current contents of the inventory. As you might expect, these are empty since
-nothing is stored in the inventory yet. Next, point your browser to http://localhost:9080/inventory/hosts/localhost.
+nothing is stored in the inventory yet. Next, point your browser to http://localhost:9080/inventory/systems/localhost.
 You see a result in JSON format with the system properties of your local JVM. By visiting this URL, these system
-properties are automatically stored in the inventory. Go back to http://localhost:9080/inventory/hosts and
+properties are automatically stored in the inventory. Go back to http://localhost:9080/inventory/systems and
 you see a new entry for `localhost`. For simplicity, only the OS name and username are shown here for
 each host. You can repeat this process for your own hostname or any other machine that is running
 the `system` service.
@@ -96,37 +94,36 @@ mvn liberty:stop-server
 
 Now, navigate back to the `start` directory to begin.
 
+
 == Handling dependencies in the application
 
-You will use scopes and contexts in this application to manage the life cycles of your objects.
-You will also inject a dependency from one class into another class.
+You will use CDI to inject dependencies into the inventory manager application and
+you will learn how to manage the life cycles of your objects.
 
 === Managing scopes and contexts
 
-Open `src/main/java/io/openliberty/guides/inventory/InventoryManager.java`:
+Take a look at `src/main/java/io/openliberty/guides/inventory/InventoryManager.java`.
+
+This bean contains two simple functions. One function is for retrieving (get) entries from calling the `system` service,
+and then add it to the inventory list.
+The second function is for listing (list) all the entries currently stored in the inventory.
+This bean must be persistent between all the clients.
+
+To do that, add the `@ApplicationScoped` annotation on the class.
+This annotation indicates that this particular
+bean is to be initialized once per application.
+By making it application-scoped, the container ensures that the same instance of the bean is used whenever
+it is injected into the application.
+
+Your completed class looks like this:
 
 [source, Java]
 ----
 include::finish/src/main/java/io/openliberty/guides/inventory/InventoryManager.java[tags=**;!copyright;]
 ----
 
-Your inventory is ultimately just a `ConcurrentMap` object where the key is a hostname and the value
-is a JSON Java object full of various JVM system properties.
-
-Add the `@ApplicationScoped` annotation on the class. This annotation is from the CDI API, and indicates that this particular
-bean is to be initialized once per application. Intuitively, since the `ConcurrentMap` object
-is essentially our database, we want the inventory manger bean to be persistent in the context of all the clients.
-By making it application-scoped, the container ensures that the same instance of the bean is used whenever
-it is injected into the application.
-
-Next, open `src/main/java/io/openliberty/guides/inventory/InventoryResource.java`:
-
-[source, Java]
-----
-include::finish/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[tags=**;!copyright]
-----
-
-The inventory resource is a RESTful service that is served at the `hosts` endpoint. It enables the client to
+Next, refer to `src/main/java/io/openliberty/guides/inventory/InventoryResource.java`.
+The inventory resource is a RESTful service that is served at the `inventory/systems` endpoint. It enables the client to
 communicate with the inventory manager via HTTP methods.
 
 Add the `@RequestScoped` annotation on the class to indicate that this bean is
@@ -134,31 +131,33 @@ to be initialized once for every request. In other words, the bean is instantiat
 is received and destroyed when a response is sent back to the client. Note that while this bean can
 also be application-scoped, request scope is short-lived and is therefore ideal for HTTP requests.
 
-There are utility components written to make communication with the `system` service to
-retrieve the JVM system properties for a particular host,
-and JSON object builders to display various error messages.
-These utility components are located in the util folders.
+=== Injecting a dependency
 
-There are detailed Javadocs that you can refer to if you want to learn more about the application.
+Add `@Inject InventoryManager manager;` annotation on the class
+`src/main/java/io/openliberty/guides/inventory/InventoryResource.java`.
 
-
-=== Injecting dependency
-
-Refer to `src/main/java/io/openliberty/guides/inventory/InventoryResource.java`.
-
-Add the `@Inject` annotation on the class:
+Your completed class looks like this:
 
 [source, Java]
 ----
-include::finish/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[tags=Inject;!copyright]
+include::finish/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[tags=**;!copyright]
 ----
 
 This annotation indicates a dependency injection.
 You are injecting your `InventoryManager` bean into the `InventoryResource` class.
 This injects the bean in its specified context (application-scoped) and makes all of its functionalities
-available without the need of instantiating it yourself. The `manager.get(hostname)`
-and `manager.list()` functions are called directly in this class with the @Inject declaration.
+available without the need of instantiating it yourself.
+The injected bean can then be invoked directly via the `manager.get(hostname)`
+and `manager.list()` function calls.
 
+Finally, we're giving you an client component `SystemClient`.
+It can be found under `src/main/java/io/openliberty/guides/inventory/client`.
+This class is responsible for communicating with the `system` service to
+retrieve the JVM system properties for a particular host that exposes them.
+
+This class also contains detailed Javadocs, so feel free to read them for reference.
+
+Your inventory application is now completed.
 
 // =================================================================================================
 // Building the application
@@ -188,7 +187,7 @@ the application in this server instance.
 
 You can find the `inventory` and `system` services at:
 
-- http://localhost:9080/inventory/hosts
+- http://localhost:9080/inventory/systems
 - http://localhost:9080/system/properties
 
 // include::{common-includes}/mvnpackage.adoc[]
