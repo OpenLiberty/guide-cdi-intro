@@ -18,6 +18,7 @@ import javax.ws.rs.client.Invocation.Builder;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 import java.util.Properties;
 
 import java.net.HttpURLConnection;
@@ -62,29 +63,17 @@ public class SystemClient {
    */
   private void init(String protocol, String hostname, int port, String authHeader) {
     this.setUrl(protocol, hostname, port, SYSTEM_PROPERTIES);
-    this.setStatus();
-    if (this.status) {
-      this.setContent(authHeader);
-    }
+    this.setStatusAndContent(authHeader);
   }
 
-  /**
-   * URL getter
-   */
   public String getUrl() {
     return this.url;
   }
 
-  /**
-   * Status getter
-   */
   public boolean isResponseOk() {
     return this.status;
   }
 
-  /**
-   * Content getter
-   */
   public Properties getContent() {
     return this.content;
   }
@@ -115,33 +104,27 @@ public class SystemClient {
     }
   }
 
-  /**
-   * Status setter
-   */
-  private void setStatus() {
-    try {
-      URL target = new URL(this.url);
-      HttpURLConnection http = (HttpURLConnection) target.openConnection();
-      http.setConnectTimeout(50);
-      int response = http.getResponseCode();
-      this.status = (response != 200) ? false : true;
-    } catch (Exception e) {
-      this.status = false;
-    }
-  }
 
-  /**
-   * Content setter
-   */
-  private void setContent(String authHeader) {
-    Client client = ClientBuilder.newClient();
-    Builder builder = client.target(this.url).request();
-    builder.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON);
-    if (authHeader != null) {
-      builder.header(HttpHeaders.AUTHORIZATION, authHeader);
-    }
-    Response response = builder.build("GET").invoke();
-    this.content = response.readEntity(Properties.class);
+  private void setStatusAndContent(String authHeader){
+
+      Client client = ClientBuilder.newClient();
+      Builder builder = client.target(this.url).request();
+      builder.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON);
+      if (authHeader != null) {
+        builder.header(HttpHeaders.AUTHORIZATION, authHeader);
+      }
+      try {
+        Response response = builder.get();
+        if (response.getStatus() == Status.OK.getStatusCode()) {
+          this.content = response.readEntity(Properties.class);
+          this.status = true;
+        } else {
+          this.status = false;
+        }
+      } catch (Exception e) {
+        this.status = false;
+      }
+
   }
 
 }
