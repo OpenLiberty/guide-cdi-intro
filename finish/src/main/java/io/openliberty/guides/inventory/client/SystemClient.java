@@ -20,17 +20,14 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import java.util.Properties;
-
-import java.net.HttpURLConnection;
 import java.net.URI;
-import java.net.URL;
 
 public class SystemClient {
 
   // Constants for building URI to the system service.
-  private static final int DEFAULT_PORT = Integer.valueOf(System.getProperty("default.http.port"));
-  private static final String SYSTEM_PROPERTIES = "/system/properties";
-  private static final String PROTOCOL = "http";
+  private final int DEFAULT_PORT = Integer.valueOf(System.getProperty("default.http.port"));
+  private final String SYSTEM_PROPERTIES = "/system/properties";
+  private final String PROTOCOL = "http";
 
   private String url;
   private Builder clientBuilder;
@@ -47,17 +44,18 @@ public class SystemClient {
 
   // Helper method to set the attributes.
   private void initHelper(String hostname, int port) {
-    this.setUrl(PROTOCOL, hostname, port, SYSTEM_PROPERTIES);
-    this.setClientBuilder();
+    this.url = buildUrl(PROTOCOL, hostname, port, SYSTEM_PROPERTIES);
+    this.clientBuilder = buildClientBuilder(this.url);
+  }
+
+  // Wrapper function that gets properties
+  public Properties getProperties() {
+    return getPropertiesHelper(this.clientBuilder);
   }
 
   // tag::doc[]
   /**
-   * <p>
-   * Builds the URI string to the system service for a particular host. This is
-   * just a helper method.
-   * </p>
-   *
+   * Builds the URI string to the system service for a particular host.
    * @param protocol
    *          - http or https.
    * @param host
@@ -69,42 +67,43 @@ public class SystemClient {
    * @return String representation of the URI to the system properties service.
    */
   // end::doc[]
-  public void setUrl(String protocol, String host, int port, String path) {
+  protected String buildUrl(String protocol, String host, int port, String path) {
     try {
       URI uri = new URI(protocol, null, host, port, path, null, null);
-      this.url = uri.toString();
+      return uri.toString();
     } catch (Exception e) {
       System.out.println("URISyntaxException");
-      this.url = null;
+      return null;
     }
   }
 
-  public void setClientBuilder() {
+  // Method that creates the client builder
+  protected Builder buildClientBuilder(String urlString) {
     try {
       Client client = ClientBuilder.newClient();
-      Builder builder = client.target(this.url).request();
-      this.clientBuilder = builder.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON);
+      Builder builder = client.target(urlString).request();
+      return builder.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON);
     } catch (Exception e) {
       System.out.println("ClientBuilderException");
-      this.clientBuilder = null;
+      return null;
     }
   }
 
-  public Properties getProperties() {
+  // Helper method that processes the request
+  protected Properties getPropertiesHelper(Builder builder) {
     try {
-      Response response = this.clientBuilder.get();
-
+      Response response = builder.get();
       if (response.getStatus() == Status.OK.getStatusCode()) {
         return response.readEntity(Properties.class);
       } else {
         System.out.println("Response Status is not OK.");
-        return null;
       }
-
+    } catch (RuntimeException e) {
+      System.out.println("Runtime exception: " + e.getMessage());
     } catch (Exception e) {
       System.out.println("Exception thrown while invoking the request.");
-      return null;
     }
-
+    return null;
   }
+
 }
