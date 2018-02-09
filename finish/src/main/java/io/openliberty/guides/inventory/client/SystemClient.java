@@ -31,53 +31,27 @@ public class SystemClient {
   private static final int DEFAULT_PORT = Integer.valueOf(System.getProperty("default.http.port"));
   private static final String SYSTEM_PROPERTIES = "/system/properties";
   private static final String PROTOCOL = "http";
-  private static final String SECURED_PROTOCOL = "https";
 
   private String url;
-  private boolean status;
-  private Properties content;
+  private Builder clientBuilder;
 
-  /**
-   * Used by the following guide(s): CDI, MP-METRICS
-   */
-  public SystemClient(String hostname) {
-    init(PROTOCOL, hostname, DEFAULT_PORT, null);
+  // Used by the following guide(s): CDI, MP-METRICS, FAULT-TOLERANCE
+  public void init(String hostname) {
+    this.initHelper(hostname, DEFAULT_PORT);
   }
 
-  /**
-   * Used by the following guide(s): MP-CONFIG, MP-HEALTH, FAULT-TOLERANCE
-   */
-  public SystemClient(String hostname, int port) {
-    init(PROTOCOL, hostname, port, null);
+  // Used by the following guide(s): MP-CONFIG, MP-HEALTH
+  public void init(String hostname, int port) {
+    this.initHelper(hostname, port);
   }
 
-  /**
-   * Used by the following guide(s): MP-JWT
-   */
-  public SystemClient(String hostname, String authHeader) {
-    init(SECURED_PROTOCOL, hostname, DEFAULT_PORT, authHeader);
+  // Helper method to set the attributes.
+  private void initHelper(String hostname, int port) {
+    this.setUrl(PROTOCOL, hostname, port, SYSTEM_PROPERTIES);
+    this.setClientBuilder();
   }
 
-  /**
-   * Helper function to set the attributes.
-   */
-  private void init(String protocol, String hostname, int port, String authHeader) {
-    this.setUrl(protocol, hostname, port, SYSTEM_PROPERTIES);
-    this.setStatusAndContent(authHeader);
-  }
-
-  public String getUrl() {
-    return this.url;
-  }
-
-  public boolean isResponseOk() {
-    return this.status;
-  }
-
-  public Properties getContent() {
-    return this.content;
-  }
-
+  // tag::doc[]
   /**
    * <p>
    * Builds the URI string to the system service for a particular host. This is
@@ -94,7 +68,8 @@ public class SystemClient {
    *          - Note that the path needs to start with a slash!!!
    * @return String representation of the URI to the system properties service.
    */
-  private void setUrl(String protocol, String host, int port, String path) {
+  // end::doc[]
+  public void setUrl(String protocol, String host, int port, String path) {
     try {
       URI uri = new URI(protocol, null, host, port, path, null, null);
       this.url = uri.toString();
@@ -104,27 +79,32 @@ public class SystemClient {
     }
   }
 
-
-  private void setStatusAndContent(String authHeader){
-
+  public void setClientBuilder() {
+    try {
       Client client = ClientBuilder.newClient();
       Builder builder = client.target(this.url).request();
-      builder.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON);
-      if (authHeader != null) {
-        builder.header(HttpHeaders.AUTHORIZATION, authHeader);
-      }
-      try {
-        Response response = builder.get();
-        if (response.getStatus() == Status.OK.getStatusCode()) {
-          this.content = response.readEntity(Properties.class);
-          this.status = true;
-        } else {
-          this.status = false;
-        }
-      } catch (Exception e) {
-        this.status = false;
-      }
-
+      this.clientBuilder = builder.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON);
+    } catch (Exception e) {
+      System.out.println("ClientBuilderException");
+      this.clientBuilder = null;
+    }
   }
 
+  public Properties getProperties() {
+    try {
+      Response response = this.clientBuilder.get();
+
+      if (response.getStatus() == Status.OK.getStatusCode()) {
+        return response.readEntity(Properties.class);
+      } else {
+        System.out.println("Response Status is not OK.");
+        return null;
+      }
+
+    } catch (Exception e) {
+      System.out.println("Exception thrown while invoking the request.");
+      return null;
+    }
+
+  }
 }
