@@ -81,7 +81,7 @@ you see a new entry for `localhost`. For simplicity, only the OS name and userna
 each host. You can repeat this process for your own hostname or any other machine that is running
 the `system` service.
 
-Once you are done checking out the application, stop the Open Liberty server:
+After you are done checking out the application, stop the Open Liberty server:
 
 ```
 mvn liberty:stop-server
@@ -219,11 +219,11 @@ Create test class `src/test/java/it/io/openliberty/guides/inventory/EndpointTest
 include::finish/src/test/java/it/io/openliberty/guides/inventory/EndpointTest.java[tags=**;!copyright;!javadoc]
 ----
 
-The `@BeforeClass` annotation is placed on a method that executes before any of the test cases.
+The `@BeforeClass` annotation is placed on a method that runs before any of the test cases.
 In this case, the `oneTimeSetup` method retrieves the port number for the Open Liberty server and builds
 a base URL string that is used throughout the tests.
 
-The `@Before` and `@After` annotations are placed on methods that start before and after every test case.
+The `@Before` and `@After` annotations are placed on methods that run before and after every test case.
 These methods are generally used to perform any setup and teardown tasks. In this case, the `setup` method
 creates a JAX-RS client, which makes HTTP requests to the `inventory` service. This client must
 also be registered with a JSON-P provider (`JsrJsonpProvider`) to process JSON resources. The `teardown`
