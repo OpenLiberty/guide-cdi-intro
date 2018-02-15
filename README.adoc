@@ -72,7 +72,7 @@ Maven goals to build the application and run it inside Open Liberty:
 mvn install liberty:start-server
 ```
 
-Point your browser to the http://localhost:9080/inventory/systems URL. This is the staring point of the `inventory`
+Point your browser to the http://localhost:9080/inventory/systems URL. This is the starting point of the `inventory`
 service and it displays the current contents of the inventory. As you might expect, these are empty since
 nothing is stored in the inventory yet. Next, point your browser to the http://localhost:9080/inventory/systems/localhost URL.
 You see a result in JSON format with the system properties of your local JVM. When you visit this URL, these system
