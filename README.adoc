@@ -9,8 +9,8 @@
 :page-layout: guide
 :page-duration: 15 minutes
 :page-releasedate: 2017-12-11
-:page-description: Learn how to use CDI in a RESTful web service.
-:page-tags: ['CDI', 'REST']
+:page-description: Learn how to use CDI to manage and inject dependencies into RESTful web services.
+:page-tags: ['CDI', 'REST', '@ApplicationScoped', '@RequestScoped', '@Inject']
 :page-permalink: /guides/{projectid}
 :page-related-guides: ['rest-intro']
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/master
@@ -39,7 +39,7 @@ This enables you to inject the bean in its specified context without having to i
 The implementation of the application and its services are provided for you in the `start/src` directory.
 The `system` service can be found in `start/src/main/java/io/openliberty/guides/system`, and the `inventory` service can be found
 in `start/src/main/java/io/openliberty/guides/inventory`. If you want to learn more about RESTful web services and how to build them, see
-https://openliberty.io/guides/rest-intro.html[Creating a RESTful web service]for details about how to build the `system` service.
+https://openliberty.io/guides/rest-intro.html[Creating a RESTful web service] for details about how to build the `system` service.
 The `inventory` service is built in a similar way.
 
 === What is CDI?
@@ -57,8 +57,8 @@ that is provided in the `start` directory. To do this, run the following command
 
 [subs="attributes"]
 ----
-git clone https://github.com/openliberty/guide-cdi-intro.git
-cd guide-cdi-intro/start
+git clone https://github.com/OpenLiberty/draft-guide-rest-cdi.git
+cd draft-guide-rest-cdi/start
 ----
 
 === Try what you'll build
@@ -97,27 +97,31 @@ you will learn how to manage the life cycles of your objects.
 
 === Managing scopes and contexts
 
-Take a look at `src/main/java/io/openliberty/guides/inventory/InventoryManager.java`.
-
-This bean contains two simple functions. One function is for retrieving (get) entries from calling the `system` service,
-and then add it to the inventory list.
-The second function is for listing (list) all the entries currently stored in the inventory.
-This bean must be persistent between all the clients.
-
-To do that, add the `@ApplicationScoped` annotation on the class.
-This annotation indicates that this particular
-bean is to be initialized once per application.
-By making it application-scoped, the container ensures that the same instance of the bean is used whenever
-it is injected into the application.
-
-Your completed class looks like this:
+Create the inventory manager class in the `src/main/java/io/openliberty/guides/inventory/InventoryManager.java` file:
 
 [source, Java]
 ----
 include::finish/src/main/java/io/openliberty/guides/inventory/InventoryManager.java[tags=**;!copyright;]
 ----
 
-Next, refer to `src/main/java/io/openliberty/guides/inventory/InventoryResource.java`.
+This bean contains two simple functions. One function is for retrieving (get) entries from calling the `system` service,
+and then add it to the inventory list.
+The second function is for listing (list) all the entries currently stored in the inventory.
+
+This bean must be persistent between all the clients, which means multiple clients need to share the same instance.
+To achieve this by using CDI, you can simply add the `@ApplicationScoped` annotation on the class.
+This annotation indicates that this particular
+bean is to be initialized once per application.
+By making it application-scoped, the container ensures that the same instance of the bean is used whenever
+it is injected into the application.
+
+Next, create the `inventory` resource class in the `src/main/java/io/openliberty/guides/inventory/InventoryResource.java` file:
+
+[source, Java]
+----
+include::finish/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[tags=**;!copyright]
+----
+
 The inventory resource is a RESTful service that is served at the `inventory/systems` endpoint. It enables the client to
 communicate with the inventory manager through HTTP methods.
 
@@ -128,17 +132,10 @@ also be application-scoped, request scope is short-lived and is therefore ideal 
 
 === Injecting a dependency
 
-Add `@Inject InventoryManager manager;` annotation on the class
+Refer to the `inventory` resource class you created above:
 `src/main/java/io/openliberty/guides/inventory/InventoryResource.java`.
 
-Your completed class appears as it does in the following example:
-
-[source, Java]
-----
-include::finish/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[tags=**;!copyright]
-----
-
-This annotation indicates a dependency injection.
+The @Inject annotation indicates a dependency injection.
 You are injecting your `InventoryManager` bean into the `InventoryResource` class.
 This injects the bean in its specified context (application-scoped) and makes all of its functionalities
 available without the need of instantiating it yourself.
@@ -212,7 +209,7 @@ Since the application is a RESTful web service application, you can use
 JUnit and the RESTful web service Client API to write tests.
 In testing the functionality of the application, the scopes and dependencies are being tested.
 
-Create test class `src/test/java/it/io/openliberty/guides/inventory/EndpointTest.java`:
+Create the test class in the `src/test/java/it/io/openliberty/guides/inventory/EndpointTest.java` file:
 
 [source, Java]
 ----
