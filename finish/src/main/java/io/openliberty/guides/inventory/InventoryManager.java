@@ -15,8 +15,6 @@ package io.openliberty.guides.inventory;
 import java.util.Properties;
 import io.openliberty.guides.inventory.client.SystemClient;
 import io.openliberty.guides.inventory.model.InventoryList;
-
-//CDI
 import javax.enterprise.context.ApplicationScoped;
 
 // tag::ApplicationScoped[]
