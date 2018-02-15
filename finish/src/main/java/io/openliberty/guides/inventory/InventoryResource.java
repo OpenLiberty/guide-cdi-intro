@@ -13,8 +13,6 @@
 package io.openliberty.guides.inventory;
 
 import java.util.Properties;
-
-// CDI
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
@@ -23,7 +21,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-
 import io.openliberty.guides.inventory.model.InventoryList;
 
 // tag::RequestScoped[]
@@ -33,7 +30,8 @@ import io.openliberty.guides.inventory.model.InventoryList;
 public class InventoryResource {
 
   // tag::Inject[]
-  @Inject InventoryManager manager;
+  @Inject
+  InventoryManager manager;
   // end::Inject[]
 
   @GET
@@ -43,7 +41,8 @@ public class InventoryResource {
     Properties props = manager.get(hostname);
     if (props == null) {
       return Response.status(Response.Status.NOT_FOUND)
-                     .entity("ERROR: Unknown hostname or the system service may not be running on " + hostname)
+                     .entity("ERROR: Unknown hostname or the system service may not be running on "
+                         + hostname)
                      .build();
     }
     return Response.ok(props).build();
