@@ -45,21 +45,14 @@ The `inventory` service is built in a similar way.
 === What is CDI?
 
 Contexts and Dependency Injection (CDI) defines a rich set of complementary services that improve the application structure.
-The most fundamental services that are provided by CDI are Contexts that bind the lifecycle of stateful components to well-defined contexts,
-and Dependency Injection that is the ability to inject components into an application in a typesafe way.
+The most fundamental services that are provided by CDI are contexts that bind the lifecycle of stateful components to well-defined contexts,
+and dependency injection that is the ability to inject components into an application in a typesafe way.
 With CDI, the container does all the daunting work of instantiating dependencies, and
 controlling exactly when and how these components are instantiated and destroyed.
 
 == Getting started
 
-The fastest way to work through this guide is to clone the Git repository and use the starting project
-that is provided in the `start` directory. To do this, run the following commands:
-
-[subs="attributes"]
-----
-git clone https://github.com/OpenLiberty/draft-guide-rest-cdi.git
-cd draft-guide-rest-cdi/start
-----
+include::{common-includes}/gitclone.adoc[]
 
 === Try what you'll build
 
@@ -92,8 +85,7 @@ Now, navigate back to the `start` directory to begin.
 
 == Handling dependencies in the application
 
-You will use CDI to inject dependencies into the inventory manager application and
-you will learn how to manage the life cycles of your objects.
+You will use CDI to inject dependencies into the inventory manager application and learn how to manage the life cycles of your objects.
 
 === Managing scopes and contexts
 
@@ -104,9 +96,9 @@ Create the inventory manager class in the `src/main/java/io/openliberty/guides/i
 include::finish/src/main/java/io/openliberty/guides/inventory/InventoryManager.java[tags=**;!copyright;]
 ----
 
-This bean contains two simple functions. One function is for retrieving (get) entries from calling the `system` service,
+This bean contains two simple functions. The `get()` function is for retrieving entries from calling the `system` service,
 and then add it to the inventory list.
-The second function is for listing (list) all the entries currently stored in the inventory.
+The `list()` function is for listing all the entries currently stored in the inventory.
 
 This bean must be persistent between all the clients, which means multiple clients need to share the same instance.
 To achieve this by using CDI, you can simply add the `@ApplicationScoped` annotation on the class.
@@ -127,7 +119,7 @@ communicate with the inventory manager through HTTP methods.
 
 Add the `@RequestScoped` annotation on the class to indicate that this bean is
 to be initialized once for every request. In other words, the bean is instantiated when the request
-is received and destroyed when a response is sent back to the client. Note that while this bean can
+is received and destroyed when a response is sent back to the client. While this bean can
 also be application-scoped, request scope is short-lived and is therefore ideal for HTTP requests.
 
 === Injecting a dependency
@@ -143,9 +135,8 @@ The injected bean can then be invoked directly through the `manager.get(hostname
 and `manager.list()` function calls.
 
 Finally, you have a client component `SystemClient` that can be found in `src/main/java/io/openliberty/guides/inventory/client`.
-This class is responsible for communicating with the `system` service to
+This class communicates with the `system` service to
 retrieve the JVM system properties for a particular host that exposes them.
-
 This class also contains detailed Javadocs that you can read for reference.
 
 Your inventory application is now completed.
@@ -156,45 +147,14 @@ Your inventory application is now completed.
 
 == Building and running the application
 
-// include::{common-includes}/mvnbuild.adoc[]
-
-To build the application, run the Maven `install` goal from the command line:
-
-```
-mvn install
-```
-
-This goal builds the application and creates a `.war` file in the target directory. The goal also
-configures and installs Open Liberty into the `target/liberty/wlp` directory.
-
-Next, run the Maven `liberty:start-server` goal:
-
-```
-mvn liberty:start-server
-```
-
-This goal starts an Open Liberty server instance. Your Maven `pom.xml` is already configured to start
-the application in this server instance.
+include::{common-includes}/mvnbuild.adoc[]
 
 You can find the `inventory` and `system` services at the following URLs:
 
 - http://localhost:9080/inventory/systems
 - http://localhost:9080/system/properties
 
-// include::{common-includes}/mvnpackage.adoc[]
-
-If you make changes to the code, use the Maven `package` goal to rebuild the application and have the
-running Open Liberty server pick them up automatically:
-
-```
-mvn package
-```
-
-To stop the Open Liberty server, run the Maven `liberty:stop-server` goal:
-
-```
-mvn liberty:stop-server
-```
+include::{common-includes}/mvnpackage.adoc[]
 
 
 // =================================================================================================
@@ -203,7 +163,7 @@ mvn liberty:stop-server
 
 == Testing the inventory application
 
-While you can test your application manually, you should rely on automated tests since they will trigger
+While you can test your application manually, you should rely on automated tests since they trigger
 a failure whenever a code change introduces a defect.
 Since the application is a RESTful web service application, you can use
 JUnit and the RESTful web service Client API to write tests.
@@ -245,21 +205,7 @@ You can find complete Javadocs for these in the following `finish` directory for
 
 === Running the tests
 
-// include::{common-includes}/mvnverify.adoc[]
-
-If the server is still running from the previous steps, stop it first using the Maven `liberty:stop-server` goal:
-
-```
-mvn liberty:stop-server
-```
-
-Then, verify that the tests pass using the Maven `verify` goal:
-
-```
-mvn verify
-```
-
-It may take some time before build is complete. If the tests pass, you will see an output similar to the following:
+include::{common-includes}/mvnverify.adoc[]
 
 [source, role="no_copy"]
 ----
@@ -275,8 +221,8 @@ Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
 ----
 
 To see whether the tests detect a failure, change the endpoint for the `inventory` service in
-the `src/main/java/io/openliberty/guides/inventory/InventoryResource.java` directory to something else, then
-run the Maven build again. You will see a test failure occur.
+the `src/main/java/io/openliberty/guides/inventory/InventoryResource.java` file to something else, then
+run the Maven build again. You see a test failure occur.
 
 
 == Great work! You're done!

@@ -26,7 +26,7 @@ import io.openliberty.guides.inventory.model.InventoryList;
 // tag::RequestScoped[]
 @RequestScoped
 // end::RequestScoped[]
-@Path("systems")
+@Path("/systems")
 public class InventoryResource {
 
   // tag::Inject[]
@@ -35,7 +35,7 @@ public class InventoryResource {
   // end::Inject[]
 
   @GET
-  @Path("{hostname}")
+  @Path("/{hostname}")
   @Produces(MediaType.APPLICATION_JSON)
   public Response getPropertiesForHost(@PathParam("hostname") String hostname) {
     Properties props = manager.get(hostname);
