@@ -23,7 +23,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 @RequestScoped
-@Path("properties")
+@Path("/properties")
 public class SystemResource {
 
   @GET
