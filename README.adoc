@@ -50,7 +50,10 @@ and dependency injection that is the ability to inject components into an applic
 With CDI, the container does all the daunting work of instantiating dependencies, and
 controlling exactly when and how these components are instantiated and destroyed.
 
-== Getting started
+
+// =================================================================================================
+// Getting started
+// =================================================================================================
 
 include::{common-includes}/gitclone.adoc[]
 
