@@ -10,7 +10,7 @@
 :page-duration: 15 minutes
 :page-releasedate: 2017-12-11
 :page-description: Learn how to use CDI to manage and inject dependencies into RESTful web services.
-:page-tags: ['CDI', 'REST', '@ApplicationScoped', '@RequestScoped', '@Inject']
+:page-tags: ['CDI', 'REST', '@ApplicationScoped', '@RequestScoped', '@Inject', 'MicroProfile', 'Dependency Injection']
 :page-permalink: /guides/{projectid}
 :page-related-guides: ['rest-intro']
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/master
@@ -201,10 +201,9 @@ properties is correctly handled as an error.
 To force these test cases to run in a particular order, put them in a `testSuite()` method and label
 it with a `@Test` annotation so that it automatically runs when your test class run.
 
-Finally, notice that you're using a few helper methods throughout the tests.
-You can find complete Javadocs for these in the following `finish` directory for reference:
-`finish/src/test/java/it/io/openliberty/guides/inventory/EndpointTest.java`.
-
+Finally, a `system` test class in the `src/test/java/it/io/openliberty/guides/system/SystemEndpointTest.java` file,
+has been included for you to test the basic functionality of the `inventory` service.
+If a test failure occurs, then you must have introduced a bug into the code.
 
 === Running the tests
 
@@ -215,12 +214,14 @@ include::{common-includes}/mvnverify.adoc[]
 -------------------------------------------------------
  T E S T S
 -------------------------------------------------------
-Running it.io.openliberty.guides.inventory.EndpointTest
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.128 sec - in it.io.openliberty.guides.inventory.EndpointTest
+Running it.io.openliberty.guides.system.SystemEndpointTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.99 sec - in it.io.openliberty.guides.system.SystemEndpointTest
+Running it.io.openliberty.guides.inventory.InventoryEndpointTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.325 sec - in it.io.openliberty.guides.inventory.InventoryEndpointTest
 
 Results :
 
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0
 ----
 
 To see whether the tests detect a failure, change the endpoint for the `inventory` service in
