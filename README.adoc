@@ -10,7 +10,7 @@
 :page-duration: 15 minutes
 :page-releasedate: 2017-12-11
 :page-description: Learn how to use CDI to manage and inject dependencies into RESTful web services.
-:page-tags: ['CDI', 'REST', '@ApplicationScoped', '@RequestScoped', '@Inject', 'MicroProfile', 'Dependency Injection']
+:page-tags: ['CDI', 'REST', '@ApplicationScoped', '@RequestScoped', '@Inject', 'MicroProfile', 'Dependency Injection', 'microservices']
 :page-permalink: /guides/{projectid}
 :page-related-guides: ['rest-intro']
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/master
