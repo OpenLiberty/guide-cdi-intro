@@ -199,8 +199,8 @@ properties is correctly handled as an error.
 To force these test cases to run in a particular order, put them in a `testSuite()` method and label
 it with a `@Test` annotation so that it automatically runs when your test class run.
 
-Finally, a `system` test class in the `src/test/java/it/io/openliberty/guides/system/SystemEndpointTest.java` file,
-has been included for you to test the basic functionality of the `inventory` service.
+Finally, a `system` test class in the `src/test/java/it/io/openliberty/guides/system/SystemEndpointTest.java` file
+is included for you to test the basic functionality of the `system` service.
 If a test failure occurs, then you must have introduced a bug into the code.
 
 // =================================================================================================
