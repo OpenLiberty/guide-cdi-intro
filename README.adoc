@@ -170,7 +170,7 @@ Since the application is a RESTful web service application, you can use
 JUnit and the RESTful web service Client API to write tests.
 In testing the functionality of the application, the scopes and dependencies are being tested.
 
-Create the test class in the `src/test/java/it/io/openliberty/guides/inventory/EndpointTest.java` file:
+Create the test class in the `src/test/java/it/io/openliberty/guides/inventory/InventoryEndpointTest.java` file:
 
 [source, Java]
 ----
