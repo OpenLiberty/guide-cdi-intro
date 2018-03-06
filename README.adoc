@@ -148,8 +148,6 @@ Your inventory application is now completed.
 // Building the application
 // =================================================================================================
 
-== Building and running the application
-
 include::{common-includes}/mvnbuild.adoc[]
 
 You can find the `inventory` and `system` services at the following URLs:
@@ -176,7 +174,7 @@ Create the test class in the `src/test/java/it/io/openliberty/guides/inventory/E
 
 [source, Java]
 ----
-include::finish/src/test/java/it/io/openliberty/guides/inventory/EndpointTest.java[tags=**;!copyright;!javadoc]
+include::finish/src/test/java/it/io/openliberty/guides/inventory/InventoryEndpointTest.java[tags=**;!copyright;!javadoc]
 ----
 
 The `@BeforeClass` annotation is placed on a method that runs before any of the test cases.
@@ -205,7 +203,9 @@ Finally, a `system` test class in the `src/test/java/it/io/openliberty/guides/sy
 has been included for you to test the basic functionality of the `inventory` service.
 If a test failure occurs, then you must have introduced a bug into the code.
 
-=== Running the tests
+// =================================================================================================
+// Running the tests
+// =================================================================================================
 
 include::{common-includes}/mvnverify.adoc[]
 
