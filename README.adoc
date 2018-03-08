@@ -201,7 +201,7 @@ it with a `@Test` annotation so that it automatically runs when your test class 
 
 Finally, a `system` test class in the `src/test/java/it/io/openliberty/guides/system/SystemEndpointTest.java` file
 is included for you to test the basic functionality of the `system` service.
-If a test failure occurs, then you must have introduced a bug into the code.
+If a test failure occurs, then you might have introduced a bug into the code.
 
 // =================================================================================================
 // Running the tests
