@@ -9,20 +9,21 @@
 :page-layout: guide
 :page-duration: 15 minutes
 :page-releasedate: 2017-12-11
-:page-description: Learn how to use CDI to manage and inject dependencies into RESTful web services.
+:page-description: Learn how to use Contexts and Dependency Injection to manage and inject dependencies into microservices.
 :page-tags: ['CDI', 'REST', '@ApplicationScoped', '@RequestScoped', '@Inject', 'MicroProfile', 'Dependency Injection', 'microservices']
 :page-permalink: /guides/{projectid}
 :page-related-guides: ['rest-intro']
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/master
 :source-highlighter: prettify
 :figure-caption!:
-= Handling dependencies with RESTful web services
+= Injecting dependencies into microservices
 
-Learn how to use Contexts and Dependency Injection to manage and inject dependencies into RESTful web services.
+Learn how to use Contexts and Dependency Injection to manage and inject dependencies into microservices.
 
 == What you'll learn
 
-You will learn how to use CDI in a simple inventory management application to manage scopes and inject dependencies.
+You will learn how to use Contexts and Dependency Injection (CDI) in a simple inventory management application
+to manage scopes and inject dependencies.
 
 The application that you will be working with is an `inventory` service,
 which stores the information about various JVMs that run on different systems.
