@@ -31,7 +31,7 @@ Whenever a request is made to the `inventory` service to retrieve the JVM
 system properties of a particular host, the `inventory` service communicates with the `system`
 service on that host to get these system properties. The system properties are then stored and returned.
 
-You will use scopes to bound objects in this application to their well-defined contexts.
+You will use scopes to bind objects in this application to their well-defined contexts.
 CDI provides a variety of scopes for you to work with and while you will not use all of them in this guide,
 there is one for almost every scenario that you may encounter. Scopes are defined by using CDI annotations.
 You will also use dependency injection to inject one bean into another to make use of its functionalities.
