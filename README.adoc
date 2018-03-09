@@ -66,6 +66,7 @@ To try out the application, first navigate to the `finish` directory and then ru
 Maven goals to build the application and run it inside Open Liberty:
 
 ```
+cd finish
 mvn install liberty:start-server
 ```
 
