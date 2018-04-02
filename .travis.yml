@@ -8,9 +8,15 @@ jdk:
 env:
   - TERM=dumb
 
+notifications:
+  email:
+    recipients:
+      - evelinec@ca.ibm.com
+    on_success: never # default: change
+    on_failure: always # default: always
   
 before_install:
  - cd finish
 
 
-install: mvn install clean
+install: mvn clean install
