@@ -9,26 +9,20 @@
  * Contributors:
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
- // end::copyright[]
-package io.openliberty.guides.system;
+// end::copyright[]
+// tag::exception[]
+package io.openliberty.guides.inventory.client;
 
-import java.util.Properties;
+public class UnknownUrlException extends Exception {
 
-// CDI
-import javax.enterprise.context.RequestScoped;
-import javax.ws.rs.GET;
-// JAX-RS
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
+  private static final long serialVersionUID = 1L;
 
-@RequestScoped
-@Path("/properties")
-public class SystemResource {
+  public UnknownUrlException() {
+    super();
+  }
 
-  @GET
-  @Produces(MediaType.APPLICATION_JSON)
-  public Properties getProperties() {
-    return System.getProperties();
-  } 
+  public UnknownUrlException(String message) {
+    super(message);
+  }
 }
+// end::exception[]
