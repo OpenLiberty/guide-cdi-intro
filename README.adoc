@@ -93,7 +93,7 @@ You will use CDI to inject dependencies into the inventory manager application a
 
 === Managing scopes and contexts
 
-Before you begin, navigate to the `start` directory.
+Navigate to the `start` directory to begin.
 
 Create the inventory manager class in the `src/main/java/io/openliberty/guides/inventory/InventoryManager.java` file:
 
