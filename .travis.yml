@@ -4,9 +4,6 @@ language: java
 
 jdk:
   - oraclejdk8
-  
-before_install:
- - cd finish
 
 notifications:
   email:
@@ -14,5 +11,8 @@ notifications:
       - evelinec@ca.ibm.com
     on_success: always # default: change
     on_failure: always # default: always
+
+before_install:
+ - cd finish
 
 install: mvn clean install
