@@ -8,4 +8,11 @@ jdk:
 before_install:
  - cd finish
 
+notifications:
+  email:
+    recipients:
+      - evelinec@ca.ibm.com
+    on_success: always # default: change
+    on_failure: always # default: always
+
 install: mvn clean install
