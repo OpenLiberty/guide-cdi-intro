@@ -11,6 +11,10 @@ notifications:
       - evelinec@ca.ibm.com
     on_success: always # default: change
     on_failure: always # default: always
+    
+  slack: ibm-cloud:ZdQikj3kvG2RcVpcgFkvD6RZ
+    on_success: always # default: change
+    on_failure: always # default: always
 
 before_install:
  - cd finish
