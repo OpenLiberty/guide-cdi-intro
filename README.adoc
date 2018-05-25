@@ -85,7 +85,6 @@ After you are done checking out the application, stop the Open Liberty server:
 mvn liberty:stop-server
 ```
 
-Now, navigate back to the `start` directory to begin.
 
 
 == Handling dependencies in the application
@@ -93,6 +92,8 @@ Now, navigate back to the `start` directory to begin.
 You will use CDI to inject dependencies into the inventory manager application and learn how to manage the life cycles of your objects.
 
 === Managing scopes and contexts
+
+Navigate to the `start` directory to begin.
 
 Create the inventory manager class in the `src/main/java/io/openliberty/guides/inventory/InventoryManager.java` file:
 
