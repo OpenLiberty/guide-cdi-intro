@@ -158,7 +158,7 @@ You can find the `inventory` and `system` services at the following URLs:
 - http://localhost:9080/inventory/systems
 - http://localhost:9080/system/properties
 
-include::{common-includes}/mvnpackage.adoc[]
+include::{common-includes}/mvncompile.adoc[]
 
 
 // =================================================================================================
