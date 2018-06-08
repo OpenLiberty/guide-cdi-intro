@@ -16,9 +16,12 @@
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/master
 :source-highlighter: prettify
 :figure-caption!:
+:repo-description: Visit the https://openliberty.io/guides/{projectid}.html[website] for the rendered version of the guide. 
 = Injecting dependencies into microservices
 
 Learn how to use Contexts and Dependency Injection to manage and inject dependencies into microservices.
+
+{repo-description}
 
 == What you'll learn
 
