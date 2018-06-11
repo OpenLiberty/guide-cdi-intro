@@ -16,13 +16,13 @@
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/master
 :source-highlighter: prettify
 :figure-caption!:
-:link-to-published-guide: Visit the Open Liberty website for the published https://openliberty.io/guides/{projectid}.html[guide]. 
+:link-to-published-guide: This repository contains the guide documentation source. To view the guide in its published form, please view it on the https://openliberty.io/guides/{projectid}.html[Open Liberty website]. 
+[.hidden]
+{link-to-published-guide}
+
 = Injecting dependencies into microservices
 
 Learn how to use Contexts and Dependency Injection to manage and inject dependencies into microservices.
-
-[.hidden]
-{link-to-published-guide}
 
 == What you'll learn
 
