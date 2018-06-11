@@ -16,9 +16,13 @@
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/master
 :source-highlighter: prettify
 :figure-caption!:
-:link-to-published-guide: This repository contains the source code for the guide. Visit the  https://openliberty.io/guides/{projectid}.html[Open Liberty website] for the published guide. 
+:link-to-published-guide: This repository contains the source code for the guide. Visit the https://openliberty.io/guides/{projectid}.html[published guide].
+
 [.hidden]
-{link-to-published-guide}
+[frame=all, valign=middle]
+|=========================
+|{link-to-published-guide}
+|=========================
 
 = Injecting dependencies into microservices
 
