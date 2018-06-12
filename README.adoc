@@ -19,10 +19,7 @@
 :link-to-published-guide: This repository contains the source code for the guide. Visit the https://openliberty.io/guides/{projectid}.html[published guide].
 
 [.hidden]
-[frame=all, valign=middle]
-|=========================
-|{link-to-published-guide}
-|=========================
+NOTE: {link-to-published-guide}
 
 = Injecting dependencies into microservices
 
