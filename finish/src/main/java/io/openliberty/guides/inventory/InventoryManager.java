@@ -10,33 +10,44 @@
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
 // end::copyright[]
+// tag::manager[]
 package io.openliberty.guides.inventory;
 
 import java.util.Properties;
-import io.openliberty.guides.inventory.client.SystemClient;
-import io.openliberty.guides.inventory.model.InventoryList;
+import javax.inject.Inject;
 import javax.enterprise.context.ApplicationScoped;
+import org.eclipse.microprofile.rest.client.inject.RestClient;
+import io.openliberty.guides.inventory.model.InventoryList;
+import io.openliberty.guides.inventory.client.SystemClient;
 
-// tag::ApplicationScoped[]
 @ApplicationScoped
-// end::ApplicationScoped[]
 public class InventoryManager {
 
   private InventoryList invList = new InventoryList();
-  private SystemClient systemClient = new SystemClient();
+  private InventoryUtils invUtils = new InventoryUtils();
+
+  @Inject
+  @RestClient
+  private SystemClient defaultRestClient;
 
   public Properties get(String hostname) {
-    systemClient.init(hostname);
 
-    Properties properties = systemClient.getProperties();
+    Properties properties = null;
+    if (hostname.equals("localhost")) {
+      properties = invUtils.getPropertiesWithDefaultHostName(defaultRestClient);
+    } else {
+      properties = invUtils.getPropertiesWithGivenHostName(hostname);
+    }
+
     if (properties != null) {
-        invList.addToInventoryList(hostname, properties);
-      }
+      invList.addToInventoryList(hostname, properties);
+    }
     return properties;
-
   }
 
   public InventoryList list() {
     return invList;
   }
+
 }
+// end::manager[]
