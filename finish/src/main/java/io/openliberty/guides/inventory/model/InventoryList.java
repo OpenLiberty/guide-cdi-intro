@@ -20,15 +20,15 @@ public class InventoryList {
 
   private List<System> systems = new ArrayList<System>();
 
-  public synchronized List<System> getSystems() {
+  public List<System> getSystems() {
     return systems;
   }
 
-  public synchronized int getTotal() {
+  public int getTotal() {
     return systems.size();
   }
 
-  public synchronized void addToInventoryList(String hostname, Properties systemProps) {
+  public void addToInventoryList(String hostname, Properties systemProps) {
     Properties props = new Properties();
     props.setProperty("os.name", systemProps.getProperty("os.name"));
     props.setProperty("user.name", systemProps.getProperty("user.name"));
