@@ -133,7 +133,7 @@ also be application-scoped, request scope is short-lived and is therefore ideal 
 Refer to the `inventory` resource class you created above:
 `src/main/java/io/openliberty/guides/inventory/InventoryResource.java`.
 
-The @Inject annotation indicates a dependency injection.
+The `@Inject` annotation indicates a dependency injection.
 You are injecting your `InventoryManager` bean into the `InventoryResource` class.
 This injects the bean in its specified context (application-scoped) and makes all of its functionalities
 available without the need of instantiating it yourself.
