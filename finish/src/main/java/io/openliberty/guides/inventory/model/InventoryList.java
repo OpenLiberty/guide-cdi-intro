@@ -14,16 +14,14 @@ package io.openliberty.guides.inventory.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Properties;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class InventoryList {
 
-  private Map<String, System> systems = new ConcurrentHashMap<>();
+  private List<System> systems = new ArrayList<System>();
 
   public List<System> getSystems() {
-    return new ArrayList<System>(systems.values());
+    return systems;
   }
 
   public int getTotal() {
@@ -34,7 +32,10 @@ public class InventoryList {
     Properties props = new Properties();
     props.setProperty("os.name", systemProps.getProperty("os.name"));
     props.setProperty("user.name", systemProps.getProperty("user.name"));
-    systems.putIfAbsent(hostname, new System(hostname, props));
+
+    System host = new System(hostname, props);
+    if (!systems.contains(host))
+      systems.add(host);
   }
 
   class System {
