@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Properties;
 import io.openliberty.guides.inventory.client.SystemClient;
 import io.openliberty.guides.inventory.model.InventoryList;
-import io.openliberty.guides.inventory.model.SystemModel;
+import io.openliberty.guides.inventory.model.SystemData;
 import javax.enterprise.context.ApplicationScoped;
 
 // tag::ApplicationScoped[]
@@ -26,7 +26,7 @@ import javax.enterprise.context.ApplicationScoped;
 // end::ApplicationScoped[]
 public class InventoryManager {
 
-  private List<SystemModel> systems = Collections.synchronizedList(new ArrayList<>());
+  private List<SystemData> systems = Collections.synchronizedList(new ArrayList<>());
   private SystemClient systemClient = new SystemClient();
 
   public Properties get(String hostname) {
@@ -39,7 +39,7 @@ public class InventoryManager {
     props.setProperty("os.name", systemProps.getProperty("os.name"));
     props.setProperty("user.name", systemProps.getProperty("user.name"));
 
-    SystemModel system = new SystemModel(hostname, props);
+    SystemData system = new SystemData(hostname, props);
     if (!systems.contains(system)) {
       systems.add(system);
     }

@@ -16,13 +16,13 @@ import java.util.List;
 
 public class InventoryList {
 
-  private List<SystemModel> systems;
+  private List<SystemData> systems;
 
-  public InventoryList(List<SystemModel> systems) {
+  public InventoryList(List<SystemData> systems) {
     this.systems = systems;
   }
 
-  public List<SystemModel> getSystems() {
+  public List<SystemData> getSystems() {
     return systems;
   }
 
