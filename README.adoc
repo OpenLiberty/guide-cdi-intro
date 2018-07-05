@@ -105,8 +105,8 @@ Create the inventory manager class in the `src/main/java/io/openliberty/guides/i
 include::finish/src/main/java/io/openliberty/guides/inventory/InventoryManager.java[tags=**;!copyright;]
 ----
 
-This bean contains two simple functions. The `get()` function is for retrieving entries from calling the `system` service,
-and then add it to the inventory list.
+This bean contains three simple functions. The `get()` function is for retrieving entries from calling the `system` service.
+The `add()` function is for adding entries to the inventory.
 The `list()` function is for listing all the entries currently stored in the inventory.
 
 This bean must be persistent between all the clients, which means multiple clients need to share the same instance.
