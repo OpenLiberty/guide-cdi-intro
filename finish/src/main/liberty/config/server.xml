@@ -1,12 +1,1 @@
-<server description="Sample Liberty server">
-
-  <featureManager>
-    <feature>jaxrs-2.0</feature>
-    <feature>jsonp-1.0</feature>
-    <feature>cdi-1.2</feature>
-  </featureManager>
-
-  <httpEndpoint host="*" httpPort="${default.http.port}" httpsPort="${default.https.port}" id="defaultHttpEndpoint"/>
-
-  <webApplication location="cdi-intro.war" contextRoot="/"/>
-</server>
+PHNlcnZlciBkZXNjcmlwdGlvbj0iU2FtcGxlIExpYmVydHkgc2VydmVyIj4KCiAgPGZlYXR1cmVNYW5hZ2VyPgogICAgPGZlYXR1cmU+amF4cnMtMi4xPC9mZWF0dXJlPgogICAgPGZlYXR1cmU+anNvbnAtMS4xPC9mZWF0dXJlPgogICAgPGZlYXR1cmU+Y2RpLTIuMDwvZmVhdHVyZT4KICA8L2ZlYXR1cmVNYW5hZ2VyPgoKICA8aHR0cEVuZHBvaW50IGhvc3Q9IioiIGh0dHBQb3J0PSIke2RlZmF1bHQuaHR0cC5wb3J0fSIgaHR0cHNQb3J0PSIke2RlZmF1bHQuaHR0cHMucG9ydH0iIGlkPSJkZWZhdWx0SHR0cEVuZHBvaW50Ii8+CgogIDx3ZWJBcHBsaWNhdGlvbiBsb2NhdGlvbj0iY2RpLWludHJvLndhciIgY29udGV4dFJvb3Q9Ii8iLz4KPC9zZXJ2ZXI+Cg==
