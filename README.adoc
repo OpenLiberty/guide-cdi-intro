@@ -104,7 +104,7 @@ Navigate to the `start` directory to begin.
 Create the inventory manager class in the `src/main/java/io/openliberty/guides/inventory/InventoryManager.java` file:
 
 InventoryManager.java
-[source, Java, role='code_column']
+[source, Java, linenums, role='code_column']
 ----
 include::finish/src/main/java/io/openliberty/guides/inventory/InventoryManager.java[tags=**;!copyright;]
 ----
@@ -122,7 +122,7 @@ it is injected into the application.
 Next, create the `inventory` resource class in the `src/main/java/io/openliberty/guides/inventory/InventoryResource.java` file:
 
 InventoryResource.java
-[source, Java, role='code_column']
+[source, Java, linenums, role='code_column']
 ----
 include::finish/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[tags=**;!copyright]
 ----
@@ -166,6 +166,7 @@ You can find the `inventory` and `system` services at the following URLs:
 - http://localhost:9080/inventory/systems
 - http://localhost:9080/system/properties
 
+[role='command']
 include::{common-includes}/mvncompile.adoc[]
 
 
@@ -184,7 +185,7 @@ In testing the functionality of the application, the scopes and dependencies are
 Create the test class in the `src/test/java/it/io/openliberty/guides/inventory/InventoryEndpointTest.java` file:
 
 InventoryEndpointTest.java
-[source, Java, role='code_column']
+[source, Java, linenums, role='code_column']
 ----
 include::finish/src/test/java/it/io/openliberty/guides/inventory/InventoryEndpointTest.java[tags=**;!copyright;!javadoc]
 ----
@@ -269,3 +270,5 @@ You can continue to try one of the related guides, which demonstrate new technol
 expand on top what you built in this guide.
 
 include::{common-includes}/finish.adoc[]
+
+include::https://raw.githubusercontent.com/OpenLiberty/guides-common/multipane/attribution.adoc[subs="attributes"]
