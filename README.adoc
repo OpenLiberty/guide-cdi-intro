@@ -6,7 +6,7 @@
 // Contributors:
 //   IBM Corporation
 :projectid: cdi-intro
-:page-layout: guide
+:page-layout: guide-multipane
 :page-duration: 15 minutes
 :page-releasedate: 2018-03-09
 :page-description: Learn how to use Contexts and Dependency Injection to manage and inject dependencies into microservices.
@@ -59,6 +59,7 @@ controlling exactly when and how these components are instantiated and destroyed
 // Getting started
 // =================================================================================================
 
+role=['command']
 include::{common-includes}/gitclone.adoc[]
 
 === Try what you'll build
@@ -68,6 +69,7 @@ The `finish` directory in the root of this guide contains the finished inventory
 To try out the application, first navigate to the `finish` directory and then run the following
 Maven goals to build the application and run it inside Open Liberty:
 
+[role='command']
 ```
 cd finish
 mvn install liberty:start-server
@@ -84,6 +86,7 @@ the `system` service.
 
 After you are done checking out the application, stop the Open Liberty server:
 
+[role='command']
 ```
 mvn liberty:stop-server
 ```
@@ -100,7 +103,8 @@ Navigate to the `start` directory to begin.
 
 Create the inventory manager class in the `src/main/java/io/openliberty/guides/inventory/InventoryManager.java` file:
 
-[source, Java]
+InventoryManager.java
+[source, Java, role='code_column']
 ----
 include::finish/src/main/java/io/openliberty/guides/inventory/InventoryManager.java[tags=**;!copyright;]
 ----
@@ -111,14 +115,14 @@ The `list()` function is for listing all the entries currently stored in the inv
 
 This bean must be persistent between all the clients, which means multiple clients need to share the same instance.
 To achieve this by using CDI, you can simply add the `@ApplicationScoped` annotation on the class.
-This annotation indicates that this particular
-bean is to be initialized once per application.
+This annotation indicates that this particular bean is to be initialized once per application.
 By making it application-scoped, the container ensures that the same instance of the bean is used whenever
 it is injected into the application.
 
 Next, create the `inventory` resource class in the `src/main/java/io/openliberty/guides/inventory/InventoryResource.java` file:
 
-[source, Java]
+InventoryResource.java
+[source, Java, role='code_column']
 ----
 include::finish/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[tags=**;!copyright]
 ----
@@ -154,6 +158,7 @@ Your inventory application is now completed.
 // Building the application
 // =================================================================================================
 
+[role='command']
 include::{common-includes}/mvnbuild.adoc[]
 
 You can find the `inventory` and `system` services at the following URLs:
@@ -178,7 +183,8 @@ In testing the functionality of the application, the scopes and dependencies are
 
 Create the test class in the `src/test/java/it/io/openliberty/guides/inventory/InventoryEndpointTest.java` file:
 
-[source, Java]
+InventoryEndpointTest.java
+[source, Java, role='code_column']
 ----
 include::finish/src/test/java/it/io/openliberty/guides/inventory/InventoryEndpointTest.java[tags=**;!copyright;!javadoc]
 ----
@@ -195,12 +201,31 @@ method simply destroys this client instance.
 
 See the following descriptions of the test cases:
 
+highlight_lines=70-82
+[role='hotspot']
+----
 - `testEmptyInventory()` verifies that the inventory is initially empty when the server first starts up.
+----
+
+highlight_lines=86-106
+[role='hotspot']
+----
 - `testHostRegistration()` verifies that a host is correctly added to the inventory.
+----
+
+highlight_lines=110-136
+[role='hotspot']
+----
 - `testSystemPropertiesMatch()` verifies that the JVM system properties returned by the `system` service match
 the ones stored in the `inventory` service.
+----
+
+highlight_lines=140-155
+[role='hotspot']
+----
 - `testUnknownHost()` verifies that an unknown host or a host that does not expose their JVM system
 properties is correctly handled as an error.
+----
 
 To force these test cases to run in a particular order, put them in a `testSuite()` method and label
 it with a `@Test` annotation so that it automatically runs when your test class run.
@@ -213,6 +238,7 @@ If a test failure occurs, then you might have introduced a bug into the code.
 // Running the tests
 // =================================================================================================
 
+[role='command']
 include::{common-includes}/mvnverify.adoc[]
 
 [source, role="no_copy"]
