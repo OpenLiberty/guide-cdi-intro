@@ -95,7 +95,7 @@ mvn liberty:stop-server
 
 == Handling dependencies in the application
 
-rYou will use CDI to inject dependencies into the inventory manager application and learn how to manage the life cycles of your objects.
+You will use CDI to inject dependencies into the inventory manager application and learn how to manage the life cycles of your objects.
 
 === Managing scopes and contexts
 
@@ -106,7 +106,7 @@ Create the inventory manager class in the `src/main/java/io/openliberty/guides/i
 InventoryManager.java
 [source, Java, linenums, role='code_column']
 ----
-include::finish/src/main/java/io/openliberty/guides/inventory/InventoryManager.java[tags=**;!copyright;]
+include::finish/src/main/java/io/openliberty/guides/inventory/InventoryManager.java[tags=**;!copyright]
 ----
 
 This bean contains three simple functions. The `get()` function is for retrieving entries from calling the `system` service.
@@ -202,26 +202,26 @@ method simply destroys this client instance.
 
 See the following descriptions of the test cases:
 
-highlight_lines=70-82
+highlight_lines=53-65
 [role='hotspot']
 ----
 `testEmptyInventory()` verifies that the inventory is initially empty when the server first starts up.
 ----
 
-highlight_lines=86-106
+highlight_lines=67-87
 [role='hotspot']
 ----
 `testHostRegistration()` verifies that a host is correctly added to the inventory.
 ----
 
-highlight_lines=110-136
+highlight_lines=89-115
 [role='hotspot']
 ----
 `testSystemPropertiesMatch()` verifies that the JVM system properties returned by the `system` service match
 the ones stored in the `inventory` service.
 ----
 
-highlight_lines=140-155
+highlight_lines=117-132
 [role='hotspot']
 ----
 `testUnknownHost()` verifies that an unknown host or a host that does not expose their JVM system
