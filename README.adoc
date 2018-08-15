@@ -59,7 +59,7 @@ controlling exactly when and how these components are instantiated and destroyed
 // Getting started
 // =================================================================================================
 
-role=['command']
+[role='command']
 include::{common-includes}/gitclone.adoc[]
 
 === Try what you'll build
@@ -95,7 +95,7 @@ mvn liberty:stop-server
 
 == Handling dependencies in the application
 
-You will use CDI to inject dependencies into the inventory manager application and learn how to manage the life cycles of your objects.
+rYou will use CDI to inject dependencies into the inventory manager application and learn how to manage the life cycles of your objects.
 
 === Managing scopes and contexts
 
@@ -205,26 +205,26 @@ See the following descriptions of the test cases:
 highlight_lines=70-82
 [role='hotspot']
 ----
-- `testEmptyInventory()` verifies that the inventory is initially empty when the server first starts up.
+`testEmptyInventory()` verifies that the inventory is initially empty when the server first starts up.
 ----
 
 highlight_lines=86-106
 [role='hotspot']
 ----
-- `testHostRegistration()` verifies that a host is correctly added to the inventory.
+`testHostRegistration()` verifies that a host is correctly added to the inventory.
 ----
 
 highlight_lines=110-136
 [role='hotspot']
 ----
-- `testSystemPropertiesMatch()` verifies that the JVM system properties returned by the `system` service match
+`testSystemPropertiesMatch()` verifies that the JVM system properties returned by the `system` service match
 the ones stored in the `inventory` service.
 ----
 
 highlight_lines=140-155
 [role='hotspot']
 ----
-- `testUnknownHost()` verifies that an unknown host or a host that does not expose their JVM system
+`testUnknownHost()` verifies that an unknown host or a host that does not expose their JVM system
 properties is correctly handled as an error.
 ----
 
