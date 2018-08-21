@@ -99,7 +99,8 @@ You will use CDI to inject dependencies into the inventory manager application a
 
 Navigate to the `start` directory to begin.
 
-[role="code_command"]
+highlight_lines=12-37
+[role="code_command hotspot"]
 ----
 Create the inventory manager class in the src/main/java/io/openliberty/guides/inventory/InventoryManager.java file:
 ----
@@ -120,9 +121,10 @@ This annotation indicates that this particular bean is to be initialized once pe
 By making it application-scoped, the container ensures that the same instance of the bean is used whenever
 it is injected into the application.
 
-[role="code_command"]
+highlight_lines=14-44
+[role="code_command hotspot"]
 ----
-Next, create the `inventory` resource class in the src/main/java/io/openliberty/guides/inventory/InventoryResource.java file:
+Next, create the `inventory` resource class in the `src/main/java/io/openliberty/guides/inventory/InventoryResource.java` file:
 ----
 
 InventoryResource.java
@@ -186,7 +188,8 @@ Since the application is a RESTful web service application, you can use
 JUnit and the RESTful web service Client API to write tests.
 In testing the functionality of the application, the scopes and dependencies are being tested.
 
-[role="code_command"]
+highlight_lines=18-159
+[role="code_command hotspot"]
 ----
 Create the test class in the `src/test/java/it/io/openliberty/guides/inventory/InventoryEndpointTest.java` file:
 ----
@@ -253,7 +256,7 @@ If a test failure occurs, then you might have introduced a bug into the code.
 [role='command']
 include::{common-includes}/mvnverify.adoc[]
 
-[source, role="no_copy"]
+[source]
 ----
 -------------------------------------------------------
  T E S T S
