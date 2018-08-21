@@ -91,8 +91,6 @@ After you are done checking out the application, stop the Open Liberty server:
 mvn liberty:stop-server
 ```
 
-
-
 == Handling dependencies in the application
 
 You will use CDI to inject dependencies into the inventory manager application and learn how to manage the life cycles of your objects.
@@ -101,7 +99,10 @@ You will use CDI to inject dependencies into the inventory manager application a
 
 Navigate to the `start` directory to begin.
 
+[role="code_command"]
+----
 Create the inventory manager class in the `src/main/java/io/openliberty/guides/inventory/InventoryManager.java` file:
+----
 
 InventoryManager.java
 [source, Java, linenums, role='code_column']
@@ -119,7 +120,10 @@ This annotation indicates that this particular bean is to be initialized once pe
 By making it application-scoped, the container ensures that the same instance of the bean is used whenever
 it is injected into the application.
 
+[role="code_command"]
+----
 Next, create the `inventory` resource class in the `src/main/java/io/openliberty/guides/inventory/InventoryResource.java` file:
+----
 
 InventoryResource.java
 [source, Java, linenums, role='code_column']
@@ -182,7 +186,10 @@ Since the application is a RESTful web service application, you can use
 JUnit and the RESTful web service Client API to write tests.
 In testing the functionality of the application, the scopes and dependencies are being tested.
 
+[role="code_command"]
+----
 Create the test class in the `src/test/java/it/io/openliberty/guides/inventory/InventoryEndpointTest.java` file:
+----
 
 InventoryEndpointTest.java
 [source, Java, linenums, role='code_column']
