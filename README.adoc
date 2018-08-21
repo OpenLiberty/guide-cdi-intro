@@ -101,7 +101,7 @@ Navigate to the `start` directory to begin.
 
 [role="code_command"]
 ----
-Create the inventory manager class in the `src/main/java/io/openliberty/guides/inventory/InventoryManager.java` file:
+Create the inventory manager class in the src/main/java/io/openliberty/guides/inventory/InventoryManager.java file:
 ----
 
 InventoryManager.java
@@ -122,7 +122,7 @@ it is injected into the application.
 
 [role="code_command"]
 ----
-Next, create the `inventory` resource class in the `src/main/java/io/openliberty/guides/inventory/InventoryResource.java` file:
+Next, create the `inventory` resource class in the src/main/java/io/openliberty/guides/inventory/InventoryResource.java file:
 ----
 
 InventoryResource.java
@@ -212,28 +212,32 @@ See the following descriptions of the test cases:
 highlight_lines=53-65
 [role='hotspot']
 ----
-`testEmptyInventory()` verifies that the inventory is initially empty when the server first starts up.
+testEmptyInventory()
 ----
+verifies that the inventory is initially empty when the server first starts up.
 
 highlight_lines=67-87
 [role='hotspot']
 ----
-`testHostRegistration()` verifies that a host is correctly added to the inventory.
+testHostRegistration() 
 ----
+verifies that a host is correctly added to the inventory.
 
 highlight_lines=89-115
 [role='hotspot']
 ----
-`testSystemPropertiesMatch()` verifies that the JVM system properties returned by the `system` service match
-the ones stored in the `inventory` service.
+testSystemPropertiesMatch()
 ----
+verifies that the JVM system properties returned by the `system` service match
+the ones stored in the `inventory` service.
 
 highlight_lines=117-132
 [role='hotspot']
 ----
-`testUnknownHost()` verifies that an unknown host or a host that does not expose their JVM system
-properties is correctly handled as an error.
+testUnknownHost()
 ----
+verifies that an unknown host or a host that does not expose their JVM system
+properties is correctly handled as an error.
 
 To force these test cases to run in a particular order, put them in a `testSuite()` method and label
 it with a `@Test` annotation so that it automatically runs when your test class run.
