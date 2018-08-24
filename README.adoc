@@ -9,6 +9,9 @@
 :page-layout: guide
 :page-duration: 15 minutes
 :page-releasedate: 2018-03-09
+:page-guide-category: microprofile
+:page-essential: true
+:page-essential-order: 2
 :page-description: Learn how to use Contexts and Dependency Injection to manage and inject dependencies into microservices.
 :page-tags: ['CDI', 'REST', '@ApplicationScoped', '@RequestScoped', '@Inject', 'MicroProfile', 'Dependency Injection', 'microservices']
 :page-permalink: /guides/{projectid}
