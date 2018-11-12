@@ -99,8 +99,7 @@ You will use CDI to inject dependencies into the inventory manager application a
 
 Navigate to the `start` directory to begin.
 
-highlight_lines=12-37
-[role="code_command hotspot"]
+[role="code_command hotspot=12-37", subs="quotes"]
 ----
 Create the inventory manager class in the src/main/java/io/openliberty/guides/inventory/InventoryManager.java file:
 ----
@@ -121,8 +120,7 @@ This annotation indicates that this particular bean is to be initialized once pe
 By making it application-scoped, the container ensures that the same instance of the bean is used whenever
 it is injected into the application.
 
-highlight_lines=14-44
-[role="code_command hotspot"]
+[role="code_command hotspot=14-44", subs="quotes"]
 ----
 Next, create the `inventory` resource class in the `src/main/java/io/openliberty/guides/inventory/InventoryResource.java` file:
 ----
@@ -188,8 +186,7 @@ Since the application is a RESTful web service application, you can use
 JUnit and the RESTful web service Client API to write tests.
 In testing the functionality of the application, the scopes and dependencies are being tested.
 
-highlight_lines=18-159
-[role="code_command hotspot"]
+[role="code_command hotspot=18-159", subs="quotes"]
 ----
 Create the test class in the `src/test/java/it/io/openliberty/guides/inventory/InventoryEndpointTest.java` file:
 ----
@@ -213,29 +210,26 @@ method simply destroys this client instance.
 See the following descriptions of the test cases:
 
 highlight_lines=53-65
-[role='hotspot']
+[role="code_command hotspot=53-65"]
 ----
 testEmptyInventory()
 ----
 verifies that the inventory is initially empty when the server first starts up.
 
-highlight_lines=67-87
-[role='hotspot']
+[role="code_command hotspot=67-87"]
 ----
 testHostRegistration() 
 ----
 verifies that a host is correctly added to the inventory.
 
-highlight_lines=89-115
-[role='hotspot']
+[role="code_command hotspot=89-115"]
 ----
 testSystemPropertiesMatch()
 ----
 verifies that the JVM system properties returned by the `system` service match
 the ones stored in the `inventory` service.
 
-highlight_lines=117-132
-[role='hotspot']
+[role="code_command hotspot=117-132"]
 ----
 testUnknownHost()
 ----
