@@ -99,9 +99,11 @@ You will use CDI to inject dependencies into the inventory manager application a
 
 Navigate to the `start` directory to begin.
 
+Create the inventory manager class in the:
+
 [role="code_command hotspot=12-37", subs="quotes"]
 ----
-Create the inventory manager class in the src/main/java/io/openliberty/guides/inventory/InventoryManager.java file:
+ src/main/java/io/openliberty/guides/inventory/InventoryManager.java file.
 ----
 
 InventoryManager.java
@@ -122,10 +124,10 @@ it is injected into the application.
 
 [role="code_command hotspot=14-44", subs="quotes"]
 ----
-Next, create the `inventory` resource class in the `src/main/java/io/openliberty/guides/inventory/InventoryResource.java` file:
+Next, create the `inventory` resource class.
 ----
 
-InventoryResource.java
+src/main/java/io/openliberty/guides/inventory/InventoryResource.java
 [source, Java, linenums, role='code_column']
 ----
 include::finish/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[tags=**;!copyright]
