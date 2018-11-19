@@ -211,7 +211,7 @@ method simply destroys this client instance.
 
 See the following descriptions of the test cases:
 
-highlight_lines=53-65
+
 [role="code_command hotspot=53-65"]
 ----
 testEmptyInventory()
