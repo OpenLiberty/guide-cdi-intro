@@ -99,13 +99,11 @@ You will use CDI to inject dependencies into the inventory manager application a
 
 Navigate to the `start` directory to begin.
 
-Create the inventory manager class in the:
-
+*Create the inventory manager class in the:*
 [role="code_command hotspot=12-37", subs="quotes"]
 ----
- src/main/java/io/openliberty/guides/inventory/InventoryManager.java file.
+ `src/main/java/io/openliberty/guides/inventory/InventoryManager.java` file.
 ----
-
 InventoryManager.java
 [source, Java, linenums, role='code_column']
 ----
@@ -124,10 +122,9 @@ it is injected into the application.
 
 [role="code_command hotspot=14-44", subs="quotes"]
 ----
-Next, create the `inventory` resource class.
+Next, create the `inventory` resource class `src/main/java/io/openliberty/guides/inventory/InventoryResource.java`
 ----
-
-src/main/java/io/openliberty/guides/inventory/InventoryResource.java
+InventoryResource.java
 [source, Java, linenums, role='code_column']
 ----
 include::finish/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[tags=**;!copyright]
@@ -210,8 +207,6 @@ also be registered with a JSON-P provider (`JsrJsonpProvider`) to process JSON r
 method simply destroys this client instance.
 
 See the following descriptions of the test cases:
-
-
 [role="code_command hotspot=53-65"]
 ----
 testEmptyInventory()
