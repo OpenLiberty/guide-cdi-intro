@@ -101,7 +101,8 @@ Navigate to the `start` directory to begin.
 
 [role="code_command hotspot=1-37", subs="quotes"]
 ----
-Create the inventory manager class in the `src/main/java/io/openliberty/guides/inventory/InventoryManager.java` file.
+Create the inventory manager class file.
+`src/main/java/io/openliberty/guides/inventory/InventoryManager.java`
 ----
 InventoryManager.java
 [source, Java, linenums, role='code_column']
@@ -121,7 +122,8 @@ it is injected into the application.
 
 [role="code_command hotspot=14-44", subs="quotes"]
 ----
-Next, create the `inventory` resource class `src/main/java/io/openliberty/guides/inventory/InventoryResource.java`
+Create the `inventory` resource class file.
+`src/main/java/io/openliberty/guides/inventory/InventoryResource.java`
 ----
 InventoryResource.java
 [source, Java, linenums, role='code_column']
@@ -186,7 +188,8 @@ In testing the functionality of the application, the scopes and dependencies are
 
 [role="code_command hotspot=18-159", subs="quotes"]
 ----
-Create the test class in the `src/test/java/it/io/openliberty/guides/inventory/InventoryEndpointTest.java` file:
+Create the test class file.
+`src/test/java/it/io/openliberty/guides/inventory/InventoryEndpointTest.java`
 ----
 
 InventoryEndpointTest.java
