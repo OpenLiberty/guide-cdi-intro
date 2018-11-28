@@ -101,7 +101,7 @@ Navigate to the `start` directory to begin.
 
 [role="code_command hotspot=1-37", subs="quotes"]
 ----
-Create the inventory manager class file.
+Create the `Inventory Manager` class file.
 `src/main/java/io/openliberty/guides/inventory/InventoryManager.java`
 ----
 InventoryManager.java
@@ -122,7 +122,7 @@ it is injected into the application.
 
 [role="code_command hotspot=14-44", subs="quotes"]
 ----
-Create the `inventory` resource class file.
+Create the `Inventory Reource` class file.
 `src/main/java/io/openliberty/guides/inventory/InventoryResource.java`
 ----
 InventoryResource.java
@@ -209,30 +209,15 @@ also be registered with a JSON-P provider (`JsrJsonpProvider`) to process JSON r
 method simply destroys this client instance.
 
 See the following descriptions of the test cases:
-[role="code_command hotspot=53-65"]
-----
-testEmptyInventory()
-----
-verifies that the inventory is initially empty when the server first starts up.
 
-[role="code_command hotspot=67-87"]
-----
-testHostRegistration() 
-----
-verifies that a host is correctly added to the inventory.
+[hotspot="53-65"]`testEmptyInventory()` verifies that the inventory is initially empty when the server first starts up.
 
-[role="code_command hotspot=89-115"]
-----
-testSystemPropertiesMatch()
-----
-verifies that the JVM system properties returned by the `system` service match
+[hotspot="67-87"]`testHostRegistration()` verifies that a host is correctly added to the inventory.
+
+[hotspot="89-115"]`testSystemPropertiesMatch()` verifies that the JVM system properties returned by the `system` service match
 the ones stored in the `inventory` service.
 
-[role="code_command hotspot=117-132"]
-----
-testUnknownHost()
-----
-verifies that an unknown host or a host that does not expose their JVM system
+[hotspot="117-132"]testUnknownHost() verifies that an unknown host or a host that does not expose their JVM system
 properties is correctly handled as an error.
 
 To force these test cases to run in a particular order, put them in a `testSuite()` method and label
