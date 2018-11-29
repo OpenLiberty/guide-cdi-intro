@@ -13,7 +13,7 @@
 :page-essential: true
 :page-essential-order: 2
 :page-description: Learn how to use Contexts and Dependency Injection to manage and inject dependencies into microservices.
-:page-tags: ['CDI', 'REST', '@ApplicationScoped', '@RequestScoped', '@Inject', 'MicroProfile', 'Dependency Injection', 'microservices']
+:page-tags: ['CDI', 'REST', '@ApplicationScoped', '@RequestScoped', '@Inject', 'MicroProfile', 'Dependency Injection', 'microservices', 'Java EE']
 :page-permalink: /guides/{projectid}
 :page-related-guides: ['rest-intro']
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/master
