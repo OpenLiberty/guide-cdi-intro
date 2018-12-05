@@ -115,7 +115,7 @@ The [hotspot=24-33]`add()` function is for adding entries to the inventory.
 The [hotspot=35-37]`list()` function is for listing all the entries currently stored in the inventory.
 
 This bean must be persistent between all the clients, which means multiple clients need to share the same instance.
-To achieve this by using CDI, you can simply add the [hotspot=11-12]`@ApplicationScoped` annotation on the class.
+To achieve this by using CDI, you can simply add the [hotspot=12]`@ApplicationScoped` annotation on the class.
 This annotation indicates that this particular bean is to be initialized once per application.
 By making it application-scoped, the container ensures that the same instance of the bean is used whenever
 it is injected into the application.
@@ -134,7 +134,7 @@ include::finish/src/main/java/io/openliberty/guides/inventory/InventoryResource.
 The inventory resource is a RESTful service that is served at the `inventory/systems` endpoint. It enables the client to
 communicate with the inventory manager through HTTP methods.
 
-Add the [hotspot=13-14]`@RequestScoped` annotation on the class to indicate that this bean is
+Add the [hotspot=14]`@RequestScoped` annotation on the class to indicate that this bean is
 to be initialized once for every request. In other words, the bean is instantiated when the request
 is received and destroyed when a response is sent back to the client. While this bean can
 also be application-scoped, request scope is short-lived and is therefore ideal for HTTP requests.
@@ -144,12 +144,12 @@ also be application-scoped, request scope is short-lived and is therefore ideal 
 Refer to the `inventory` resource class you created above:
 `src/main/java/io/openliberty/guides/inventory/InventoryResource.java`.
 
-The [hotspot=17-18]`@Inject` annotation indicates a dependency injection.
+The [hotspot=18]`@Inject` annotation indicates a dependency injection.
 You are injecting your `InventoryManager` bean into the `InventoryResource` class.
 This injects the bean in its specified context (application-scoped) and makes all of its functionalities
 available without the need of instantiating it yourself.
-The injected bean can then be invoked directly through the [hotspot=25-26]`manager.get(hostname)`
-and [hotspot=41-42]`manager.list()` function calls.
+The injected bean can then be invoked directly through the [hotspot=26]`manager.get(hostname)`
+and [hotspot=42]`manager.list()` function calls.
 
 Finally, you have a client component `SystemClient` that can be found in `src/main/java/io/openliberty/guides/inventory/client`.
 This class communicates with the `system` service to
@@ -198,11 +198,11 @@ InventoryEndpointTest.java
 include::finish/src/test/java/it/io/openliberty/guides/inventory/InventoryEndpointTest.java[tags=**;!copyright;!javadoc]
 ----
 
-The [hotspot=27-28]`@BeforeClass` annotation is placed on a method that runs before any of the test cases.
+The [hotspot=28]`@BeforeClass` annotation is placed on a method that runs before any of the test cases.
 In this case, the [hotspot=29-32]`oneTimeSetup` method retrieves the port number for the Open Liberty server and builds
 a base URL string that is used throughout the tests.
 
-The [hotspot=33-34]`@Before` and [hotspot=39-40]`@After` annotations are placed on methods that run before and after every test case.
+The [hotspot=34]`@Before` and [hotspot=40]`@After` annotations are placed on methods that run before and after every test case.
 These methods are generally used to perform any setup and teardown tasks. In this case, the [hotspot=35-38]`setup` method
 creates a JAX-RS client, which makes HTTP requests to the `inventory` service. This client must
 also be registered with a JSON-P provider (`JsrJsonpProvider`) to process JSON resources. The [hotspot=41-43]`teardown`
@@ -217,7 +217,7 @@ See the following descriptions of the test cases:
 [hotspot="89-115"]`testSystemPropertiesMatch()` verifies that the JVM system properties returned by the `system` service match
 the ones stored in the `inventory` service.
 
-[hotspot="117-132"]testUnknownHost() verifies that an unknown host or a host that does not expose their JVM system
+[hotspot="117-132"]`testUnknownHost()` verifies that an unknown host or a host that does not expose their JVM system
 properties is correctly handled as an error.
 
 To force these test cases to run in a particular order, put them in a `testSuite()` method and label
