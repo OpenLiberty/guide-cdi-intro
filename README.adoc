@@ -122,7 +122,7 @@ it is injected into the application.
 
 [role="code_command hotspot=14-44", subs="quotes"]
 ----
-Create the `Inventory Reource` class file.
+Create the `Inventory Resource` class file.
 `src/main/java/io/openliberty/guides/inventory/InventoryResource.java`
 ----
 InventoryResource.java
@@ -141,8 +141,7 @@ also be application-scoped, request scope is short-lived and is therefore ideal 
 
 === Injecting a dependency
 
-Refer to the `inventory` resource class you created above:
-`src/main/java/io/openliberty/guides/inventory/InventoryResource.java`.
+Refer to the [hotspot=14-44]`InventoryResource` class you created above.
 
 The [hotspot=18]`@Inject` annotation indicates a dependency injection.
 You are injecting your `InventoryManager` bean into the `InventoryResource` class.
@@ -210,14 +209,14 @@ method simply destroys this client instance.
 
 See the following descriptions of the test cases:
 
-[hotspot="53-65"]`testEmptyInventory()` verifies that the inventory is initially empty when the server first starts up.
+[hotspot=53-65]`testEmptyInventory()` verifies that the inventory is initially empty when the server first starts up.
 
-[hotspot="67-87"]`testHostRegistration()` verifies that a host is correctly added to the inventory.
+[hotspot=67-87]`testHostRegistration()` verifies that a host is correctly added to the inventory.
 
-[hotspot="89-115"]`testSystemPropertiesMatch()` verifies that the JVM system properties returned by the `system` service match
+[hotspot=89-115]`testSystemPropertiesMatch()` verifies that the JVM system properties returned by the `system` service match
 the ones stored in the `inventory` service.
 
-[hotspot="117-132"]`testUnknownHost()` verifies that an unknown host or a host that does not expose their JVM system
+[hotspot=117-132]`testUnknownHost()` verifies that an unknown host or a host that does not expose their JVM system
 properties is correctly handled as an error.
 
 To force these test cases to run in a particular order, put them in a `testSuite()` method and label
