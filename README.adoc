@@ -24,12 +24,11 @@
 [.hidden]
 NOTE: This repository contains the guide documentation source. To view the guide in published form, view it on the https://openliberty.io/guides/{projectid}.html[Open Liberty website].
 
-Learn how to use Contexts and Dependency Injection to manage and inject dependencies into microservices.
+Learn how to use Contexts and Dependency Injection to manage scopes and inject dependencies into microservices.
 
 == What you'll learn
 
-You will learn how to use Contexts and Dependency Injection (CDI) in a simple inventory management application
-to manage scopes and inject dependencies.
+You will learn how to use Contexts and Dependency Injection (CDI) to manage scopes and inject dependencies in a simple inventory management application.
 
 The application that you will be working with is an `inventory` service,
 which stores the information about various JVMs that run on different systems.
@@ -102,9 +101,9 @@ You will use CDI to inject dependencies into the inventory manager application a
 
 Navigate to the `start` directory to begin.
 
-[role="code_command hotspot=1-37", subs="quotes"]
+[role="code_command hotspot=14-32", subs="quotes"]
 ----
-Create the `Inventory Manager` class file.
+Create the `InventoryManager` class.
 `src/main/java/io/openliberty/guides/inventory/InventoryManager.java`
 ----
 InventoryManager.java
@@ -117,15 +116,15 @@ This bean contains three simple functions. The [hotspot=19-22]`get()` function i
 The [hotspot=24-33]`add()` function is for adding entries to the inventory.
 The [hotspot=35-37]`list()` function is for listing all the entries currently stored in the inventory.
 
-This bean must be persistent between all the clients, which means multiple clients need to share the same instance.
-To achieve this by using CDI, you can simply add the [hotspot=12]`@ApplicationScoped` annotation on the class.
+This bean must be persistent between all of the clients, which means multiple clients need to share the same instance.
+To achieve this by using CDI, you can simply add the [hotspot=12]`@ApplicationScoped` annotation onto the class.
 This annotation indicates that this particular bean is to be initialized once per application.
 By making it application-scoped, the container ensures that the same instance of the bean is used whenever
 it is injected into the application.
 
-[role="code_command hotspot=14-44", subs="quotes"]
+[role="code_command hotspot=16-44", subs="quotes"]
 ----
-Create the `Inventory Resource` class file.
+Create the `InventoryResource` class.
 `src/main/java/io/openliberty/guides/inventory/InventoryResource.java`
 ----
 InventoryResource.java
@@ -144,7 +143,7 @@ also be application-scoped, request scope is short-lived and is therefore ideal 
 
 === Injecting a dependency
 
-Refer to the [hotspot=14-44]`InventoryResource` class you created above.
+Refer to the [hotspot=16-44]`InventoryResource` class you created above.
 
 The [hotspot=18]`@Inject` annotation indicates a dependency injection.
 You are injecting your `InventoryManager` bean into the `InventoryResource` class.
@@ -190,7 +189,7 @@ In testing the functionality of the application, the scopes and dependencies are
 
 [role="code_command hotspot=18-159", subs="quotes"]
 ----
-Create the test class file.
+Create the InventoryEndpointTest class.
 `src/test/java/it/io/openliberty/guides/inventory/InventoryEndpointTest.java`
 ----
 
@@ -222,8 +221,8 @@ the ones stored in the `inventory` service.
 [hotspot=117-132]`testUnknownHost()` verifies that an unknown host or a host that does not expose their JVM system
 properties is correctly handled as an error.
 
-To force these test cases to run in a particular order, put them in a `testSuite()` method and label
-it with a `@Test` annotation so that it automatically runs when your test class run.
+To force these test cases to run in a particular order, put them in a [hotspot=46-51]`testSuite()` method and label
+it with a [hotspot=50]`@Test` annotation so that it automatically runs when your test class run.
 
 Finally, a `system` test class in the `src/test/java/it/io/openliberty/guides/system/SystemEndpointTest.java` file
 is included for you to test the basic functionality of the `system` service.
