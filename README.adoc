@@ -222,7 +222,7 @@ the ones stored in the `inventory` service.
 properties is correctly handled as an error.
 
 To force these test cases to run in a particular order, put them in a [hotspot=46-51]`testSuite()` method and label
-it with a [hotspot=50]`@Test` annotation so that it automatically runs when your test class run.
+it with a [hotspot=45]`@Test` annotation so that it automatically runs when your test class run.
 
 Finally, a `system` test class in the `src/test/java/it/io/openliberty/guides/system/SystemEndpointTest.java` file
 is included for you to test the basic functionality of the `system` service.
