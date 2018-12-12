@@ -234,7 +234,7 @@ If a test failure occurs, then you might have introduced a bug into the code.
 
 [role='command']
 ----
-include::{common-includes}/mvnverify.adoc[]
+include::{common-includes}/mvnverify.adoc[][tags=!copyright]
 ----
 
 [source, role='no_copy']
