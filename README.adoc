@@ -233,12 +233,10 @@ If a test failure occurs, then you might have introduced a bug into the code.
 // =================================================================================================
 
 [role='command']
-----
-include::{common-includes}/mvnverify.adoc[][tags=!copyright]
-----
+include::{common-includes}/mvnverify.adoc[]
 
 [source, role='no_copy']
-----
+```
 -------------------------------------------------------
  T E S T S
 -------------------------------------------------------
@@ -250,7 +248,7 @@ Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.325 sec - in i
 Results :
 
 Tests run: 2, Failures: 0, Errors: 0, Skipped: 0
-----
+```
 
 To see whether the tests detect a failure, change the endpoint for the `inventory` service in
 the `src/main/java/io/openliberty/guides/inventory/InventoryResource.java` file to something else, then
