@@ -232,7 +232,6 @@ If a test failure occurs, then you might have introduced a bug into the code.
 // Running the tests
 // =================================================================================================
 
-[role='command']
 include::{common-includes}/mvnverify.adoc[]
 
 [source]
