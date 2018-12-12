@@ -232,10 +232,10 @@ If a test failure occurs, then you might have introduced a bug into the code.
 // Running the tests
 // =================================================================================================
 
-[role='no_copy']
+[role='command']
 include::{common-includes}/mvnverify.adoc[]
 
-[source]
+[source, role='no_copy']
 ----
 -------------------------------------------------------
  T E S T S
