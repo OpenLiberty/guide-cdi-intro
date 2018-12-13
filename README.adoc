@@ -101,7 +101,7 @@ You will use CDI to inject dependencies into the inventory manager application a
 
 Navigate to the `start` directory to begin.
 
-[role="code_command hotspot=14-34", subs="quotes"]
+[role="code_command hotspot=14-39", subs="quotes"]
 ----
 Create the `InventoryManager` class.
 `src/main/java/io/openliberty/guides/inventory/InventoryManager.java`
@@ -118,6 +118,7 @@ The [hotspot=36-38 file=0]`list()` function is for listing all the entries curre
 
 This bean must be persistent between all of the clients, which means multiple clients need to share the same instance.
 To achieve this by using CDI, you can simply add the [hotspot=13 file=0]`@ApplicationScoped` annotation onto the class.
+
 This annotation indicates that this particular bean is to be initialized once per application.
 By making it application-scoped, the container ensures that the same instance of the bean is used whenever
 it is injected into the application.
@@ -126,11 +127,6 @@ it is injected into the application.
 ----
 Create the `InventoryResource` class.
 `src/main/java/io/openliberty/guides/inventory/InventoryResource.java`
-----
-InventoryResource.java
-[source, Java, linenums, role='code_column']
-----
-include::finish/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[tags=**;!copyright]
 ----
 
 The inventory resource is a RESTful service that is served at the `inventory/systems` endpoint. It enables the client to
@@ -158,6 +154,12 @@ retrieve the JVM system properties for a particular host that exposes them.
 This class also contains detailed Javadocs that you can read for reference.
 
 Your inventory application is now completed.
+
+InventoryResource.java
+[source, Java, linenums, role='code_column']
+----
+include::finish/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[tags=**;!copyright]
+----
 
 // =================================================================================================
 // Building the application
@@ -233,9 +235,7 @@ include::finish/src/test/java/it/io/openliberty/guides/inventory/InventoryEndpoi
 // =================================================================================================
 
 [role='command']
-----
 include::{common-includes}/mvnverify.adoc[]
-----
 
 [source, role='no_copy']
 ----
