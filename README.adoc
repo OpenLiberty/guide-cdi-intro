@@ -106,21 +106,22 @@ Navigate to the `start` directory to begin.
 Create the `InventoryManager` class.
 `src/main/java/io/openliberty/guides/inventory/InventoryManager.java`
 ----
-This bean contains three simple functions. The [hotspot=21-23]`get()` function is for retrieving entries from calling the `system` service.
-The [hotspot=25-34]`add()` function is for adding entries to the inventory.
-The [hotspot=36-38]`list()` function is for listing all the entries currently stored in the inventory.
-
-This bean must be persistent between all of the clients, which means multiple clients need to share the same instance.
-To achieve this by using CDI, you can simply add the [hotspot=13]`@ApplicationScoped` annotation onto the class.
-This annotation indicates that this particular bean is to be initialized once per application.
-By making it application-scoped, the container ensures that the same instance of the bean is used whenever
-it is injected into the application.
-
 InventoryManager.java
 [source, Java, linenums, role='code_column']
 ----
 include::finish/src/main/java/io/openliberty/guides/inventory/InventoryManager.java[tags=**;!copyright]
 ----
+
+This bean contains three simple functions. The [hotspot=21-23 file=0]`get()` function is for retrieving entries from calling the `system` service.
+The [hotspot=25-34 file=0]`add()` function is for adding entries to the inventory.
+The [hotspot=36-38 file=0]`list()` function is for listing all the entries currently stored in the inventory.
+
+This bean must be persistent between all of the clients, which means multiple clients need to share the same instance.
+To achieve this by using CDI, you can simply add the [hotspot=13 file=0]`@ApplicationScoped` annotation onto the class.
+
+This annotation indicates that this particular bean is to be initialized once per application.
+By making it application-scoped, the container ensures that the same instance of the bean is used whenever
+it is injected into the application.
 
 [role="code_command hotspot=16-44", subs="quotes"]
 ----
@@ -131,21 +132,21 @@ Create the `InventoryResource` class.
 The inventory resource is a RESTful service that is served at the `inventory/systems` endpoint. It enables the client to
 communicate with the inventory manager through HTTP methods.
 
-Add the [hotspot=14]`@RequestScoped` annotation on the class to indicate that this bean is
+Add the [hotspot=14 file=1]`@RequestScoped` annotation on the class to indicate that this bean is
 to be initialized once for every request. In other words, the bean is instantiated when the request
 is received and destroyed when a response is sent back to the client. While this bean can
 also be application-scoped, request scope is short-lived and is therefore ideal for HTTP requests.
 
 === Injecting a dependency
 
-Refer to the [hotspot=16-44]`InventoryResource` class you created above.
+Refer to the [hotspot=16-44 file=1]`InventoryResource` class you created above.
 
-The [hotspot=18]`@Inject` annotation indicates a dependency injection.
+The [hotspot=18 file=1]`@Inject` annotation indicates a dependency injection.
 You are injecting your `InventoryManager` bean into the `InventoryResource` class.
 This injects the bean in its specified context (application-scoped) and makes all of its functionalities
 available without the need of instantiating it yourself.
-The injected bean can then be invoked directly through the [hotspot=26]`manager.get(hostname)`
-and [hotspot=42]`manager.list()` function calls.
+The injected bean can then be invoked directly through the [hotspot=26 file=1]`manager.get(hostname)`
+and [hotspot=42 file=1]`manager.list()` function calls.
 
 Finally, you have a client component `SystemClient` that can be found in `src/main/java/io/openliberty/guides/inventory/client`.
 This class communicates with the `system` service to
@@ -194,12 +195,6 @@ Create the InventoryEndpointTest class.
 `src/test/java/it/io/openliberty/guides/inventory/InventoryEndpointTest.java`
 ----
 
-InventoryEndpointTest.java
-[source, Java, linenums, role='code_column']
-----
-include::finish/src/test/java/it/io/openliberty/guides/inventory/InventoryEndpointTest.java[tags=**;!copyright;!javadoc]
-----
-
 The [hotspot=28]`@BeforeClass` annotation is placed on a method that runs before any of the test cases.
 In this case, the [hotspot=29-32]`oneTimeSetup` method retrieves the port number for the Open Liberty server and builds
 a base URL string that is used throughout the tests.
@@ -228,6 +223,12 @@ it with a [hotspot=45]`@Test` annotation so that it automatically runs when your
 Finally, a `system` test class in the `src/test/java/it/io/openliberty/guides/system/SystemEndpointTest.java` file
 is included for you to test the basic functionality of the `system` service.
 If a test failure occurs, then you might have introduced a bug into the code.
+
+InventoryEndpointTest.java
+[source, Java, linenums, role='code_column']
+----
+include::finish/src/test/java/it/io/openliberty/guides/inventory/InventoryEndpointTest.java[tags=**;!copyright;!javadoc]
+----
 
 // =================================================================================================
 // Running the tests
