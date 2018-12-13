@@ -101,7 +101,7 @@ You will use CDI to inject dependencies into the inventory manager application a
 
 Navigate to the `start` directory to begin.
 
-[role="code_command hotspot=14-32", subs="quotes"]
+[role="code_command hotspot=14-34", subs="quotes"]
 ----
 Create the `InventoryManager` class.
 `src/main/java/io/openliberty/guides/inventory/InventoryManager.java`
@@ -112,12 +112,12 @@ InventoryManager.java
 include::finish/src/main/java/io/openliberty/guides/inventory/InventoryManager.java[tags=**;!copyright]
 ----
 
-This bean contains three simple functions. The [hotspot=19-22 file=0]`get()` function is for retrieving entries from calling the `system` service.
+This bean contains three simple functions. The [hotspot=21-23 file=0]`get()` function is for retrieving entries from calling the `system` service.
 The [hotspot=24-33 file=0]`add()` function is for adding entries to the inventory.
-The [hotspot=35-37 file=0]`list()` function is for listing all the entries currently stored in the inventory.
+The [hotspot=36-38 file=0]`list()` function is for listing all the entries currently stored in the inventory.
 
 This bean must be persistent between all of the clients, which means multiple clients need to share the same instance.
-To achieve this by using CDI, you can simply add the [hotspot=12 file=0]`@ApplicationScoped` annotation onto the class.
+To achieve this by using CDI, you can simply add the [hotspot=13 file=0]`@ApplicationScoped` annotation onto the class.
 This annotation indicates that this particular bean is to be initialized once per application.
 By making it application-scoped, the container ensures that the same instance of the bean is used whenever
 it is injected into the application.
