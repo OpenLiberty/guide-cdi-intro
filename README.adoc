@@ -113,7 +113,7 @@ include::finish/src/main/java/io/openliberty/guides/inventory/InventoryManager.j
 ----
 
 This bean contains three simple functions. The [hotspot=21-23 file=0]`get()` function is for retrieving entries from calling the `system` service.
-The [hotspot=24-33 file=0]`add()` function is for adding entries to the inventory.
+The [hotspot=25-34 file=0]`add()` function is for adding entries to the inventory.
 The [hotspot=36-38 file=0]`list()` function is for listing all the entries currently stored in the inventory.
 
 This bean must be persistent between all of the clients, which means multiple clients need to share the same instance.
