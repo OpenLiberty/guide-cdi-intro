@@ -128,6 +128,11 @@ it is injected into the application.
 Create the `InventoryResource` class.
 `src/main/java/io/openliberty/guides/inventory/InventoryResource.java`
 ----
+InventoryResource.java
+[source, Java, linenums, role='code_column']
+----
+include::finish/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[tags=**;!copyright]
+----
 
 The inventory resource is a RESTful service that is served at the `inventory/systems` endpoint. It enables the client to
 communicate with the inventory manager through HTTP methods.
@@ -147,12 +152,6 @@ This injects the bean in its specified context (application-scoped) and makes al
 available without the need of instantiating it yourself.
 The injected bean can then be invoked directly through the [hotspot=26 file=1]`manager.get(hostname)`
 and [hotspot=42 file=1]`manager.list()` function calls.
-
-InventoryResource.java
-[source, Java, linenums, role='code_column']
-----
-include::finish/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[tags=**;!copyright]
-----
 
 Finally, you have a client component `SystemClient` that can be found in `src/main/java/io/openliberty/guides/inventory/client`.
 This class communicates with the `system` service to
