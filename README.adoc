@@ -101,7 +101,7 @@ You will use CDI to inject dependencies into the inventory manager application a
 
 Navigate to the `start` directory to begin.
 
-[role="code_command hotspot=14-39", subs="quotes"]
+[role="code_command hotspot=14-39 file=0", subs="quotes"]
 ----
 Create the `InventoryManager` class.
 `src/main/java/io/openliberty/guides/inventory/InventoryManager.java`
@@ -119,7 +119,7 @@ This annotation indicates that this particular bean is to be initialized once pe
 By making it application-scoped, the container ensures that the same instance of the bean is used whenever
 it is injected into the application.
 
-[role="code_command hotspot=16-44", subs="quotes"]
+[role="code_command hotspot=16-44 file=1", subs="quotes"]
 ----
 Create the `InventoryResource` class.
 `src/main/java/io/openliberty/guides/inventory/InventoryResource.java`
