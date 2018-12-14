@@ -258,7 +258,7 @@ run the Maven build again. You see a test failure occur.
 
 == Great work! You're done!
 
-You have just completed building a simple inventory application on top of Open Liberty using CDI services.
+You have just completed building a simple inventory application using CDI services in Open Liberty.
 
 You can continue to try one of the related guides, which demonstrate new technologies that you can learn and
 expand on top what you built in this guide.
