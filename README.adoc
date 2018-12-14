@@ -106,11 +106,7 @@ Navigate to the `start` directory to begin.
 Create the `InventoryManager` class.
 `src/main/java/io/openliberty/guides/inventory/InventoryManager.java`
 ----
-InventoryManager.java
-[source, Java, linenums, role='code_column']
-----
-include::finish/src/main/java/io/openliberty/guides/inventory/InventoryManager.java[tags=**;!copyright]
-----
+
 
 This bean contains three simple functions. The [hotspot=21-23 file=0]`get()` function is for retrieving entries from calling the `system` service.
 The [hotspot=25-34 file=0]`add()` function is for adding entries to the inventory.
@@ -128,11 +124,7 @@ it is injected into the application.
 Create the `InventoryResource` class.
 `src/main/java/io/openliberty/guides/inventory/InventoryResource.java`
 ----
-InventoryResource.java
-[source, Java, linenums, role='code_column']
-----
-include::finish/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[tags=**;!copyright]
-----
+
 
 The inventory resource is a RESTful service that is served at the `inventory/systems` endpoint. It enables the client to
 communicate with the inventory manager through HTTP methods.
@@ -142,6 +134,17 @@ to be initialized once for every request. In other words, the bean is instantiat
 is received and destroyed when a response is sent back to the client. While this bean can
 also be application-scoped, request scope is short-lived and is therefore ideal for HTTP requests.
 
+InventoryManager.java
+[source, Java, linenums, role='code_column']
+----
+include::finish/src/main/java/io/openliberty/guides/inventory/InventoryManager.java[tags=**;!copyright]
+----
+
+InventoryResource.java
+[source, Java, linenums, role='code_column']
+----
+include::finish/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[tags=**;!copyright]
+----
 === Injecting a dependency
 
 Refer to the [hotspot=16-44 file=1]`InventoryResource` class you created above.
