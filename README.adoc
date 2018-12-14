@@ -190,7 +190,7 @@ In testing the functionality of the application, the scopes and dependencies are
 
 [role="code_command hotspot=18-159", subs="quotes"]
 ----
-Create the InventoryEndpointTest class.
+Create the `InventoryEndpointTest` class.
 `src/test/java/it/io/openliberty/guides/inventory/InventoryEndpointTest.java`
 ----
 

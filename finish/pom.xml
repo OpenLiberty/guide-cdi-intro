@@ -166,13 +166,6 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <id>start-server</id>
-                        <phase>pre-integration-test</phase>
-                        <goals>
-                            <goal>start-server</goal>
-                        </goals>
-                    </execution>
-                    <execution>
                         <id>package-app</id>
                         <configuration>
                             <outputDirectory>target/wlp-package</outputDirectory>
