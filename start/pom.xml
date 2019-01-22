@@ -41,6 +41,25 @@
     </dependencyManagement>
 
     <dependencies>
+        <!--Open Liberty features -->
+        <dependency>
+            <groupId>io.openliberty.features</groupId>
+            <artifactId>jaxrs-2.1</artifactId>
+            <type>esa</type>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.openliberty.features</groupId>
+            <artifactId>jsonp-1.1</artifactId>
+            <type>esa</type>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.openliberty.features</groupId>
+            <artifactId>cdi-2.0</artifactId>
+            <type>esa</type>
+            <scope>provided</scope>
+        </dependency>
         <!-- For tests -->
         <dependency>
             <groupId>junit</groupId>
@@ -66,6 +85,7 @@
             <version>1.0.4</version>
             <scope>test</scope>
         </dependency>
+<<<<<<< HEAD
       <!--Open Liberty features -->
         <dependency>
             <groupId>io.openliberty.features</groupId>
@@ -86,6 +106,9 @@
             <scope>provided</scope>
         </dependency>
         <!-- Support for JDK 9 and above -->
+=======
+        <!-- For JDK 9 & 10 Support -->
+>>>>>>> e5c581529afabb12e5af6e2815a3dc25a6c60232
         <dependency>
             <groupId>javax.xml.bind</groupId>
             <artifactId>jaxb-api</artifactId>
