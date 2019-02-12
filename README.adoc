@@ -46,7 +46,7 @@ This enables you to inject the bean in its specified context without having to i
 The implementation of the application and its services are provided for you in the `start/src` directory.
 The `system` service can be found in `start/src/main/java/io/openliberty/guides/system`, and the `inventory` service can be found
 in `start/src/main/java/io/openliberty/guides/inventory`. If you want to learn more about RESTful web services and how to build them, see
-https://openliberty.io/guides/rest-intro.html[Creating a RESTful web service] for details about how to build the `system` service.
+https://openliberty.io/guides/rest-intro.html[Creating a RESTful web service^] for details about how to build the `system` service.
 The `inventory` service is built in a similar way.
 
 === What is CDI?
