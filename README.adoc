@@ -145,12 +145,6 @@ also be application-scoped, request scope is short-lived and is therefore ideal 
 
 === Injecting a dependency
 
-SystemClient.java
-[source, Java, linenums, role='code_column']
-----
-include::finish/src/main/java/io/openliberty/guides/inventory/client/SystemClient.java[tags=**;!copyright]
-----
-
 Refer to the [hotspot=16-44 file=1]`InventoryResource` class you created above.
 
 The [hotspot=18 file=1]`@Inject` annotation indicates a dependency injection.
@@ -166,6 +160,13 @@ retrieve the JVM system properties for a particular host that exposes them.
 This class also contains detailed Javadocs that you can read for reference.
 
 Your inventory application is now completed.
+
+
+SystemClient.java
+[source, Java, linenums, role='code_column']
+----
+include::finish/src/main/java/io/openliberty/guides/inventory/client/SystemClient.java[tags=**;!copyright]
+----
 
 // =================================================================================================
 // Building the application
