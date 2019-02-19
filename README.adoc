@@ -271,7 +271,7 @@ Tests run: 2, Failures: 0, Errors: 0, Skipped: 0
 ----
 
 To see whether the tests detect a failure, change the endpoint for the `inventory` service in
-the [hotspot file=2]`src/main/java/io/openliberty/guides/inventory/InventoryResource.java` file to something else, then
+the [hotspot file=0]`src/main/java/io/openliberty/guides/inventory/InventoryResource.java` file to something else, then
 run the Maven build again. You see a test failure occur.
 
 InventoryResource.java
