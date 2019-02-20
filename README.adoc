@@ -44,8 +44,9 @@ You will also use dependency injection to inject one bean into another to make u
 This enables you to inject the bean in its specified context without having to instantiate it yourself.
 
 The implementation of the application and its services are provided for you in the `start/src` directory.
-The `system` service can be found in `start/src/main/java/io/openliberty/guides/system`, and the `inventory` service can be found
-in `start/src/main/java/io/openliberty/guides/inventory`. If you want to learn more about RESTful web services and how to build them, see
+The `system` service can be found in the `start/src/main/java/io/openliberty/guides/system` directory, 
+and the `inventory` service can be found in the `start/src/main/java/io/openliberty/guides/inventory` directory. 
+If you want to learn more about RESTful web services and how to build them, see
 https://openliberty.io/guides/rest-intro.html[Creating a RESTful web service^] for details about how to build the `system` service.
 The `inventory` service is built in a similar way.
 
@@ -154,10 +155,10 @@ available without the need of instantiating it yourself.
 The injected bean can then be invoked directly through the [hotspot=26 file=0]`manager.get(hostname)`
 and [hotspot=42 file=0]`manager.list()` function calls.
 
-Finally, you have a client component [hotspot file=1]`SystemClient` that can be found in `src/main/java/io/openliberty/guides/inventory/client`.
-This class communicates with the `system` service to
-retrieve the JVM system properties for a particular host that exposes them.
-This class also contains detailed Javadocs that you can read for reference.
+Finally, you have a client component [hotspot file=1]`SystemClient` that can be found in the
+`src/main/java/io/openliberty/guides/inventory/client` directory. This class communicates 
+with the `system` service to retrieve the JVM system properties for a particular host 
+that exposes them. This class also contains detailed Javadocs that you can read for reference.
 
 Your inventory application is now completed.
 
@@ -283,9 +284,5 @@ include::finish/src/main/java/io/openliberty/guides/inventory/InventoryResource.
 == Great work! You're done!
 
 You have just completed building a simple inventory application using CDI services in Open Liberty.
-
-You can continue to try one of the related guides, which demonstrate new technologies that you can learn and
-expand on top what you built in this guide.
-
 
 include::https://raw.githubusercontent.com/OpenLiberty/guides-common/multipane/attribution.adoc[subs="attributes"]
