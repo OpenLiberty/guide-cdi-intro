@@ -285,4 +285,4 @@ include::finish/src/main/java/io/openliberty/guides/inventory/InventoryResource.
 
 You have just completed building a simple inventory application using CDI services in Open Liberty.
 
-include::https://raw.githubusercontent.com/OpenLiberty/guides-common/multipane/attribution.adoc[subs="attributes"]
+include::{common-includes}/attribution.adoc[subs="attributes"]
