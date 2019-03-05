@@ -209,13 +209,13 @@ In testing the functionality of the application, the scopes and dependencies are
 ----
 
 The [hotspot=28 file=0]`@BeforeClass` annotation is placed on a method that runs before any of the test cases.
-In this case, the [hotspot=29-32 file=0]`oneTimeSetup` method retrieves the port number for the Open Liberty server and builds
+In this case, the [hotspot=29-32 file=0]`oneTimeSetup()` method retrieves the port number for the Open Liberty server and builds
 a base URL string that is used throughout the tests.
 
 The [hotspot=34 file=0]`@Before` and [hotspot=40 file=0]`@After` annotations are placed on methods that run before and after every test case.
-These methods are generally used to perform any setup and teardown tasks. In this case, the [hotspot=35-38 file=0]`setup` method
+These methods are generally used to perform any setup and teardown tasks. In this case, the [hotspot=35-38 file=0]`setup()` method
 creates a JAX-RS client, which makes HTTP requests to the `inventory` service. This client must
-also be registered with a JSON-P provider ([hotspot=37 file=0]`JsrJsonpProvider`) to process JSON resources. The [hotspot=41-43 file=0]`teardown`
+also be registered with a JSON-P provider ([hotspot=37 file=0]`JsrJsonpProvider`) to process JSON resources. The [hotspot=41-43 file=0]`teardown()`
 method simply destroys this client instance.
 
 See the following descriptions of the test cases:
