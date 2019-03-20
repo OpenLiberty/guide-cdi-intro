@@ -27,14 +27,7 @@ import javax.inject.Inject;
 // end::ApplicationScoped[]
 public class InventoryManager {
 
-  @Inject
-  private SystemClient systemClient;
-
   private List<SystemData> systems = Collections.synchronizedList(new ArrayList<>());
-
-  public Properties get(String hostname) {
-    return systemClient.getProperties(hostname);
-  }
 
   public void add(String hostname, Properties systemProps) {
     Properties props = new Properties();

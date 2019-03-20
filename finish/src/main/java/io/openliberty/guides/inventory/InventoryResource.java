@@ -22,12 +22,16 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import io.openliberty.guides.inventory.model.InventoryList;
+import io.openliberty.guides.inventory.client.SystemClient;
 
 // tag::RequestScoped[]
 @RequestScoped
 // end::RequestScoped[]
 @Path("/systems")
 public class InventoryResource {
+
+  @Inject
+  private SystemClient systemClient;
 
   // tag::Inject[]
   @Inject
@@ -39,7 +43,7 @@ public class InventoryResource {
   @Produces(MediaType.APPLICATION_JSON)
   public Response getPropertiesForHost(@PathParam("hostname") String hostname) {
     // Get properties for host
-    Properties props = manager.get(hostname);
+    Properties props = systemClient.getProperties(hostname);
     if (props == null) {
       return Response.status(Response.Status.NOT_FOUND)
                      .entity("ERROR: Unknown hostname or the system service may not be " 
