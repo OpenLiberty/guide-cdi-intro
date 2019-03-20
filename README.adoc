@@ -151,8 +151,8 @@ The [hotspot=19 hotspot=22 file=0]`@Inject` annotation indicates a dependency in
 You are injecting your `InventoryManager` and `SystemClient` beans into the `InventoryResource` class.
 This injects the beans in their specified context and makes all of their functionalities
 available without the need of instantiating them yourself.
-The injected bean can then be invoked directly through the [hotspot=26 file=0]`manager.add(hostname, props)`
-and [hotspot=42 file=0]`manager.list()` function calls  for `InventoryManager` and [hotspot=30 file=0]systemClient.getProperties(hostname) for `SystemClient`.
+The injected bean can then be invoked directly through the [hotspot=39 file=0]`manager.add(hostname, props)`
+and [hotspot=46 file=0]`manager.list()` function calls  for `InventoryManager` and [hotspot=30 file=0]`systemClient.getProperties(hostname)` for `SystemClient`.
 
 Finally, you have a client component [hotspot file=1]`SystemClient` that can be found in the
 `src/main/java/io/openliberty/guides/inventory/client` directory. This class communicates 
