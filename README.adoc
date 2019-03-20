@@ -114,7 +114,7 @@ InventoryManager.java
 include::finish/src/main/java/io/openliberty/guides/inventory/InventoryManager.java[tags=**;!copyright]
 ----
 
-This bean contains three simple functions. The [hotspot=21-23 file=0]`get()` function is for retrieving entries from calling the `system` service.
+This bean contains two simple functions. 
 The [hotspot=25-34 file=0]`add()` function is for adding entries to the inventory.
 The [hotspot=36-38 file=0]`list()` function is for listing all the entries currently stored in the inventory.
 
@@ -136,8 +136,7 @@ InventoryResource.java
 include::finish/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[tags=**;!copyright]
 ----
 
-The inventory resource is a RESTful service that is served at the `inventory/systems` endpoint. It enables the client to
-communicate with the inventory manager through HTTP methods.
+The inventory resource is a RESTful service that is served at the `inventory/systems` endpoint. 
 
 Add the [hotspot=14 file=1]`@RequestScoped` annotation on the class to indicate that this bean is
 to be initialized once for every request. In other words, the bean is instantiated when the request
@@ -152,7 +151,7 @@ The [hotspot=18 file=0]`@Inject` annotation indicates a dependency injection.
 You are injecting your `InventoryManager` bean into the `InventoryResource` class.
 This injects the bean in its specified context (application-scoped) and makes all of its functionalities
 available without the need of instantiating it yourself.
-The injected bean can then be invoked directly through the [hotspot=26 file=0]`manager.get(hostname)`
+The injected bean can then be invoked directly through the [hotspot=26 file=0]`manager.add(hostname,systemProps)`
 and [hotspot=42 file=0]`manager.list()` function calls.
 
 Finally, you have a client component [hotspot file=1]`SystemClient` that can be found in the
