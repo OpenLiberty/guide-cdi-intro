@@ -1,7 +1,6 @@
 language: java
 before_script:
 - unset _JAVA_OPTIONS
-- git status
 - cd finish
 script:
 - mvn -q clean install
