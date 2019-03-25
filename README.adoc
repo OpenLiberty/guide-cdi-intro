@@ -114,9 +114,9 @@ InventoryManager.java
 include::finish/src/main/java/io/openliberty/guides/inventory/InventoryManager.java[tags=**;!copyright]
 ----
 
-This bean contains three simple functions. The [hotspot=21-23 file=0]`get()` function is for retrieving entries from calling the `system` service.
-The [hotspot=25-34 file=0]`add()` function is for adding entries to the inventory.
-The [hotspot=36-38 file=0]`list()` function is for listing all the entries currently stored in the inventory.
+This bean contains two simple functions. 
+The [hotspot=18-27 file=0]`add()` function is for adding entries to the inventory.
+The [hotspot=29-31 file=0]`list()` function is for listing all the entries currently stored in the inventory.
 
 This bean must be persistent between all of the clients, which means multiple clients need to share the same instance.
 To achieve this by using CDI, you can simply add the [hotspot=13 file=0]`@ApplicationScoped` annotation onto the class.
@@ -136,24 +136,24 @@ InventoryResource.java
 include::finish/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[tags=**;!copyright]
 ----
 
-The inventory resource is a RESTful service that is served at the `inventory/systems` endpoint. It enables the client to
-communicate with the inventory manager through HTTP methods.
+The inventory resource is a RESTful service that is served at the `inventory/systems` endpoint. 
 
-Add the [hotspot=14 file=1]`@RequestScoped` annotation on the class to indicate that this bean is
+Add the [hotspot=15 file=1]`@RequestScoped` annotation on the class to indicate that this bean is
 to be initialized once for every request. In other words, the bean is instantiated when the request
 is received and destroyed when a response is sent back to the client. While this bean can
 also be application-scoped, request scope is short-lived and is therefore ideal for HTTP requests.
 
 === Injecting a dependency
 
-Refer to the [hotspot=16-44 file=0]`InventoryResource` class you created above.
+Refer to the [hotspot=17-48 file=0]`InventoryResource` class you created above.
 
-The [hotspot=18 file=0]`@Inject` annotation indicates a dependency injection.
-You are injecting your `InventoryManager` bean into the `InventoryResource` class.
-This injects the bean in its specified context (application-scoped) and makes all of its functionalities
-available without the need of instantiating it yourself.
-The injected bean can then be invoked directly through the [hotspot=26 file=0]`manager.get(hostname)`
-and [hotspot=42 file=0]`manager.list()` function calls.
+The [hotspot=19 hotspot=22 file=0]`@Inject` annotation indicates a dependency injection.
+You are injecting your `InventoryManager` and `SystemClient` beans into the `InventoryResource` class.
+This injects the beans in their specified context and makes all of their functionalities
+available without the need of instantiating them yourself.
+The injected bean `InventoryManager` can then be invoked directly through the [hotspot=39 file=0]`manager.add(hostname, props)`
+and [hotspot=46 file=0]`manager.list()` function calls.  The injected bean `SystemClient` can be invoked through the 
+[hotspot=30 file=0]`systemClient.getProperties(hostname)` function call.
 
 Finally, you have a client component [hotspot file=1]`SystemClient` that can be found in the
 `src/main/java/io/openliberty/guides/inventory/client` directory. This class communicates 
