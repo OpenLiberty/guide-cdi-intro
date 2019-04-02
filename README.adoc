@@ -12,7 +12,7 @@
 :page-guide-category: microprofile
 :page-essential: true
 :page-essential-order: 2
-:page-description: Learn how to use Contexts and Dependency Injection to manage and inject dependencies into microservices.
+:page-description: Learn how to use Contexts and Dependency Injection (CDI) to manage and inject dependencies into microservices.
 :guide-author: Open Liberty
 :page-tags: ['MicroProfile', 'Java EE']
 :page-permalink: /guides/{projectid}
