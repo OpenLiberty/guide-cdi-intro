@@ -24,14 +24,21 @@ import javax.ws.rs.core.Response;
 import io.openliberty.guides.inventory.model.InventoryList;
 import io.openliberty.guides.inventory.client.SystemClient;
 
+// tag::RequestScoped[]
 @RequestScoped
+// end::RequestScoped[]
 @Path("/systems")
+// tag::InventoryResource[]
 public class InventoryResource {
 
+  // tag::inject[]
   @Inject
+  // end::inject[]
   InventoryManager manager;
 
+  // tag::inject[]
   @Inject
+  // end::inject[]
   SystemClient systemClient;
 
   @GET
@@ -39,7 +46,9 @@ public class InventoryResource {
   @Produces(MediaType.APPLICATION_JSON)
   public Response getPropertiesForHost(@PathParam("hostname") String hostname) {
     // Get properties for host
+    // tag::properties[]
     Properties props = systemClient.getProperties(hostname);
+    // tag::properties[]
     if (props == null) {
       return Response.status(Response.Status.NOT_FOUND)
                      .entity("ERROR: Unknown hostname or the system service may not be " 
@@ -48,13 +57,18 @@ public class InventoryResource {
     }
 
     // Add to inventory
+    // tag::managerAdd[]
     manager.add(hostname, props);
+    // end::managerAdd[]
     return Response.ok(props).build();
   }
 
   @GET
   @Produces(MediaType.APPLICATION_JSON)
   public InventoryList listContents() {
+    // tag::managerList[]
     return manager.list();
+    // end::managerList[]
   }
 }
+// tag::InventoryResource[]

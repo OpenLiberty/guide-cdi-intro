@@ -111,21 +111,21 @@ Navigate to the `start` directory to begin.
 InventoryManager.java
 [source, Java, linenums, role='code_column']
 ----
-include::finish/src/main/java/io/openliberty/guides/inventory/InventoryManager.java[tags=**;!copyright]
+include::finish/src/main/java/io/openliberty/guides/inventory/InventoryManager.java[]
 ----
 
 This bean contains two simple functions. 
-The [hotspot=18-27 file=0]`add()` function is for adding entries to the inventory.
-The [hotspot=29-31 file=0]`list()` function is for listing all the entries currently stored in the inventory.
+The [hotspot=add file=0]`add()` function is for adding entries to the inventory.
+The [hotspot=list file=0]`list()` function is for listing all the entries currently stored in the inventory.
 
 This bean must be persistent between all of the clients, which means multiple clients need to share the same instance.
-To achieve this by using CDI, you can simply add the [hotspot=13 file=0]`@ApplicationScoped` annotation onto the class.
+To achieve this by using CDI, you can simply add the [hotspot=ApplicationScoped file=0]`@ApplicationScoped` annotation onto the class.
 
 This annotation indicates that this particular bean is to be initialized once per application.
 By making it application-scoped, the container ensures that the same instance of the bean is used whenever
 it is injected into the application.
 
-[role="code_command hotspot", subs="quotes"]
+[role="code_command hotspot file=1", subs="quotes"]
 ----
 #Create the `InventoryResource` class.#
 `src/main/java/io/openliberty/guides/inventory/InventoryResource.java`
@@ -133,27 +133,27 @@ it is injected into the application.
 InventoryResource.java
 [source, Java, linenums, role='code_column']
 ----
-include::finish/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[tags=**;!copyright]
+include::finish/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[]
 ----
 
 The inventory resource is a RESTful service that is served at the `inventory/systems` endpoint. 
 
-Add the [hotspot=15 file=1]`@RequestScoped` annotation on the class to indicate that this bean is
+Add the [hotspot=RequestScoped file=1]`@RequestScoped` annotation on the class to indicate that this bean is
 to be initialized once for every request. In other words, the bean is instantiated when the request
 is received and destroyed when a response is sent back to the client. While this bean can
 also be application-scoped, request scope is short-lived and is therefore ideal for HTTP requests.
 
 === Injecting a dependency
 
-Refer to the [hotspot=17-48 file=0]`InventoryResource` class you created above.
+Refer to the [hotspot=InventoryResource file=0]`InventoryResource` class you created above.
 
-The [hotspot=19 hotspot=22 file=0]`@Inject` annotation indicates a dependency injection.
+The [hotspot=inject file=0]`@Inject` annotation indicates a dependency injection.
 You are injecting your `InventoryManager` and `SystemClient` beans into the `InventoryResource` class.
 This injects the beans in their specified context and makes all of their functionalities
 available without the need of instantiating them yourself.
-The injected bean `InventoryManager` can then be invoked directly through the [hotspot=39 file=0]`manager.add(hostname, props)`
-and [hotspot=46 file=0]`manager.list()` function calls.  The injected bean `SystemClient` can be invoked through the 
-[hotspot=30 file=0]`systemClient.getProperties(hostname)` function call.
+The injected bean `InventoryManager` can then be invoked directly through the [hotspot=managerAdd file=0]`manager.add(hostname, props)`
+and [hotspot=managerList file=0]`manager.list()` function calls.  The injected bean `SystemClient` can be invoked through the 
+[hotspot=properties file=0]`systemClient.getProperties(hostname)` function call.
 
 Finally, you have a client component [hotspot file=1]`SystemClient` that can be found in the
 `src/main/java/io/openliberty/guides/inventory/client` directory. This class communicates 
@@ -165,13 +165,13 @@ Your inventory application is now completed.
 InventoryResource.java
 [source, Java, linenums, role='code_column']
 ----
-include::finish/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[tags=**;!copyright]
+include::finish/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[]
 ----
 
 SystemClient.java
 [source, Java, linenums, role='code_column']
 ----
-include::finish/src/main/java/io/openliberty/guides/inventory/client/SystemClient.java[tags=**;!copyright]
+include::finish/src/main/java/io/openliberty/guides/inventory/client/SystemClient.java[]
 ----
 
 // =================================================================================================
@@ -208,30 +208,30 @@ In testing the functionality of the application, the scopes and dependencies are
 `src/test/java/it/io/openliberty/guides/inventory/InventoryEndpointTest.java`
 ----
 
-The [hotspot=28 file=0]`@BeforeClass` annotation is placed on a method that runs before any of the test cases.
-In this case, the [hotspot=29-32 file=0]`oneTimeSetup()` method retrieves the port number for the Open Liberty server and builds
+The [hotspot=BeforeClass file=0]`@BeforeClass` annotation is placed on a method that runs before any of the test cases.
+In this case, the [hotspot=oneTimeSetup file=0]`oneTimeSetup()` method retrieves the port number for the Open Liberty server and builds
 a base URL string that is used throughout the tests.
 
-The [hotspot=34 file=0]`@Before` and [hotspot=40 file=0]`@After` annotations are placed on methods that run before and after every test case.
-These methods are generally used to perform any setup and teardown tasks. In this case, the [hotspot=35-38 file=0]`setup()` method
+The [hotspot=Before file=0]`@Before` and [hotspot=After file=0]`@After` annotations are placed on methods that run before and after every test case.
+These methods are generally used to perform any setup and teardown tasks. In this case, the [hotspot=setup file=0]`setup()` method
 creates a JAX-RS client, which makes HTTP requests to the `inventory` service. This client must
-also be registered with a JSON-P provider ([hotspot=37 file=0]`JsrJsonpProvider`) to process JSON resources. The [hotspot=41-43 file=0]`teardown()`
+also be registered with a JSON-P provider ([hotspot=JsrJsonpProvider file=0]`JsrJsonpProvider`) to process JSON resources. The [hotspot=teardown file=0]`teardown()`
 method simply destroys this client instance.
 
 See the following descriptions of the test cases:
 
-* [hotspot=53-65 file=0]`testEmptyInventory()` verifies that the inventory is initially empty when the server first starts up.
+* [hotspot=testEmptyInventory file=0]`testEmptyInventory()` verifies that the inventory is initially empty when the server first starts up.
 
-* [hotspot=67-87 file=0]`testHostRegistration()` verifies that a host is correctly added to the inventory.
+* [hotspot=testHostRegistration file=0]`testHostRegistration()` verifies that a host is correctly added to the inventory.
 
-* [hotspot=89-115 file=0]`testSystemPropertiesMatch()` verifies that the JVM system properties returned by the `system` service match
+* [hotspot=testSystemPropertiesMatch file=0]`testSystemPropertiesMatch()` verifies that the JVM system properties returned by the `system` service match
 the ones stored in the `inventory` service.
 
-* [hotspot=117-132 file=0]`testUnknownHost()` verifies that an unknown host or a host that does not expose their JVM system
+* [hotspot=testUnknownHost file=0]`testUnknownHost()` verifies that an unknown host or a host that does not expose their JVM system
 properties is correctly handled as an error.
 
-To force these test cases to run in a particular order, put them in a [hotspot=46-51 file=0]`testSuite()` method and label
-it with a [hotspot=45 file=0]`@Test` annotation so that it automatically runs when your test class run.
+To force these test cases to run in a particular order, put them in a [hotspot=testSuite file=0]`testSuite()` method and label
+it with a [hotspot=test file=0]`@Test` annotation so that it automatically runs when your test class run.
 
 Finally, the [hotspot file=1]`src/test/java/it/io/openliberty/guides/system/SystemEndpointTest.java` file
 is included for you to test the basic functionality of the `system` service.
@@ -240,13 +240,13 @@ If a test failure occurs, then you might have introduced a bug into the code.
 InventoryEndpointTest.java
 [source, Java, linenums, role='code_column']
 ----
-include::finish/src/test/java/it/io/openliberty/guides/inventory/InventoryEndpointTest.java[tags=**;!copyright;!javadoc]
+include::finish/src/test/java/it/io/openliberty/guides/inventory/InventoryEndpointTest.java[]
 ----
 
 SystemEndpointTest.java
 [source, Java, linenums, role='code_column']
 ----
-include::finish/src/test/java/it/io/openliberty/guides/system/SystemEndpointTest.java[tags=**;!copyright;!javadoc]
+include::finish/src/test/java/it/io/openliberty/guides/system/SystemEndpointTest.java[]
 ----
 
 // =================================================================================================
@@ -278,7 +278,7 @@ run the Maven build again. You see a test failure occur.
 InventoryResource.java
 [source, Java, linenums, role='code_column']
 ----
-include::finish/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[tags=**;!copyright]
+include::finish/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[]
 ----
 
 == Great work! You're done!

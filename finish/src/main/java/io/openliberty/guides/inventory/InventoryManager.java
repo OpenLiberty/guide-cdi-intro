@@ -27,6 +27,7 @@ public class InventoryManager {
 
   private List<SystemData> systems = Collections.synchronizedList(new ArrayList<>());
 
+  // tag::add[]
   public void add(String hostname, Properties systemProps) {
     Properties props = new Properties();
     props.setProperty("os.name", systemProps.getProperty("os.name"));
@@ -37,8 +38,11 @@ public class InventoryManager {
       systems.add(system);
     }
   }
+  // end::add[]
 
+  // tag::list[]
   public InventoryList list() {
     return new InventoryList(systems);
   }
+  // end::list[]
 }
