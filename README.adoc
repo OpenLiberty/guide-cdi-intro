@@ -147,7 +147,7 @@ also be application-scoped, request scope is short-lived and is therefore ideal 
 
 Refer to the [hotspot=InventoryResource file=0]`InventoryResource` class you created above.
 
-The [hotspot=inject file=0]`@Inject` annotation indicates a dependency injection.
+The [hotspot=inject hotspot=inject2 file=0]`@Inject` annotation indicates a dependency injection.
 You are injecting your `InventoryManager` and `SystemClient` beans into the `InventoryResource` class.
 This injects the beans in their specified context and makes all of their functionalities
 available without the need of instantiating them yourself.

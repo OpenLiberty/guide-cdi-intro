@@ -56,7 +56,7 @@ public class InventoryEndpointTest {
     client = ClientBuilder.newClient();
     // tag::JsrJsonpProvider[]
     client.register(JsrJsonpProvider.class);
-    // tag::JsrJsonpProvider[]
+    // end::JsrJsonpProvider[]
   }
   // end::setup[]
 
@@ -70,10 +70,10 @@ public class InventoryEndpointTest {
   // end::teardown[]
 
   // tag::tests[]
-  // tag::testSuite[]
   // tag::test[]
   @Test
   // end::test[]
+  // tag::testSuite[]
   public void testSuite() {
     this.testEmptyInventory();
     this.testHostRegistration();

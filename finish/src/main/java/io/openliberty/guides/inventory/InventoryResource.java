@@ -36,9 +36,9 @@ public class InventoryResource {
   // end::inject[]
   InventoryManager manager;
 
-  // tag::inject[]
+  // tag::inject2[]
   @Inject
-  // end::inject[]
+  // end::inject2[]
   SystemClient systemClient;
 
   @GET
@@ -48,7 +48,7 @@ public class InventoryResource {
     // Get properties for host
     // tag::properties[]
     Properties props = systemClient.getProperties(hostname);
-    // tag::properties[]
+    // end::properties[]
     if (props == null) {
       return Response.status(Response.Status.NOT_FOUND)
                      .entity("ERROR: Unknown hostname or the system service may not be " 
