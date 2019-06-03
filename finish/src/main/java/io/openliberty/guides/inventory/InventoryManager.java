@@ -16,11 +16,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
-import io.openliberty.guides.inventory.client.SystemClient;
 import io.openliberty.guides.inventory.model.InventoryList;
 import io.openliberty.guides.inventory.model.SystemData;
 import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 
 // tag::ApplicationScoped[]
 @ApplicationScoped
@@ -29,6 +27,7 @@ public class InventoryManager {
 
   private List<SystemData> systems = Collections.synchronizedList(new ArrayList<>());
 
+  // tag::add[]
   public void add(String hostname, Properties systemProps) {
     Properties props = new Properties();
     props.setProperty("os.name", systemProps.getProperty("os.name"));
@@ -39,8 +38,11 @@ public class InventoryManager {
       systems.add(system);
     }
   }
+  // end::add[]
 
+  // tag::list[]
   public InventoryList list() {
     return new InventoryList(systems);
   }
+  // end::list[]
 }

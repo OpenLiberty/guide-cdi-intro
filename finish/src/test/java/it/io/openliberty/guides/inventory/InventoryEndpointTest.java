@@ -38,26 +38,42 @@ public class InventoryEndpointTest {
   private final String SYSTEM_PROPERTIES = "system/properties";
   private final String INVENTORY_SYSTEMS = "inventory/systems";
 
+  // tag::BeforeClass[]
   @BeforeClass
+  // end::BeforeClass[]
+  // tag::oneTimeSetup[]
   public static void oneTimeSetup() {
     port = System.getProperty("liberty.test.port");
     baseUrl = "http://localhost:" + port + "/";
   }
+  // end::oneTimeSetup[]
 
+  // tag::Before[]
   @Before
+  // end::Before[]
+  // tag::setup[]
   public void setup() {
     client = ClientBuilder.newClient();
+    // tag::JsrJsonpProvider[]
     client.register(JsrJsonpProvider.class);
+    // end::JsrJsonpProvider[]
   }
+  // end::setup[]
 
+  // tag::After[]
   @After
+  // end::After[]
+  // tag::teardown[]
   public void teardown() {
     client.close();
   }
+  // end::teardown[]
 
   // tag::tests[]
-  // tag::testSuite[]
+  // tag::test[]
   @Test
+  // end::test[]
+  // tag::testSuite[]
   public void testSuite() {
     this.testEmptyInventory();
     this.testHostRegistration();
