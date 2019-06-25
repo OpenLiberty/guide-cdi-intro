@@ -109,7 +109,7 @@ Navigate to the `start` directory to begin.
 `src/main/java/io/openliberty/guides/inventory/InventoryManager.java`
 ----
 InventoryManager.java
-[source, Java, linenums, role='code_column']
+[source, Java, linenums, role='code_column hide_tags=copyright']
 ----
 include::finish/src/main/java/io/openliberty/guides/inventory/InventoryManager.java[]
 ----
@@ -131,7 +131,7 @@ it is injected into the application.
 `src/main/java/io/openliberty/guides/inventory/InventoryResource.java`
 ----
 InventoryResource.java
-[source, Java, linenums, role='code_column']
+[source, Java, linenums, role='code_column hide_tags=copyright']
 ----
 include::finish/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[]
 ----
@@ -163,13 +163,13 @@ that exposes them. This class also contains detailed Javadocs that you can read 
 Your inventory application is now completed.
 
 InventoryResource.java
-[source, Java, linenums, role='code_column']
+[source, Java, linenums, role='code_column hide_tags=copyright']
 ----
 include::finish/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[]
 ----
 
 SystemClient.java
-[source, Java, linenums, role='code_column']
+[source, Java, linenums, role='code_column hide_tags=copyright']
 ----
 include::finish/src/main/java/io/openliberty/guides/inventory/client/SystemClient.java[]
 ----
@@ -238,13 +238,13 @@ is included for you to test the basic functionality of the `system` service.
 If a test failure occurs, then you might have introduced a bug into the code.
 
 InventoryEndpointTest.java
-[source, Java, linenums, role='code_column']
+[source, Java, linenums, role='code_column hide_tags=copyright']
 ----
 include::finish/src/test/java/it/io/openliberty/guides/inventory/InventoryEndpointTest.java[]
 ----
 
 SystemEndpointTest.java
-[source, Java, linenums, role='code_column']
+[source, Java, linenums, role='code_column hide_tags=copyright']
 ----
 include::finish/src/test/java/it/io/openliberty/guides/system/SystemEndpointTest.java[]
 ----
@@ -276,7 +276,7 @@ the [hotspot file=0]`src/main/java/io/openliberty/guides/inventory/InventoryReso
 run the Maven build again. You see a test failure occur.
 
 InventoryResource.java
-[source, Java, linenums, role='code_column']
+[source, Java, linenums, role='code_column hide_tags=copyright']
 ----
 include::finish/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[]
 ----
