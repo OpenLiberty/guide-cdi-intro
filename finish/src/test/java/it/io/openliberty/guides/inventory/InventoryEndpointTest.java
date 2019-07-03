@@ -169,7 +169,6 @@ public class InventoryEndpointTest {
     response.close();
     badResponse.close();
   }
-
   // end::testUnknownHost[]
   // end::tests[]
   // tag::helpers[]
