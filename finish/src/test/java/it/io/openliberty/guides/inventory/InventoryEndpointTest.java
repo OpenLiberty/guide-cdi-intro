@@ -171,54 +171,16 @@ public class InventoryEndpointTest {
   }
   // end::testUnknownHost[]
   // end::tests[]
-  // tag::helpers[]
-  // tag::javadoc[]
-  /**
-   * <p>
-   * Returns response information from the specified URL.
-   * </p>
-   * 
-   * @param url
-   *          - target URL.
-   * @return Response object with the response from the specified URL.
-   */
-  // end::javadoc[]
+
   private Response getResponse(String url) {
     return client.target(url).request().get();
   }
 
-  // tag::javadoc[]
-  /**
-   * <p>
-   * Asserts that the given URL has the correct response code of 200.
-   * </p>
-   * 
-   * @param url
-   *          - target URL.
-   * @param response
-   *          - response received from the target URL.
-   */
-  // end::javadoc[]
   private void assertResponse(String url, Response response) {
     assertEquals("Incorrect response code from " + url, 200,
                  response.getStatus());
   }
 
-  // tag::javadoc[]
-  /**
-   * Asserts that the specified JVM system property is equivalent in both the
-   * system and inventory services.
-   * 
-   * @param propertyName
-   *          - name of the system property to check.
-   * @param hostname
-   *          - name of JVM's host.
-   * @param expected
-   *          - expected name.
-   * @param actual
-   *          - actual name.
-   */
-  // end::javadoc[]
   private void assertProperty(String propertyName, String hostname,
       String expected, String actual) {
     assertEquals("JVM system property [" + propertyName + "] "
@@ -226,11 +188,6 @@ public class InventoryEndpointTest {
         + "the inventory service for " + hostname, expected, actual);
   }
 
-  // tag::javadoc[]
-  /**
-   * Makes a simple GET request to inventory/localhost.
-   */
-  // end::javadoc[]
   private void visitLocalhost() {
     Response response = this.getResponse(baseUrl + SYSTEM_PROPERTIES);
     this.assertResponse(baseUrl, response);
@@ -240,6 +197,5 @@ public class InventoryEndpointTest {
         + "/localhost").request().get();
     targetResponse.close();
   }
-  // end::helpers[]
 }
 // end::testClass[]
