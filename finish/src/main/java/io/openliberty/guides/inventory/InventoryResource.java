@@ -27,7 +27,9 @@ import io.openliberty.guides.inventory.client.SystemClient;
 // tag::RequestScoped[]
 @RequestScoped
 // end::RequestScoped[]
+// tag::endpoint[]
 @Path("/systems")
+// end::endpoint[]
 // tag::InventoryResource[]
 public class InventoryResource {
 
