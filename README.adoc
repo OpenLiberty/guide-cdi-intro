@@ -70,13 +70,15 @@ include::{common-includes}/gitclone.adoc[]
 
 The `finish` directory in the root of this guide contains the finished inventory application. Give it a try before you proceed.
 
+To try out the application, first go to the `finish` directory. Then, run the following
+Maven goal to build the application and deploy it to Open Liberty:
+
 To try out the application, first navigate to the `finish` directory and then run the following
 Maven goals to build the application and run it inside Open Liberty:
 
 [role='command']
 ```
-cd finish
-mvn install liberty:start-server
+mvn liberty:dev
 ```
 
 Point your browser to the http://localhost:9080/inventory/systems[http://localhost:9080/inventory/systems^] URL. This is the starting point of the `inventory`
@@ -88,12 +90,7 @@ you see a new entry for `localhost`. For simplicity, only the OS name and userna
 each host. You can repeat this process for your own hostname or any other machine that is running
 the `system` service.
 
-After you are done checking out the application, stop the Open Liberty server:
-
-[role='command']
-```
-mvn liberty:stop-server
-```
+After you are done checking out the application, stop the Open Liberty server by simply typing `q` in the shell session and then press the `enter/return` key.
 
 == Handling dependencies in the application
 
@@ -102,6 +99,13 @@ You will use CDI to inject dependencies into the inventory manager application a
 === Managing scopes and contexts
 
 Navigate to the `start` directory to begin.
+
+Start Open Liberty in development mode, which starts the Open Liberty server and listens for file changes:
+
+[role=command]
+```
+mvn liberty:dev
+```
 
 [role="code_command hotspot", subs="quotes"]
 ----
@@ -178,17 +182,12 @@ include::finish/src/main/java/io/openliberty/guides/inventory/client/SystemClien
 // Building the application
 // =================================================================================================
 
-[role='command']
-include::{common-includes}/mvnbuild.adoc[]
+The Open Liberty server was already started in developer mode at the beginning of the guide and all the changes have been automatically picked up.
 
 You can find the `inventory` and `system` services at the following URLs:
 
 - http://localhost:9080/inventory/systems[http://localhost:9080/inventory/systems^]
 - http://localhost:9080/system/properties[http://localhost:9080/system/properties^]
-
-[role='command']
-include::{common-includes}/mvncompile.adoc[]
-
 
 // =================================================================================================
 // Testing
@@ -253,8 +252,9 @@ include::finish/src/test/java/it/io/openliberty/guides/system/SystemEndpointTest
 // Running the tests
 // =================================================================================================
 
-[role='command']
-include::{common-includes}/mvnverify.adoc[]
+Since we started Open Liberty in developer mode at the start of the guide, simply press `enter` to run the tests.
+
+If the tests pass, you will see a similar output to the following:
 
 [source, role='no_copy']
 ----
@@ -273,13 +273,15 @@ Tests run: 2, Failures: 0, Errors: 0, Skipped: 0
 
 To see whether the tests detect a failure, change the [hotspot=endpoint file=0]`endpoint` for the `inventory` service in
 the [hotspot file=0]`src/main/java/io/openliberty/guides/inventory/InventoryResource.java` file to something else, then
-run the Maven build again. You see a test failure occur.
+run the tests again to see a test failure occur.
 
 InventoryResource.java
 [source, Java, linenums, role='code_column hide_tags=copyright']
 ----
 include::finish/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[]
 ----
+
+Afterwards, stop the server by typing `q` in the shell session where you ran the server and then press the `enter/return` key.
 
 == Great work! You're done!
 
