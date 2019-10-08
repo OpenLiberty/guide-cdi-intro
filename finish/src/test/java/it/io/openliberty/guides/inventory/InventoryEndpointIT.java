@@ -75,28 +75,11 @@ public class InventoryEndpointIT {
   // end::test[]
   // tag::testSuite[]
   public void testSuite() {
-    this.testEmptyInventory();
     this.testHostRegistration();
     this.testSystemPropertiesMatch();
     this.testUnknownHost();
   }
   // end::testSuite[]
-
-  // tag::testEmptyInventory[]
-  public void testEmptyInventory() {
-    Response response = this.getResponse(baseUrl + INVENTORY_SYSTEMS);
-    this.assertResponse(baseUrl, response);
-
-    JsonObject obj = response.readEntity(JsonObject.class);
-
-    int expected = 0;
-    int actual = obj.getInt("total");
-    assertEquals("The inventory should be empty on application start but it wasn't",
-                 expected, actual);
-
-    response.close();
-  }
-  // end::testEmptyInventory[]
 
   // tag::testHostRegistration[]
   public void testHostRegistration() {
@@ -106,11 +89,6 @@ public class InventoryEndpointIT {
     this.assertResponse(baseUrl, response);
 
     JsonObject obj = response.readEntity(JsonObject.class);
-
-    int expected = 1;
-    int actual = obj.getInt("total");
-    assertEquals("The inventory should have one entry for localhost", expected,
-                 actual);
 
     boolean localhostExists = obj.getJsonArray("systems").getJsonObject(0)
                                  .get("hostname").toString()

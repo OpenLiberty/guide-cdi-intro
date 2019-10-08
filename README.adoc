@@ -216,8 +216,6 @@ method simply destroys this client instance.
 
 See the following descriptions of the test cases:
 
-* [hotspot=testEmptyInventory file=0]`testEmptyInventory()` verifies that the inventory is initially empty when the server first starts up.
-
 * [hotspot=testHostRegistration file=0]`testHostRegistration()` verifies that a host is correctly added to the inventory.
 
 * [hotspot=testSystemPropertiesMatch file=0]`testSystemPropertiesMatch()` verifies that the JVM system properties returned by the `system` service match
