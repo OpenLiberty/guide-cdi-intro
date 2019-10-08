@@ -200,8 +200,8 @@ In testing the functionality of the application, the scopes and dependencies are
 
 [role="code_command hotspot", subs="quotes"]
 ----
-#Create the `InventoryEndpointTest` class.#
-`src/test/java/it/io/openliberty/guides/inventory/InventoryEndpointTest.java`
+#Create the `InventoryEndpointIT` class.#
+`src/test/java/it/io/openliberty/guides/inventory/InventoryEndpointIT.java`
 ----
 
 The [hotspot=BeforeClass file=0]`@BeforeClass` annotation is placed on a method that runs before any of the test cases.
@@ -229,20 +229,20 @@ properties is correctly handled as an error.
 To force these test cases to run in a particular order, put them in a [hotspot=testSuite file=0]`testSuite()` method and label
 it with a [hotspot=test file=0]`@Test` annotation so that it automatically runs when your test class run.
 
-Finally, the [hotspot file=1]`src/test/java/it/io/openliberty/guides/system/SystemEndpointTest.java` file
+Finally, the [hotspot file=1]`src/test/java/it/io/openliberty/guides/system/SystemEndpointIT.java` file
 is included for you to test the basic functionality of the `system` service.
 If a test failure occurs, then you might have introduced a bug into the code.
 
-InventoryEndpointTest.java
+InventoryEndpointIT.java
 [source, Java, linenums, role='code_column hide_tags=copyright']
 ----
-include::finish/src/test/java/it/io/openliberty/guides/inventory/InventoryEndpointTest.java[]
+include::finish/src/test/java/it/io/openliberty/guides/inventory/InventoryEndpointIT.java[]
 ----
 
-SystemEndpointTest.java
+SystemEndpointIT.java
 [source, Java, linenums, role='code_column hide_tags=copyright']
 ----
-include::finish/src/test/java/it/io/openliberty/guides/system/SystemEndpointTest.java[]
+include::finish/src/test/java/it/io/openliberty/guides/system/SystemEndpointIT.java[]
 ----
 
 // =================================================================================================
@@ -258,10 +258,10 @@ If the tests pass, you will see a similar output to the following:
 -------------------------------------------------------
  T E S T S
 -------------------------------------------------------
-Running it.io.openliberty.guides.system.SystemEndpointTest
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.99 sec - in it.io.openliberty.guides.system.SystemEndpointTest
-Running it.io.openliberty.guides.inventory.InventoryEndpointTest
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.325 sec - in it.io.openliberty.guides.inventory.InventoryEndpointTest
+Running it.io.openliberty.guides.system.SystemEndpointIT
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.99 sec - in it.io.openliberty.guides.system.SystemEndpointIT
+Running it.io.openliberty.guides.inventory.InventoryEndpointIT
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.325 sec - in it.io.openliberty.guides.inventory.InventoryEndpointIT
 
 Results :
 
