@@ -73,9 +73,6 @@ The `finish` directory in the root of this guide contains the finished inventory
 To try out the application, first go to the `finish` directory. Then, run the following
 Maven goal to build the application and deploy it to Open Liberty:
 
-To try out the application, first navigate to the `finish` directory and then run the following
-Maven goals to build the application and run it inside Open Liberty:
-
 [role='command']
 ```
 mvn liberty:dev

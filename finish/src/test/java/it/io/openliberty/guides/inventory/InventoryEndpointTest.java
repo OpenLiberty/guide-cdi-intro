@@ -43,7 +43,7 @@ public class InventoryEndpointTest {
   // end::BeforeClass[]
   // tag::oneTimeSetup[]
   public static void oneTimeSetup() {
-    port = System.getProperty("liberty.test.port");
+    port = System.getProperty("liberty.test.port", "9080");
     baseUrl = "http://localhost:" + port + "/";
   }
   // end::oneTimeSetup[]
