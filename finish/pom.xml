@@ -21,7 +21,7 @@
     </properties>
 
     <dependencies>
-        <!--Open Liberty features -->
+        <!-- Provided dependencies -->
         <dependency>
             <groupId>org.eclipse.microprofile</groupId>
             <artifactId>microprofile</artifactId>
