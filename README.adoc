@@ -179,7 +179,9 @@ include::finish/src/main/java/io/openliberty/guides/inventory/client/SystemClien
 // Building the application
 // =================================================================================================
 
-The Open Liberty server was already started in developer mode at the beginning of the guide and all the changes have been automatically picked up.
+== Building and running the application
+
+The Open Liberty server was already started in development mode at the beginning of the guide and all the changes have been automatically picked up.
 
 You can find the `inventory` and `system` services at the following URLs:
 
@@ -249,7 +251,7 @@ include::finish/src/test/java/it/io/openliberty/guides/system/SystemEndpointIT.j
 
 === Running the tests
 
-Since we started Open Liberty in developer mode at the start of the guide, simply press `enter` to run the tests.
+Since we started Open Liberty in development mode at the start of the guide, simply press `enter` to run the tests.
 
 If the tests pass, you will see a similar output to the following:
 
