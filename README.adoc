@@ -75,7 +75,7 @@ Maven goal to build the application and deploy it to Open Liberty:
 
 [role='command']
 ```
-mvn liberty:dev
+mvn liberty:run
 ```
 
 Point your browser to the http://localhost:9080/inventory/systems[http://localhost:9080/inventory/systems^] URL. This is the starting point of the `inventory`
@@ -87,7 +87,14 @@ you see a new entry for `localhost`. For simplicity, only the OS name and userna
 each host. You can repeat this process for your own hostname or any other machine that is running
 the `system` service.
 
-After you are done checking out the application, stop the Open Liberty server by simply typing `q` in the shell session and then press the `enter/return` key.
+After you are done checking out the application, stop the Open Liberty server by pressing `CTRL+C`
+in the shell session where you ran the server. Alternatively, you can run the `liberty:stop` goal
+from the `finish` directory in another shell session:
+
+[role='command']
+```
+mvn liberty:stop
+```
 
 == Handling dependencies in the application
 
@@ -181,7 +188,7 @@ include::finish/src/main/java/io/openliberty/guides/inventory/client/SystemClien
 
 == Building and running the application
 
-The Open Liberty server was already started in development mode at the beginning of the guide and all the changes have been automatically picked up.
+The Open Liberty server was started in development mode at the beginning of the guide and all the changes were automatically picked up.
 
 You can find the `inventory` and `system` services at the following URLs:
 
@@ -251,7 +258,7 @@ include::finish/src/test/java/it/io/openliberty/guides/system/SystemEndpointIT.j
 
 === Running the tests
 
-Since we started Open Liberty in development mode at the start of the guide, simply press `enter` to run the tests.
+Since you started Open Liberty in development mode at the start of the guide, press the `enter/return` to run the tests.
 
 If the tests pass, you will see a similar output to the following:
 
@@ -280,7 +287,7 @@ InventoryResource.java
 include::finish/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[]
 ----
 
-Afterwards, stop the server by typing `q` in the shell session where you ran the server and then press the `enter/return` key.
+Afterward, stop the server by typing `q` in the shell session where you ran the server and then press the `enter/return` key.
 
 == Great work! You're done!
 
