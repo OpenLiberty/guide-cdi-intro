@@ -258,7 +258,7 @@ include::finish/src/test/java/it/io/openliberty/guides/system/SystemEndpointIT.j
 
 === Running the tests
 
-Since you started Open Liberty in development mode at the start of the guide, press the `enter/return` to run the tests.
+Since you started Open Liberty in development mode at the start of the guide, press the `enter/return` key to run the tests.
 
 If the tests pass, you will see a similar output to the following:
 
