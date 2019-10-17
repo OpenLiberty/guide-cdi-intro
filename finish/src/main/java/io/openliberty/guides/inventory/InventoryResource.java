@@ -23,6 +23,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import io.openliberty.guides.inventory.model.InventoryList;
 import io.openliberty.guides.inventory.client.SystemClient;
+import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 // tag::RequestScoped[]
 @RequestScoped
@@ -41,6 +42,7 @@ public class InventoryResource {
   // tag::inject2[]
   @Inject
   // end::inject2[]
+  @RestClient
   SystemClient systemClient;
 
   @GET
@@ -49,7 +51,7 @@ public class InventoryResource {
   public Response getPropertiesForHost(@PathParam("hostname") String hostname) {
     // Get properties for host
     // tag::properties[]
-    Properties props = systemClient.getProperties(hostname);
+    Properties props = systemClient.getProperties();
     // end::properties[]
     if (props == null) {
       return Response.status(Response.Status.NOT_FOUND)
