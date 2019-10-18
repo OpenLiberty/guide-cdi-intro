@@ -18,6 +18,7 @@ import javax.ws.rs.client.Invocation.Builder;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.ProcessingException;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -25,13 +26,15 @@ import javax.ws.rs.core.Response.Status;
 import java.util.Properties;
 import java.net.URI;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
+import org.eclipse.microprofile.rest.client.annotation.RegisterProvider;
 
 @RegisterRestClient
+@RegisterProvider(UnknownUrlExceptionMapper.class)
 @Path("/properties")
 public interface SystemClient {
 
   @GET
   @Produces(MediaType.APPLICATION_JSON)
-  public Properties getProperties();
+  public Properties getProperties() throws UnknownUrlException, ProcessingException;
 
 }
