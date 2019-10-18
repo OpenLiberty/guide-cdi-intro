@@ -16,6 +16,7 @@ package it.io.openliberty.guides.inventory;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -90,9 +91,14 @@ public class InventoryEndpointIT {
 
     JsonObject obj = response.readEntity(JsonObject.class);
 
-    boolean localhostExists = obj.getJsonArray("systems").getJsonObject(0)
-                                 .get("hostname").toString()
-                                 .contains("localhost");
+    JsonArray systems = obj.getJsonArray("systems");
+
+    boolean localhostExists = false;
+    for (int n = 0; n < systems.size(); n++) {
+      localhostExists = systems.getJsonObject(n)
+                                .get("hostname").toString()
+                                .contains("localhost");
+    }
     assertTrue("A host was registered, but it was not localhost",
                localhostExists);
 
