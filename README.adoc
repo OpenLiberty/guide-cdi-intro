@@ -161,12 +161,12 @@ This injects the beans in their specified context and makes all of their functio
 available without the need of instantiating them yourself.
 The injected bean `InventoryManager` can then be invoked directly through the [hotspot=managerAdd file=0]`manager.add(hostname, props)`
 and [hotspot=managerList file=0]`manager.list()` function calls.  The injected bean `SystemClient` can be invoked through the 
-[hotspot=properties file=0]`systemClient.getProperties(hostname)` function call.
+[hotspot=properties file=0]`systemClient.getProperties()` function call.
 
 Finally, you have a client component [hotspot file=1]`SystemClient` that can be found in the
 `src/main/java/io/openliberty/guides/inventory/client` directory. This class communicates 
 with the `system` service to retrieve the JVM system properties for a particular host 
-that exposes them. This class also contains detailed Javadocs that you can read for reference.
+that exposes them.
 
 Your inventory application is now completed.
 
@@ -258,7 +258,7 @@ include::finish/src/test/java/it/io/openliberty/guides/system/SystemEndpointIT.j
 
 === Running the tests
 
-Since you started Open Liberty in development mode at the start of the guide, press the `enter/return` to run the tests.
+Since you started Open Liberty in development mode at the start of the guide, press the `enter/return` key to run the tests.
 
 If the tests pass, you will see a similar output to the following:
 
