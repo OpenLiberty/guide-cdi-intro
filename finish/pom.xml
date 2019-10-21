@@ -58,12 +58,6 @@
             <version>1.0.4</version>
             <scope>test</scope>
         </dependency>
-        <!-- Java utility classes -->
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>3.0</version>
-        </dependency>
         <!-- Support for JDK 9 and above -->
         <dependency>
             <groupId>javax.xml.bind</groupId>

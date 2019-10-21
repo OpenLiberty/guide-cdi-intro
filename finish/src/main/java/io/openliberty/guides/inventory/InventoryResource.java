@@ -12,12 +12,6 @@
 // end::copyright[]
 package io.openliberty.guides.inventory;
 
-import java.net.URL;
-import java.net.ConnectException;
-import java.net.UnknownHostException;
-import java.net.MalformedURLException;
-import javax.ws.rs.ProcessingException;
-
 import java.util.Properties;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -29,12 +23,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import io.openliberty.guides.inventory.model.InventoryList;
 import io.openliberty.guides.inventory.client.SystemClient;
-import io.openliberty.guides.inventory.client.UnknownUrlException;
-import io.openliberty.guides.inventory.client.UnknownUrlExceptionMapper;
-import org.eclipse.microprofile.rest.client.RestClientBuilder;
-import org.eclipse.microprofile.rest.client.inject.RestClient;
-import org.eclipse.microprofile.config.inject.ConfigProperty;
-import org.apache.commons.lang3.exception.ExceptionUtils;
 
 // tag::RequestScoped[]
 @RequestScoped
@@ -53,37 +41,16 @@ public class InventoryResource {
   // tag::inject2[]
   @Inject
   // end::inject2[]
-  @RestClient
   SystemClient systemClient;
-
-  @Inject
-  @ConfigProperty(name = "default.http.port")
-  String DEFAULT_PORT;
 
   @GET
   @Path("/{hostname}")
   @Produces(MediaType.APPLICATION_JSON)
   public Response getPropertiesForHost(@PathParam("hostname") String hostname) {
     // Get properties for host
-    String customURLString = "http://" + hostname + ":" + DEFAULT_PORT + "/system";
-    URL customURL = null;
-    Properties props = null;
-    try {
-      customURL = new URL(customURLString);
-      SystemClient systemClient = RestClientBuilder.newBuilder()
-                .baseUrl(customURL)
-                .register(UnknownUrlExceptionMapper.class)
-                .build(SystemClient.class);
-      // tag::properties[]
-      props = systemClient.getProperties();
-      // end::properties[]
-    } catch (ProcessingException ex) {
-      handleProcessingException(ex);
-    } catch (UnknownUrlException e) {
-      System.err.println("The given URL is unreachable.");
-    } catch (MalformedURLException e) {
-      System.err.println("The given URL is not formatted correctly.");
-    }
+    // tag::properties[]
+    Properties props = systemClient.getProperties(hostname);
+    // end::properties[]
     if (props == null) {
       return Response.status(Response.Status.NOT_FOUND)
                      .entity("ERROR: Unknown hostname or the system service may not be " 
@@ -105,16 +72,5 @@ public class InventoryResource {
     return manager.list();
     // end::managerList[]
   }
-
-  private void handleProcessingException(ProcessingException ex) {
-    Throwable rootEx = ExceptionUtils.getRootCause(ex);
-    if (rootEx != null && (rootEx instanceof UnknownHostException || 
-        rootEx instanceof ConnectException)) {
-      System.err.println("The specified host is unknown.");
-    } else {
-      throw ex;
-    }
-  }
-
 }
 // tag::InventoryResource[]

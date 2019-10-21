@@ -161,12 +161,12 @@ This injects the beans in their specified context and makes all of their functio
 available without the need of instantiating them yourself.
 The injected bean `InventoryManager` can then be invoked directly through the [hotspot=managerAdd file=0]`manager.add(hostname, props)`
 and [hotspot=managerList file=0]`manager.list()` function calls.  The injected bean `SystemClient` can be invoked through the 
-[hotspot=properties file=0]`systemClient.getProperties()` function call.
+[hotspot=properties file=0]`systemClient.getProperties(hostname)` function call.
 
 Finally, you have a client component [hotspot file=1]`SystemClient` that can be found in the
 `src/main/java/io/openliberty/guides/inventory/client` directory. This class communicates 
 with the `system` service to retrieve the JVM system properties for a particular host 
-that exposes them.
+that exposes them. This class also contains detailed Javadocs that you can read for reference.
 
 Your inventory application is now completed.
 
