@@ -1,6 +1,6 @@
 // tag::copyright[]
 /*******************************************************************************
- * Copyright (c) 2017 IBM Corporation and others.
+ * Copyright (c) 2017, 2019 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -13,6 +13,7 @@
 package io.openliberty.guides.inventory.client;
 
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Invocation.Builder;
@@ -22,18 +23,22 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import java.util.Properties;
 import java.net.URI;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 @RequestScoped
 public class SystemClient {
 
   // Constants for building URI to the system service.
-  private final int DEFAULT_PORT = Integer.valueOf(System.getProperty("default.http.port", "9080"));
   private final String SYSTEM_PROPERTIES = "/system/properties";
   private final String PROTOCOL = "http";
 
+  @Inject
+  @ConfigProperty(name = "system.http.port")
+  String SYS_HTTP_PORT;
+
   // Wrapper function that gets properties
   public Properties getProperties(String hostname) {
-    String url = buildUrl(PROTOCOL, hostname, Integer.valueOf(DEFAULT_PORT), SYSTEM_PROPERTIES);
+    String url = buildUrl(PROTOCOL, hostname, Integer.valueOf(SYS_HTTP_PORT), SYSTEM_PROPERTIES);
     Builder clientBuilder = buildClientBuilder(url);
     return getPropertiesHelper(clientBuilder);
   }
