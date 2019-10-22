@@ -287,7 +287,7 @@ InventoryResource.java
 include::finish/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[]
 ----
 
-Afterward, stop the server by typing `q` in the shell session where you ran the server and then press the `enter/return` key.
+Afterward, stop the server by typing `q` in the shell session where you ran the server and then pressing the `enter/return` key.
 
 == Great work! You're done!
 
