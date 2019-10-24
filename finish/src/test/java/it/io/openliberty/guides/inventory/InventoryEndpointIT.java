@@ -13,8 +13,8 @@
 // tag::testClass[]
 package it.io.openliberty.guides.inventory;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import javax.json.JsonArray;
 import javax.json.JsonObject;
@@ -24,10 +24,10 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.apache.cxf.jaxrs.provider.jsrjsonp.JsrJsonpProvider;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 public class InventoryEndpointIT {
 
@@ -40,7 +40,7 @@ public class InventoryEndpointIT {
   private final String INVENTORY_SYSTEMS = "inventory/systems";
 
   // tag::BeforeClass[]
-  @BeforeClass
+  @BeforeAll
   // end::BeforeClass[]
   // tag::oneTimeSetup[]
   public static void oneTimeSetup() {
@@ -50,7 +50,7 @@ public class InventoryEndpointIT {
   // end::oneTimeSetup[]
 
   // tag::Before[]
-  @Before
+  @BeforeEach
   // end::Before[]
   // tag::setup[]
   public void setup() {
@@ -62,7 +62,7 @@ public class InventoryEndpointIT {
   // end::setup[]
 
   // tag::After[]
-  @After
+  @AfterEach
   // end::After[]
   // tag::teardown[]
   public void teardown() {
@@ -99,8 +99,8 @@ public class InventoryEndpointIT {
                                 .get("hostname").toString()
                                 .contains("localhost");
     }
-    assertTrue("A host was registered, but it was not localhost",
-               localhostExists);
+    assertTrue(localhostExists, 
+              "A host was registered, but it was not localhost");
 
     response.close();
   }
@@ -123,13 +123,15 @@ public class InventoryEndpointIT {
 
     String osNameFromInventory = jsonFromInventory.getString("os.name");
     String osNameFromSystem = jsonFromSystem.getString("os.name");
-    this.assertProperty("os.name", "localhost", osNameFromSystem,
-                        osNameFromInventory);
+    this.assertProperty(osNameFromSystem, 
+                        osNameFromInventory, 
+                        "os.name", "os.name");
 
     String userNameFromInventory = jsonFromInventory.getString("user.name");
     String userNameFromSystem = jsonFromSystem.getString("user.name");
-    this.assertProperty("user.name", "localhost", userNameFromSystem,
-                        userNameFromInventory);
+    this.assertProperty(userNameFromSystem, 
+                        userNameFromInventory, 
+                        "user.name", "user.name");
 
     invResponse.close();
     sysResponse.close();
@@ -147,8 +149,8 @@ public class InventoryEndpointIT {
     String obj = badResponse.readEntity(String.class);
 
     boolean isError = obj.contains("ERROR");
-    assertTrue("badhostname is not a valid host but it didn't raise an error",
-               isError);
+    assertTrue(isError, 
+              "badhostname is not a valid host but it didn't raise an error");
 
     response.close();
     badResponse.close();
@@ -161,15 +163,14 @@ public class InventoryEndpointIT {
   }
 
   private void assertResponse(String url, Response response) {
-    assertEquals("Incorrect response code from " + url, 200,
-                 response.getStatus());
+    assertEquals(200, response.getStatus(), "Incorrect response code from " + url);
   }
 
   private void assertProperty(String propertyName, String hostname,
       String expected, String actual) {
-    assertEquals("JVM system property [" + propertyName + "] "
+    assertEquals(expected, actual, "JVM system property [" + propertyName + "] "
         + "in the system service does not match the one stored in "
-        + "the inventory service for " + hostname, expected, actual);
+        + "the inventory service for " + hostname);
   }
 
   private void visitLocalhost() {
