@@ -12,7 +12,7 @@
 // end::copyright[]
 package io.openliberty.guides.inventory.client;
 
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -25,7 +25,7 @@ import java.util.Properties;
 import java.net.URI;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
-@RequestScoped
+@ApplicationScoped
 public class SystemClient {
 
   // Constants for building URI to the system service.
