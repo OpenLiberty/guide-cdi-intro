@@ -39,9 +39,9 @@ public class InventoryEndpointIT {
   private final String SYSTEM_PROPERTIES = "system/properties";
   private final String INVENTORY_SYSTEMS = "inventory/systems";
 
-  // tag::BeforeClass[]
+  // tag::BeforeAll[]
   @BeforeAll
-  // end::BeforeClass[]
+  // end::BeforeAll[]
   // tag::oneTimeSetup[]
   public static void oneTimeSetup() {
     port = System.getProperty("http.port");
@@ -49,9 +49,9 @@ public class InventoryEndpointIT {
   }
   // end::oneTimeSetup[]
 
-  // tag::Before[]
+  // tag::BeforeEach[]
   @BeforeEach
-  // end::Before[]
+  // end::BeforeEach[]
   // tag::setup[]
   public void setup() {
     client = ClientBuilder.newClient();
@@ -61,9 +61,9 @@ public class InventoryEndpointIT {
   }
   // end::setup[]
 
-  // tag::After[]
+  // tag::AfterEach[]
   @AfterEach
-  // end::After[]
+  // end::AfterEach[]
   // tag::teardown[]
   public void teardown() {
     client.close();
@@ -123,15 +123,13 @@ public class InventoryEndpointIT {
 
     String osNameFromInventory = jsonFromInventory.getString("os.name");
     String osNameFromSystem = jsonFromSystem.getString("os.name");
-    this.assertProperty(osNameFromSystem, 
-                        osNameFromInventory, 
-                        "os.name", "os.name");
+    this.assertProperty("os.name", "localhost", osNameFromSystem,
+                        osNameFromInventory);
 
     String userNameFromInventory = jsonFromInventory.getString("user.name");
     String userNameFromSystem = jsonFromSystem.getString("user.name");
-    this.assertProperty(userNameFromSystem, 
-                        userNameFromInventory, 
-                        "user.name", "user.name");
+    this.assertProperty("user.name", "localhost", userNameFromSystem,
+                        userNameFromInventory);
 
     invResponse.close();
     sysResponse.close();

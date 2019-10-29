@@ -1,4 +1,4 @@
-//tag::comment[]
+//tag::copyright[]
 /*******************************************************************************
 * Copyright (c) 2017, 2019 IBM Corporation and others.
 * All rights reserved. This program and the accompanying materials
@@ -9,7 +9,7 @@
 * Contributors:
 *     IBM Corporation - initial API and implementation
 *******************************************************************************/
-// end::comment[]
+// end::copyright[]
 package it.io.openliberty.guides.system;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -40,8 +40,8 @@ public class SystemEndpointIT {
      JsonObject obj = response.readEntity(JsonObject.class);
 
      assertEquals(System.getProperty("os.name"),
-                        obj.getString("os.name"),
-                        "The system property for the local and remote JVM should match");
+                  obj.getString("os.name"),
+                  "The system property for the local and remote JVM should match");
      
      response.close();
  }

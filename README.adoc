@@ -147,8 +147,7 @@ include::finish/src/main/java/io/openliberty/guides/inventory/InventoryResource.
 The inventory resource is a RESTful service that is served at the `inventory/systems` endpoint. 
 
 Add the [hotspot=ApplicationScoped file=1]`@ApplicationScoped` annotation on the class to indicate that this bean is
-to be initialized once for every request. In other words, the bean is instantiated when the request
-is received and created once for the duration of the application, where the state of the bean is shared between all the requests.
+to be initialized once for the duration of the application, where the state of the bean is shared between all the requests.
 
 === Injecting a dependency
 
@@ -212,11 +211,11 @@ In testing the functionality of the application, the scopes and dependencies are
 `src/test/java/it/io/openliberty/guides/inventory/InventoryEndpointIT.java`
 ----
 
-The [hotspot=BeforeClass file=0]`@BeforeClass` annotation is placed on a method that runs before any of the test cases.
+The [hotspot=BeforeAll file=0]`@BeforeAll` annotation is placed on a method that runs before any of the test cases.
 In this case, the [hotspot=oneTimeSetup file=0]`oneTimeSetup()` method retrieves the port number for the Open Liberty server and builds
 a base URL string that is used throughout the tests.
 
-The [hotspot=Before file=0]`@Before` and [hotspot=After file=0]`@After` annotations are placed on methods that run before and after every test case.
+The [hotspot=BeforeEach file=0]`@BeforeEach` and [hotspot=AfterEach file=0]`@AfterEach` annotations are placed on methods that run before and after every test case.
 These methods are generally used to perform any setup and teardown tasks. In this case, the [hotspot=setup file=0]`setup()` method
 creates a JAX-RS client, which makes HTTP requests to the `inventory` service. This client must
 also be registered with a JSON-P provider ([hotspot=JsrJsonpProvider file=0]`JsrJsonpProvider`) to process JSON resources. The [hotspot=teardown file=0]`teardown()`
