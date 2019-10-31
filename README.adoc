@@ -149,9 +149,7 @@ The inventory resource is a RESTful service that is served at the `inventory/sys
 Add the [hotspot=ApplicationScoped file=1]`@ApplicationScoped` annotation on the class to indicate that this bean is
 to be initialized once for the duration of the application, where the state of the bean is shared between all the requests.
 
-CDI can also provide another scope using the `@RequestScoped` annotation to indicate that a bean is to be initialized once for every request. 
-In other words, the bean is instantiated when the request is received and destroyed when a response is sent back to the client. 
-A request scope is short-lived and is therefore ideal for HTTP requests.
+If you want this bean to be initialized once for every request, you can add the `@RequestScoped` annotation on the class instead. In other words, the bean is instantiated when the request is received and destroyed when a response is sent back to the client. A request scope is short-lived.
 
 === Injecting a dependency
 
