@@ -233,8 +233,7 @@ the ones stored in the `inventory` service.
 * [hotspot=testUnknownHost file=0]`testUnknownHost()` verifies that an unknown host or a host that does not expose their JVM system
 properties is correctly handled as an error.
 
-To force these test cases to run in a particular order, add the [hotspot=TestMethodOrder file=0]`@TestMethodOrder` annotation to your test class
-and specify a [hotspot=MethodOrderer hotspot=TestMethodOrder file=0]`MethodOrderer` class. 
+To force these test cases to run in a particular order, annotate your [hotspot file=0]`InventoryEndpointIT` test class with [hotspot=TestMethodOrder file=0]`@TestMethodOrder(OrderAnnotation.class)`.
 [hotspot=MethodOrderer hotspot=TestMethodOrder file=0]`OrderAnnotation.class` executes test methods in numerical order, 
 according to the values specified in the [hotspot=Order1 hotspot=Order2 hotspot=Order3 file=0]`@Order` annotation. 
 You can also create a custom `MethodOrderer` class or use built-in `MethodOrderer` implementations, 
