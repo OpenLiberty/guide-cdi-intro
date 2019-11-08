@@ -87,7 +87,7 @@ you see a new entry for `localhost`. For simplicity, only the OS name and userna
 each host. You can repeat this process for your own hostname or any other machine that is running
 the `system` service.
 
-After you are done checking out the application, stop the Open Liberty server by pressing `CTRL+C`
+After you are finished checking out the application, stop the Open Liberty server by pressing `CTRL+C`
 in the shell session where you ran the server. Alternatively, you can run the `liberty:stop` goal
 from the `finish` directory in another shell session:
 
