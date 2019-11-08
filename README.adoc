@@ -274,11 +274,11 @@ If the tests pass, you will see a similar output to the following:
 Running it.io.openliberty.guides.system.SystemEndpointIT
 Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.99 sec - in it.io.openliberty.guides.system.SystemEndpointIT
 Running it.io.openliberty.guides.inventory.InventoryEndpointIT
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.325 sec - in it.io.openliberty.guides.inventory.InventoryEndpointIT
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.325 sec - in it.io.openliberty.guides.inventory.InventoryEndpointIT
 
 Results :
 
-Tests run: 2, Failures: 0, Errors: 0, Skipped: 0
+Tests run: 4, Failures: 0, Errors: 0, Skipped: 0
 ----
 
 To see whether the tests detect a failure, change the [hotspot=endpoint file=0]`endpoint` for the `inventory` service in
