@@ -146,10 +146,9 @@ include::finish/src/main/java/io/openliberty/guides/inventory/InventoryResource.
 
 The inventory resource is a RESTful service that is served at the `inventory/systems` endpoint. 
 
-Add the [hotspot=ApplicationScoped file=1]`@ApplicationScoped` annotation on the class to indicate that this bean is
-to be initialized once for the duration of the application, where the state of the bean is shared between all the requests.
+Annotating a class with the [hotspot=ApplicationScoped file=1]`@ApplicationScoped` annotation indicates that the bean is initialized once and is shared between all requests while the application runs.
 
-If you want this bean to be initialized once for every request, you can add the `@RequestScoped` annotation on the class instead. In other words, the bean is instantiated when the request is received and destroyed when a response is sent back to the client. A request scope is short-lived.
+If you want this bean to be initialized once for every request, you can annotate the class with the `@RequestScoped` annotation instead. With the `@RequestScoped` annotation, the bean is instantiated when the request is received and destroyed when a response is sent back to the client. A request scope is short-lived.
 
 === Injecting a dependency
 
@@ -260,7 +259,7 @@ include::finish/src/test/java/it/io/openliberty/guides/system/SystemEndpointIT.j
 
 Since you started Open Liberty in development mode at the start of the guide, press the `enter/return` key to run the tests.
 
-If the tests pass, you will see a similar output to the following:
+If the tests pass, you see a similar output to the following example:
 
 [source, role='no_copy']
 ----
@@ -278,8 +277,8 @@ Tests run: 2, Failures: 0, Errors: 0, Skipped: 0
 ----
 
 To see whether the tests detect a failure, change the [hotspot=endpoint file=0]`endpoint` for the `inventory` service in
-the [hotspot file=0]`src/main/java/io/openliberty/guides/inventory/InventoryResource.java` file to something else, then
-run the tests again to see a test failure occur.
+the [hotspot file=0]`src/main/java/io/openliberty/guides/inventory/InventoryResource.java` file to something else. Then,
+run the tests again to see that a test failure occurs.
 
 InventoryResource.java
 [source, Java, linenums, role='code_column hide_tags=copyright']
@@ -287,10 +286,10 @@ InventoryResource.java
 include::finish/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[]
 ----
 
-When you are done checking out the service, exit development mode by typing `q` in the shell session where you ran the server and then pressing the `enter/return` key.
+When you are done checking out the service, exit development mode by typing `q` in the shell session where you ran the server, and then press the `enter/return` key.
 
 == Great work! You're done!
 
-You have just completed building a simple inventory application using CDI services in Open Liberty.
+You just used CDI services in Open Liberty to build a simple inventory application.
 
 include::{common-includes}/attribution.adoc[subs="attributes"]
