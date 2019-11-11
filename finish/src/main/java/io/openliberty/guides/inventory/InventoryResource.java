@@ -13,7 +13,7 @@
 package io.openliberty.guides.inventory;
 
 import java.util.Properties;
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -24,9 +24,9 @@ import javax.ws.rs.core.Response;
 import io.openliberty.guides.inventory.model.InventoryList;
 import io.openliberty.guides.inventory.client.SystemClient;
 
-// tag::RequestScoped[]
-@RequestScoped
-// end::RequestScoped[]
+// tag::ApplicationScoped[]
+@ApplicationScoped
+// end::ApplicationScoped[]
 // tag::endpoint[]
 @Path("/systems")
 // end::endpoint[]
