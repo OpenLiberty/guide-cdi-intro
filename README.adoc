@@ -232,12 +232,12 @@ the ones stored in the `inventory` service.
 * [hotspot=testUnknownHost file=0]`testUnknownHost()` verifies that an unknown host or a host that does not expose their JVM system
 properties is correctly handled as an error.
 
-To force these test cases to run in a particular order, annotate your [hotspot file=0]`InventoryEndpointIT` test class with [hotspot=TestMethodOrder file=0]`@TestMethodOrder(OrderAnnotation.class)`.
-[hotspot=MethodOrderer hotspot=TestMethodOrder file=0]`OrderAnnotation.class` executes test methods in numerical order, 
+To force these test cases to run in a particular order, annotate your [hotspot file=0]`InventoryEndpointIT` test class with the [hotspot=TestMethodOrder file=0]`@TestMethodOrder(OrderAnnotation.class)` annotation.
+[hotspot=MethodOrderer hotspot=TestMethodOrder file=0]`OrderAnnotation.class` runs test methods in numerical order, 
 according to the values specified in the [hotspot=Order1 hotspot=Order2 hotspot=Order3 file=0]`@Order` annotation. 
 You can also create a custom `MethodOrderer` class or use built-in `MethodOrderer` implementations, 
-such as `OrderAnnotation.class`, `Alphanumeric.class`, and `Random.class`. Label your test cases
-with a [hotspot=Test1 hotspot=Test2 hotspot=Test3 file=0]`@Test` annotation so that it automatically runs when your test class runs.
+such as `OrderAnnotation.class`, `Alphanumeric.class`, or `Random.class`. Label your test cases
+with the [hotspot=Test1 hotspot=Test2 hotspot=Test3 file=0]`@Test` annotation so that they automatically run when your test class runs.
 
 Finally, the [hotspot file=1]`src/test/java/it/io/openliberty/guides/system/SystemEndpointIT.java` file
 is included for you to test the basic functionality of the `system` service.
