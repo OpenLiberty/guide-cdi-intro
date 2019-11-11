@@ -27,8 +27,16 @@ import org.apache.cxf.jaxrs.provider.jsrjsonp.JsrJsonpProvider;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.BeforeAll;
+// tag::MethodOrderer[]
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+// end::MethodOrderer[]
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 
+// tag::TestMethodOrder[]
+@TestMethodOrder(OrderAnnotation.class)
+// end::TestMethodOrder[]
 public class InventoryEndpointIT {
 
   private static String port;
@@ -71,17 +79,12 @@ public class InventoryEndpointIT {
   // end::teardown[]
 
   // tag::tests[]
-  // tag::test[]
+  // tag::Test1[]
   @Test
-  // end::test[]
-  // tag::testSuite[]
-  public void testSuite() {
-    this.testHostRegistration();
-    this.testSystemPropertiesMatch();
-    this.testUnknownHost();
-  }
-  // end::testSuite[]
-
+  // end::Test1[]
+  // tag::Order1[]
+  @Order(1)
+  // end::Order1[]
   // tag::testHostRegistration[]
   public void testHostRegistration() {
     this.visitLocalhost();
@@ -109,6 +112,12 @@ public class InventoryEndpointIT {
   }
   // end::testHostRegistration[]
 
+  // tag::Test2[]
+  @Test
+  // end::Test2[]
+  // tag::Order2[]
+  @Order(2)
+  // end::Order2[]
   // tag::testSystemPropertiesMatch[]
   public void testSystemPropertiesMatch() {
     Response invResponse = this.getResponse(baseUrl + INVENTORY_SYSTEMS);
@@ -139,6 +148,12 @@ public class InventoryEndpointIT {
   }
   // end::testSystemPropertiesMatch[]
 
+  // tag::Test3[]
+  @Test
+  // end::Test3[]
+  // tag::Order3[]
+  @Order(3)
+  // end::Order3[]
   // tag::testUnknownHost[]
   public void testUnknownHost() {
     Response response = this.getResponse(baseUrl + INVENTORY_SYSTEMS);
