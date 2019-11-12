@@ -12,7 +12,7 @@
 // end::copyright[]
 package it.io.openliberty.guides.system;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import javax.json.JsonObject;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -20,13 +20,13 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 
 import org.apache.cxf.jaxrs.provider.jsrjsonp.JsrJsonpProvider;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class SystemEndpointTest {
+public class SystemEndpointIT {
 
  @Test
  public void testGetProperties() {
-     String port = System.getProperty("liberty.test.port");
+     String port = System.getProperty("http.port");
      String url = "http://localhost:" + port + "/";
 
      Client client = ClientBuilder.newClient();
@@ -35,13 +35,13 @@ public class SystemEndpointTest {
      WebTarget target = client.target(url + "system/properties");
      Response response = target.request().get();
 
-     assertEquals("Incorrect response code from " + url, 200, response.getStatus());
+     assertEquals(200, response.getStatus(), "Incorrect response code from " + url);
 
      JsonObject obj = response.readEntity(JsonObject.class);
 
-     assertEquals("The system property for the local and remote JVM should match",
-                  System.getProperty("os.name"),
-                  obj.getString("os.name"));
+     assertEquals(System.getProperty("os.name"),
+                  obj.getString("os.name"),
+                  "The system property for the local and remote JVM should match");
      
      response.close();
  }

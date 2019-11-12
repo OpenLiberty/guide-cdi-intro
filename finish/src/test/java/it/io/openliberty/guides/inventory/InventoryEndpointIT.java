@@ -13,9 +13,10 @@
 // tag::testClass[]
 package it.io.openliberty.guides.inventory;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -23,12 +24,20 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.apache.cxf.jaxrs.provider.jsrjsonp.JsrJsonpProvider;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
+// tag::MethodOrderer[]
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+// end::MethodOrderer[]
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 
-public class InventoryEndpointTest {
+// tag::TestMethodOrder[]
+@TestMethodOrder(OrderAnnotation.class)
+// end::TestMethodOrder[]
+public class InventoryEndpointIT {
 
   private static String port;
   private static String baseUrl;
@@ -38,19 +47,19 @@ public class InventoryEndpointTest {
   private final String SYSTEM_PROPERTIES = "system/properties";
   private final String INVENTORY_SYSTEMS = "inventory/systems";
 
-  // tag::BeforeClass[]
-  @BeforeClass
-  // end::BeforeClass[]
+  // tag::BeforeAll[]
+  @BeforeAll
+  // end::BeforeAll[]
   // tag::oneTimeSetup[]
   public static void oneTimeSetup() {
-    port = System.getProperty("liberty.test.port");
+    port = System.getProperty("http.port");
     baseUrl = "http://localhost:" + port + "/";
   }
   // end::oneTimeSetup[]
 
-  // tag::Before[]
-  @Before
-  // end::Before[]
+  // tag::BeforeEach[]
+  @BeforeEach
+  // end::BeforeEach[]
   // tag::setup[]
   public void setup() {
     client = ClientBuilder.newClient();
@@ -60,9 +69,9 @@ public class InventoryEndpointTest {
   }
   // end::setup[]
 
-  // tag::After[]
-  @After
-  // end::After[]
+  // tag::AfterEach[]
+  @AfterEach
+  // end::AfterEach[]
   // tag::teardown[]
   public void teardown() {
     client.close();
@@ -70,34 +79,12 @@ public class InventoryEndpointTest {
   // end::teardown[]
 
   // tag::tests[]
-  // tag::test[]
+  // tag::Test1[]
   @Test
-  // end::test[]
-  // tag::testSuite[]
-  public void testSuite() {
-    this.testEmptyInventory();
-    this.testHostRegistration();
-    this.testSystemPropertiesMatch();
-    this.testUnknownHost();
-  }
-  // end::testSuite[]
-
-  // tag::testEmptyInventory[]
-  public void testEmptyInventory() {
-    Response response = this.getResponse(baseUrl + INVENTORY_SYSTEMS);
-    this.assertResponse(baseUrl, response);
-
-    JsonObject obj = response.readEntity(JsonObject.class);
-
-    int expected = 0;
-    int actual = obj.getInt("total");
-    assertEquals("The inventory should be empty on application start but it wasn't",
-                 expected, actual);
-
-    response.close();
-  }
-  // end::testEmptyInventory[]
-
+  // end::Test1[]
+  // tag::Order1[]
+  @Order(1)
+  // end::Order1[]
   // tag::testHostRegistration[]
   public void testHostRegistration() {
     this.visitLocalhost();
@@ -107,21 +94,30 @@ public class InventoryEndpointTest {
 
     JsonObject obj = response.readEntity(JsonObject.class);
 
-    int expected = 1;
-    int actual = obj.getInt("total");
-    assertEquals("The inventory should have one entry for localhost", expected,
-                 actual);
+    JsonArray systems = obj.getJsonArray("systems");
 
-    boolean localhostExists = obj.getJsonArray("systems").getJsonObject(0)
-                                 .get("hostname").toString()
-                                 .contains("localhost");
-    assertTrue("A host was registered, but it was not localhost",
-               localhostExists);
+    boolean localhostExists = false;
+    for (int n = 0; n < systems.size(); n++) {
+      localhostExists = systems.getJsonObject(n)
+                                .get("hostname").toString()
+                                .contains("localhost");
+      if (localhostExists) {
+          break;
+      }
+    }
+    assertTrue(localhostExists, 
+              "A host was registered, but it was not localhost");
 
     response.close();
   }
   // end::testHostRegistration[]
 
+  // tag::Test2[]
+  @Test
+  // end::Test2[]
+  // tag::Order2[]
+  @Order(2)
+  // end::Order2[]
   // tag::testSystemPropertiesMatch[]
   public void testSystemPropertiesMatch() {
     Response invResponse = this.getResponse(baseUrl + INVENTORY_SYSTEMS);
@@ -152,6 +148,12 @@ public class InventoryEndpointTest {
   }
   // end::testSystemPropertiesMatch[]
 
+  // tag::Test3[]
+  @Test
+  // end::Test3[]
+  // tag::Order3[]
+  @Order(3)
+  // end::Order3[]
   // tag::testUnknownHost[]
   public void testUnknownHost() {
     Response response = this.getResponse(baseUrl + INVENTORY_SYSTEMS);
@@ -163,8 +165,8 @@ public class InventoryEndpointTest {
     String obj = badResponse.readEntity(String.class);
 
     boolean isError = obj.contains("ERROR");
-    assertTrue("badhostname is not a valid host but it didn't raise an error",
-               isError);
+    assertTrue(isError, 
+              "badhostname is not a valid host but it didn't raise an error");
 
     response.close();
     badResponse.close();
@@ -177,15 +179,14 @@ public class InventoryEndpointTest {
   }
 
   private void assertResponse(String url, Response response) {
-    assertEquals("Incorrect response code from " + url, 200,
-                 response.getStatus());
+    assertEquals(200, response.getStatus(), "Incorrect response code from " + url);
   }
 
   private void assertProperty(String propertyName, String hostname,
       String expected, String actual) {
-    assertEquals("JVM system property [" + propertyName + "] "
+    assertEquals(expected, actual, "JVM system property [" + propertyName + "] "
         + "in the system service does not match the one stored in "
-        + "the inventory service for " + hostname, expected, actual);
+        + "the inventory service for " + hostname);
   }
 
   private void visitLocalhost() {

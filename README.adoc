@@ -70,13 +70,12 @@ include::{common-includes}/gitclone.adoc[]
 
 The `finish` directory in the root of this guide contains the finished inventory application. Give it a try before you proceed.
 
-To try out the application, first navigate to the `finish` directory and then run the following
-Maven goals to build the application and run it inside Open Liberty:
+To try out the application, first go to the `finish` directory and run the following
+Maven goal to build the application and deploy it to Open Liberty:
 
 [role='command']
 ```
-cd finish
-mvn install liberty:start-server
+mvn liberty:run
 ```
 
 Point your browser to the http://localhost:9080/inventory/systems[http://localhost:9080/inventory/systems^] URL. This is the starting point of the `inventory`
@@ -88,11 +87,13 @@ you see a new entry for `localhost`. For simplicity, only the OS name and userna
 each host. You can repeat this process for your own hostname or any other machine that is running
 the `system` service.
 
-After you are done checking out the application, stop the Open Liberty server:
+After you are finished checking out the application, stop the Open Liberty server by pressing `CTRL+C`
+in the shell session where you ran the server. Alternatively, you can run the `liberty:stop` goal
+from the `finish` directory in another shell session:
 
 [role='command']
 ```
-mvn liberty:stop-server
+mvn liberty:stop
 ```
 
 == Handling dependencies in the application
@@ -102,6 +103,13 @@ You will use CDI to inject dependencies into the inventory manager application a
 === Managing scopes and contexts
 
 Navigate to the `start` directory to begin.
+
+Start Open Liberty in development mode, which starts the Open Liberty server and listens for file changes:
+
+[role=command]
+```
+mvn liberty:dev
+```
 
 [role="code_command hotspot", subs="quotes"]
 ----
@@ -138,10 +146,9 @@ include::finish/src/main/java/io/openliberty/guides/inventory/InventoryResource.
 
 The inventory resource is a RESTful service that is served at the `inventory/systems` endpoint. 
 
-Add the [hotspot=RequestScoped file=1]`@RequestScoped` annotation on the class to indicate that this bean is
-to be initialized once for every request. In other words, the bean is instantiated when the request
-is received and destroyed when a response is sent back to the client. While this bean can
-also be application-scoped, request scope is short-lived and is therefore ideal for HTTP requests.
+Annotating a class with the [hotspot=ApplicationScoped file=1]`@ApplicationScoped` annotation indicates that the bean is initialized once and is shared between all requests while the application runs.
+
+If you want this bean to be initialized once for every request, you can annotate the class with the `@RequestScoped` annotation instead. With the `@RequestScoped` annotation, the bean is instantiated when the request is received and destroyed when a response is sent back to the client. A request scope is short-lived.
 
 === Injecting a dependency
 
@@ -178,17 +185,14 @@ include::finish/src/main/java/io/openliberty/guides/inventory/client/SystemClien
 // Building the application
 // =================================================================================================
 
-[role='command']
-include::{common-includes}/mvnbuild.adoc[]
+== Building and running the application
+
+The Open Liberty server was started in development mode at the beginning of the guide and all the changes were automatically picked up.
 
 You can find the `inventory` and `system` services at the following URLs:
 
 - http://localhost:9080/inventory/systems[http://localhost:9080/inventory/systems^]
 - http://localhost:9080/system/properties[http://localhost:9080/system/properties^]
-
-[role='command']
-include::{common-includes}/mvncompile.adoc[]
-
 
 // =================================================================================================
 // Testing
@@ -204,23 +208,21 @@ In testing the functionality of the application, the scopes and dependencies are
 
 [role="code_command hotspot", subs="quotes"]
 ----
-#Create the `InventoryEndpointTest` class.#
-`src/test/java/it/io/openliberty/guides/inventory/InventoryEndpointTest.java`
+#Create the `InventoryEndpointIT` class.#
+`src/test/java/it/io/openliberty/guides/inventory/InventoryEndpointIT.java`
 ----
 
-The [hotspot=BeforeClass file=0]`@BeforeClass` annotation is placed on a method that runs before any of the test cases.
+The [hotspot=BeforeAll file=0]`@BeforeAll` annotation is placed on a method that runs before any of the test cases.
 In this case, the [hotspot=oneTimeSetup file=0]`oneTimeSetup()` method retrieves the port number for the Open Liberty server and builds
 a base URL string that is used throughout the tests.
 
-The [hotspot=Before file=0]`@Before` and [hotspot=After file=0]`@After` annotations are placed on methods that run before and after every test case.
+The [hotspot=BeforeEach file=0]`@BeforeEach` and [hotspot=AfterEach file=0]`@AfterEach` annotations are placed on methods that run before and after every test case.
 These methods are generally used to perform any setup and teardown tasks. In this case, the [hotspot=setup file=0]`setup()` method
 creates a JAX-RS client, which makes HTTP requests to the `inventory` service. This client must
 also be registered with a JSON-P provider ([hotspot=JsrJsonpProvider file=0]`JsrJsonpProvider`) to process JSON resources. The [hotspot=teardown file=0]`teardown()`
 method simply destroys this client instance.
 
 See the following descriptions of the test cases:
-
-* [hotspot=testEmptyInventory file=0]`testEmptyInventory()` verifies that the inventory is initially empty when the server first starts up.
 
 * [hotspot=testHostRegistration file=0]`testHostRegistration()` verifies that a host is correctly added to the inventory.
 
@@ -230,50 +232,57 @@ the ones stored in the `inventory` service.
 * [hotspot=testUnknownHost file=0]`testUnknownHost()` verifies that an unknown host or a host that does not expose their JVM system
 properties is correctly handled as an error.
 
-To force these test cases to run in a particular order, put them in a [hotspot=testSuite file=0]`testSuite()` method and label
-it with a [hotspot=test file=0]`@Test` annotation so that it automatically runs when your test class run.
+To force these test cases to run in a particular order, annotate your [hotspot file=0]`InventoryEndpointIT` test class with the [hotspot=TestMethodOrder file=0]`@TestMethodOrder(OrderAnnotation.class)` annotation.
+[hotspot=TestMethodOrder file=0]`OrderAnnotation.class` runs test methods in numerical order, 
+according to the values specified in the [hotspot=Order1 hotspot=Order2 hotspot=Order3 file=0]`@Order` annotation. 
+You can also create a custom `MethodOrderer` class or use built-in `MethodOrderer` implementations, 
+such as `OrderAnnotation.class`, `Alphanumeric.class`, or `Random.class`. Label your test cases
+with the [hotspot=Test1 hotspot=Test2 hotspot=Test3 file=0]`@Test` annotation so that they automatically run when your test class runs.
 
-Finally, the [hotspot file=1]`src/test/java/it/io/openliberty/guides/system/SystemEndpointTest.java` file
+Finally, the [hotspot file=1]`src/test/java/it/io/openliberty/guides/system/SystemEndpointIT.java` file
 is included for you to test the basic functionality of the `system` service.
 If a test failure occurs, then you might have introduced a bug into the code.
 
-InventoryEndpointTest.java
+InventoryEndpointIT.java
 [source, Java, linenums, role='code_column hide_tags=copyright']
 ----
-include::finish/src/test/java/it/io/openliberty/guides/inventory/InventoryEndpointTest.java[]
+include::finish/src/test/java/it/io/openliberty/guides/inventory/InventoryEndpointIT.java[]
 ----
 
-SystemEndpointTest.java
+SystemEndpointIT.java
 [source, Java, linenums, role='code_column hide_tags=copyright']
 ----
-include::finish/src/test/java/it/io/openliberty/guides/system/SystemEndpointTest.java[]
+include::finish/src/test/java/it/io/openliberty/guides/system/SystemEndpointIT.java[]
 ----
 
 // =================================================================================================
 // Running the tests
 // =================================================================================================
 
-[role='command']
-include::{common-includes}/mvnverify.adoc[]
+=== Running the tests
+
+Since you started Open Liberty in development mode at the start of the guide, press the `enter/return` key to run the tests.
+
+If the tests pass, you see a similar output to the following example:
 
 [source, role='no_copy']
 ----
 -------------------------------------------------------
  T E S T S
 -------------------------------------------------------
-Running it.io.openliberty.guides.system.SystemEndpointTest
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.99 sec - in it.io.openliberty.guides.system.SystemEndpointTest
-Running it.io.openliberty.guides.inventory.InventoryEndpointTest
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.325 sec - in it.io.openliberty.guides.inventory.InventoryEndpointTest
+Running it.io.openliberty.guides.system.SystemEndpointIT
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.99 sec - in it.io.openliberty.guides.system.SystemEndpointIT
+Running it.io.openliberty.guides.inventory.InventoryEndpointIT
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.325 sec - in it.io.openliberty.guides.inventory.InventoryEndpointIT
 
 Results :
 
-Tests run: 2, Failures: 0, Errors: 0, Skipped: 0
+Tests run: 4, Failures: 0, Errors: 0, Skipped: 0
 ----
 
 To see whether the tests detect a failure, change the [hotspot=endpoint file=0]`endpoint` for the `inventory` service in
-the [hotspot file=0]`src/main/java/io/openliberty/guides/inventory/InventoryResource.java` file to something else, then
-run the Maven build again. You see a test failure occur.
+the [hotspot file=0]`src/main/java/io/openliberty/guides/inventory/InventoryResource.java` file to something else. Then,
+run the tests again to see that a test failure occurs.
 
 InventoryResource.java
 [source, Java, linenums, role='code_column hide_tags=copyright']
@@ -281,8 +290,10 @@ InventoryResource.java
 include::finish/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[]
 ----
 
+When you are done checking out the service, exit development mode by typing `q` in the shell session where you ran the server, and then press the `enter/return` key.
+
 == Great work! You're done!
 
-You have just completed building a simple inventory application using CDI services in Open Liberty.
+You just used CDI services in Open Liberty to build a simple inventory application.
 
 include::{common-includes}/attribution.adoc[subs="attributes"]
