@@ -233,7 +233,7 @@ the ones stored in the `inventory` service.
 properties is correctly handled as an error.
 
 To force these test cases to run in a particular order, annotate your [hotspot file=0]`InventoryEndpointIT` test class with the [hotspot=TestMethodOrder file=0]`@TestMethodOrder(OrderAnnotation.class)` annotation.
-[hotspot=MethodOrderer hotspot=TestMethodOrder file=0]`OrderAnnotation.class` runs test methods in numerical order, 
+[hotspot=TestMethodOrder file=0]`OrderAnnotation.class` runs test methods in numerical order, 
 according to the values specified in the [hotspot=Order1 hotspot=Order2 hotspot=Order3 file=0]`@Order` annotation. 
 You can also create a custom `MethodOrderer` class or use built-in `MethodOrderer` implementations, 
 such as `OrderAnnotation.class`, `Alphanumeric.class`, or `Random.class`. Label your test cases
