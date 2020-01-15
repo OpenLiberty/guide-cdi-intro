@@ -19,8 +19,8 @@
 :page-related-guides: ['rest-intro']
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/master
 :source-highlighter: prettify
-:page-seo-title: Managing and injecting dependencies using Contexts and Dependency Injection (CDI)
-:page-seo-description: A tutorial on how to manage scopes and inject dependencies into microservices using Contexts and Dependency Injection (CDI)
+:page-seo-title: Managing and injecting dependencies into Java microservices using Contexts and Dependency Injection (CDI)
+:page-seo-description: A getting started tutorial and an example on how to manage scopes and inject dependencies into Java microservices using Contexts and Dependency Injection (CDI).
 :figure-caption!:
 = Injecting dependencies into microservices
 
