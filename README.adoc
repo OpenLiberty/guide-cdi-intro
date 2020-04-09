@@ -68,17 +68,8 @@ controlling exactly when and how these components are instantiated and destroyed
 [role='command']
 include::{common-includes}/gitclone.adoc[]
 
-=== Try what you'll build
-
-The `finish` directory in the root of this guide contains the finished inventory application. Give it a try before you proceed.
-
-To try out the application, first go to the `finish` directory and run the following
-Maven goal to build the application and deploy it to Open Liberty:
-
 [role='command']
-```
-mvn liberty:run
-```
+include::{common-includes}/twyb-intro.adoc[]
 
 Point your browser to the http://localhost:9080/inventory/systems[http://localhost:9080/inventory/systems^] URL. This is the starting point of the `inventory`
 service and it displays the current contents of the inventory. As you might expect, these are empty since
@@ -89,14 +80,8 @@ you see a new entry for `localhost`. For simplicity, only the OS name and userna
 each host. You can repeat this process for your own hostname or any other machine that is running
 the `system` service.
 
-After you are finished checking out the application, stop the Open Liberty server by pressing `CTRL+C`
-in the shell session where you ran the server. Alternatively, you can run the `liberty:stop` goal
-from the `finish` directory in another shell session:
-
 [role='command']
-```
-mvn liberty:stop
-```
+include::{common-includes}/twyb-end.adoc[]
 
 == Handling dependencies in the application
 
@@ -106,12 +91,8 @@ You will use CDI to inject dependencies into the inventory manager application a
 
 Navigate to the `start` directory to begin.
 
-Start Open Liberty in development mode, which starts the Open Liberty server and listens for file changes:
-
-[role=command]
-```
-mvn liberty:dev
-```
+[role='command']
+include::{common-includes}/devmode-start.adoc[]
 
 [role="code_command hotspot", subs="quotes"]
 ----
@@ -184,12 +165,11 @@ include::finish/src/main/java/io/openliberty/guides/inventory/client/SystemClien
 ----
 
 // =================================================================================================
-// Building the application
+// Running the application
 // =================================================================================================
 
-== Building and running the application
-
-The Open Liberty server was started in development mode at the beginning of the guide and all the changes were automatically picked up.
+[role='command']
+include::{common-includes}/devmode-build.adoc[]
 
 You can find the `inventory` and `system` services at the following URLs:
 
@@ -261,9 +241,8 @@ include::finish/src/test/java/it/io/openliberty/guides/system/SystemEndpointIT.j
 // Running the tests
 // =================================================================================================
 
-=== Running the tests
-
-Since you started Open Liberty in development mode at the start of the guide, press the `enter/return` key to run the tests.
+[role='command']
+include::{common-includes}/devmode-test.adoc[]
 
 If the tests pass, you see a similar output to the following example:
 
@@ -292,7 +271,8 @@ InventoryResource.java
 include::finish/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[]
 ----
 
-When you are done checking out the service, exit development mode by typing `q` in the shell session where you ran the server, and then press the `enter/return` key.
+[role='command']
+include::{common-includes}/devmode-quit.adoc[]
 
 == Great work! You're done!
 
