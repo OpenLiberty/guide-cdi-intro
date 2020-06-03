@@ -71,7 +71,7 @@ include::{common-includes}/gitclone.adoc[]
 include::{common-includes}/maven-gradle.adoc[]
 
 [role='command']
-include::{common-includes}/twyb-intro.adoc[]
+include::{common-includes}/twyb-intro-maven-gradle.adoc[]
 
 Point your browser to the http://localhost:9080/inventory/systems[http://localhost:9080/inventory/systems^] URL. This is the starting point of the `inventory`
 service and it displays the current contents of the inventory. As you might expect, these are empty since
@@ -83,7 +83,7 @@ each host. You can repeat this process for your own hostname or any other machin
 the `system` service.
 
 [role='command']
-include::{common-includes}/twyb-end.adoc[]
+include::{common-includes}/twyb-end-maven-gradle.adoc[]
 
 == Handling dependencies in the application
 
@@ -94,7 +94,7 @@ You will use CDI to inject dependencies into the inventory manager application a
 Navigate to the `start` directory to begin.
 
 [role='command']
-include::{common-includes}/devmode-start.adoc[]
+include::{common-includes}/devmode-start-maven-gradle.adoc[]
 
 [role="code_command hotspot", subs="quotes"]
 ----
