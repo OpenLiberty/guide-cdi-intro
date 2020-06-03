@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2019 IBM Corporation and others.
+// Copyright (c) 2017, 2020 IBM Corporation and others.
 // Licensed under Creative Commons Attribution-NoDerivatives
 // 4.0 International (CC BY-ND 4.0)
 //   https://creativecommons.org/licenses/by-nd/4.0/
@@ -17,7 +17,7 @@
 :page-tags: ['MicroProfile', 'Java EE', 'Jakarta EE']
 :page-permalink: /guides/{projectid}
 :page-related-guides: ['rest-intro']
-:common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/master
+:common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/gkwan-maven-gradle
 :source-highlighter: prettify
 :page-seo-title: Managing and injecting dependencies into Java microservices using Contexts and Dependency Injection (CDI)
 :page-seo-description: A getting started tutorial with examples of how to manage scopes and inject dependencies into Java microservices using Contexts and Dependency Injection (CDI).
@@ -67,6 +67,8 @@ controlling exactly when and how these components are instantiated and destroyed
 
 [role='command']
 include::{common-includes}/gitclone.adoc[]
+
+include::{common-includes}/maven-gradle.adoc[]
 
 [role='command']
 include::{common-includes}/twyb-intro.adoc[]
