@@ -24,7 +24,7 @@ jobs:
         java-version: 1.8
     - run: unset _JAVA_OPTIONS
       
-    - name: Run tests
+    - name: Test
       run: chmod +x ../scripts/travisTest.sh && sudo ../scripts/travisTest.sh
       
     - name: Post tests
@@ -38,4 +38,4 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: server-logs
-        path: finish/target/liberty/wlp/usr/servers/guideServer/logs/
+        path: finish/target/liberty/wlp/usr/servers/defaultServer/logs/
