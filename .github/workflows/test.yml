@@ -6,8 +6,6 @@ name: Test application
 on:
   pull_request:
     branches: [ qa ]
-  push:
-    branches: [ qa ]
 
 jobs:
   java8build:
@@ -24,7 +22,7 @@ jobs:
         java-version: 1.8
     - run: unset _JAVA_OPTIONS
       
-    - name: Test
+    - name: Run tests
       run: chmod +x ../scripts/travisTest.sh && sudo ../scripts/travisTest.sh
       
     - name: Post tests
