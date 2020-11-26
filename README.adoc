@@ -264,7 +264,7 @@ Results :
 Tests run: 4, Failures: 0, Errors: 0, Skipped: 0
 ----
 
-The warning and error messages are expected and result from a request to a bad or an unknown host name. This request is made in the `testUnknownHost()` test from `InventoryEndpointIT` integration test.
+The warning and error messages are expected and result from a request to a bad or an unknown hostname. This request is made in the `testUnknownHost()` test from the `InventoryEndpointIT` integration test.
 
 To see whether the tests detect a failure, change the [hotspot=endpoint file=0]`endpoint` for the `inventory` service in
 the [hotspot file=0]`src/main/java/io/openliberty/guides/inventory/InventoryResource.java` file to something else. Then,
@@ -274,12 +274,6 @@ InventoryResource.java
 [source, Java, linenums, role='code_column hide_tags=copyright']
 ----
 include::finish/src/main/java/io/openliberty/guides/inventory/InventoryResource.java[]
-----
-
-InventoryEndpointIT.java
-[source, Java, linenums, role='code_column hide_tags=copyright']
-----
-include::finish/src/test/java/it/io/openliberty/guides/inventory/InventoryEndpointIT.java[]
 ----
 
 [role='command']
