@@ -27,5 +27,8 @@ mvn -Dhttp.keepAlive=false \
 #       liberty:stop              - Stop a Liberty server.
 #       failsafe:verify           - Verifies that the integration tests of an application passed.
 mvn liberty:start
-mvn failsafe:integration-test liberty:stop
+mvn -Dhttp.keepAlive=false \
+    -Dmaven.wagon.http.pool=false \
+    -Dmaven.wagon.httpconnectionManager.ttlSeconds=120 \
+    failsafe:integration-test liberty:stop
 mvn failsafe:verify
