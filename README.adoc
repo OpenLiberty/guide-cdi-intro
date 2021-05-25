@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2020 IBM Corporation and others.
+// Copyright (c) 2017, 2021 IBM Corporation and others.
 // Licensed under Creative Commons Attribution-NoDerivatives
 // 4.0 International (CC BY-ND 4.0)
 //   https://creativecommons.org/licenses/by-nd/4.0/
@@ -14,7 +14,7 @@
 :page-essential-order: 2
 :page-description: Learn how to use Contexts and Dependency Injection (CDI) to manage and inject dependencies into microservices.
 :guide-author: Open Liberty
-:page-tags: ['MicroProfile', 'Java EE', 'Jakarta EE']
+:page-tags: ['MicroProfile', 'Jakarta EE']
 :page-permalink: /guides/{projectid}
 :page-related-guides: ['rest-intro']
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/master
@@ -94,7 +94,7 @@ You will use CDI to inject dependencies into the inventory manager application a
 Navigate to the `start` directory to begin.
 
 [role='command']
-include::{common-includes}/devmode-start.adoc[]
+include::{common-includes}/devmode-lmp33-start.adoc[]
 
 [role="code_command hotspot", subs="quotes"]
 ----
@@ -175,8 +175,8 @@ include::{common-includes}/devmode-build.adoc[]
 
 You can find the `inventory` and `system` services at the following URLs:
 
-- http://localhost:9080/inventory/systems[http://localhost:9080/inventory/systems^]
-- http://localhost:9080/system/properties[http://localhost:9080/system/properties^]
+* http://localhost:9080/inventory/systems[http://localhost:9080/inventory/systems^]
+* http://localhost:9080/system/properties[http://localhost:9080/system/properties^]
 
 // =================================================================================================
 // Testing
