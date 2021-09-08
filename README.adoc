@@ -17,7 +17,7 @@
 :page-tags: ['MicroProfile', 'Jakarta EE']
 :page-permalink: /guides/{projectid}
 :page-related-guides: ['rest-intro']
-:common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/prod
+:common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/maven-gradle
 :source-highlighter: prettify
 :page-seo-title: Managing and injecting dependencies into Java microservices using Contexts and Dependency Injection (CDI)
 :page-seo-description: A getting started tutorial with examples of how to manage scopes and inject dependencies into Java microservices using Contexts and Dependency Injection (CDI).
