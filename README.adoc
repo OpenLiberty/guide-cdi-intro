@@ -29,6 +29,10 @@ NOTE: This repository contains the guide documentation source. To view the guide
 
 Learn how to use Contexts and Dependency Injection (CDI) to manage scopes and inject dependencies into microservices.
 
+:win: WINDOWS
+:mac: MAC
+:linux: LINUX
+
 == What you'll learn
 
 You will learn how to use Contexts and Dependency Injection (CDI) to manage scopes and inject dependencies in a simple inventory management application.
