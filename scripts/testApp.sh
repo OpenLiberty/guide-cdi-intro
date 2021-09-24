@@ -1,6 +1,8 @@
 #!/bin/bash
 set -euxo pipefail
 
+mvn version
+
 ##############################################################################
 ##
 ##  GH actions CI test script
