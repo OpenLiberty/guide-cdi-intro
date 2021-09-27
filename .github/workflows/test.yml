@@ -53,7 +53,7 @@ jobs:
       - run: unset _JAVA_OPTIONS
 
       - name: Run tests
-        run: sudo -E=JAVA_HOME ../scripts/testApp.sh
+        run: sudo --preserve-env=JAVA_HOME ../scripts/testApp.sh
 
       - name: Post tests
         if: always()
