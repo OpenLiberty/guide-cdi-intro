@@ -50,12 +50,10 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 8
-      - run: |
-          unset _JAVA_OPTIONS
-          echo JAVA_HOME=$JAVA_HOME
+      - run: unset _JAVA_OPTIONS
 
       - name: Run tests
-        run: ../scripts/testApp.sh
+        run: sudo -E ../scripts/testApp.sh
 
       - name: Post tests
         if: always()
