@@ -55,7 +55,7 @@ jobs:
           echo JAVA_HOME=$JAVA_HOME
 
       - name: Run tests
-        run: sudo ../scripts/testApp.sh
+        run: ../scripts/testApp.sh
 
       - name: Post tests
         if: always()
