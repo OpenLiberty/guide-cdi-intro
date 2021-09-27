@@ -50,9 +50,9 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 8
-      - run: unset _JAVA_OPTIONS
-
-      - uses: guillonapa/action-maven-cli/jdk8@master
+      - run: |
+          unset _JAVA_OPTIONS
+          echo JAVA_HOME=$JAVA_HOME
 
       - name: Run tests
         run: sudo ../scripts/testApp.sh
