@@ -92,6 +92,12 @@ You will use CDI to inject dependencies into the inventory manager application a
 === Managing scopes and contexts
 
 Navigate to the `start` directory to begin.
+ifdef::cloud-hosted[]
+```
+cd /home/project/guide-cdi-intro/start
+```
+{: codeblock}
+endif::[]
 
 [role='command']
 include::{common-includes}/devmode-lmp33-start.adoc[]
