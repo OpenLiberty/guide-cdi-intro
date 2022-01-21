@@ -1,4 +1,4 @@
-//tag::copyright[]
+// tag::copyright[]
 /*******************************************************************************
 * Copyright (c) 2017, 2022 IBM Corporation and others.
 * All rights reserved. This program and the accompanying materials
@@ -42,7 +42,7 @@ public class SystemEndpointIT {
      assertEquals(System.getProperty("os.name"),
                   obj.getString("os.name"),
                   "The system property for the local and remote JVM should match");
-     
+    
      response.close();
  }
 }

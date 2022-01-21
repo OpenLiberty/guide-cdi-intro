@@ -105,7 +105,7 @@ public class InventoryEndpointIT {
           break;
       }
     }
-    assertTrue(localhostExists, 
+    assertTrue(localhostExists,
               "A host was registered, but it was not localhost");
 
     response.close();
@@ -168,7 +168,7 @@ public class InventoryEndpointIT {
     String obj = badResponse.readEntity(String.class);
 
     boolean isError = obj.contains("error");
-    assertTrue(isError, 
+    assertTrue(isError,
               "badhostname is not a valid host but it didn't raise an error");
 
     response.close();
