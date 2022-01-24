@@ -30,5 +30,5 @@ public class SystemResource {
   @Produces(MediaType.APPLICATION_JSON)
   public Properties getProperties() {
     return System.getProperties();
-  } 
+  }
 }

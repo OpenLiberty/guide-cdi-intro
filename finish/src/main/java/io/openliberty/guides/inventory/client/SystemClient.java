@@ -38,7 +38,8 @@ public class SystemClient {
 
   // Wrapper function that gets properties
   public Properties getProperties(String hostname) {
-    String url = buildUrl(PROTOCOL, hostname, Integer.valueOf(SYS_HTTP_PORT), SYSTEM_PROPERTIES);
+    String url = buildUrl(
+      PROTOCOL, hostname, Integer.valueOf(SYS_HTTP_PORT), SYSTEM_PROPERTIES);
     Builder clientBuilder = buildClientBuilder(url);
     return getPropertiesHelper(clientBuilder);
   }
@@ -74,7 +75,8 @@ public class SystemClient {
       Builder builder = client.target(urlString).request();
       return builder.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON);
     } catch (Exception e) {
-      System.err.println("Exception thrown while building the client: " + e.getMessage());
+      System.err.println(
+        "Exception thrown while building the client: " + e.getMessage());
       return null;
     }
   }
@@ -91,7 +93,8 @@ public class SystemClient {
     } catch (RuntimeException e) {
       System.err.println("Runtime exception: " + e.getMessage());
     } catch (Exception e) {
-      System.err.println("Exception thrown while invoking the request: " + e.getMessage());
+      System.err.println(
+        "Exception thrown while invoking the request: " + e.getMessage());
     }
     return null;
   }
