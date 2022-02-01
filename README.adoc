@@ -73,7 +73,7 @@ include::{common-includes}/twyb-intro.adoc[]
 
 Point your browser to the http://localhost:9080/inventory/systems[http://localhost:9080/inventory/systems^] URL.
 This is the starting point of the `inventory` service and it displays the current contents of the inventory. 
-As you might expect, these are empty since nothing is stored in the inventory yet. 
+As you might expect, these are empty because nothing is stored in the inventory yet. 
 Next, point your browser to the http://localhost:9080/inventory/systems/localhost[http://localhost:9080/inventory/systems/localhost^] URL.
 You see a result in JSON format with the system properties of your local JVM. When you visit this URL, these system
 properties are automatically stored in the inventory. 
@@ -190,7 +190,7 @@ You can find the `inventory` and `system` services at the following URLs:
 
 == Testing the inventory application
 
-While you can test your application manually, you should rely on automated tests since they trigger
+While you can test your application manually, you should rely on automated tests because they trigger
 a failure whenever a code change introduces a defect.
 Since the application is a RESTful web service application, you can use
 JUnit and the RESTful web service Client API to write tests.
