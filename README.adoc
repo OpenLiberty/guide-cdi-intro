@@ -153,7 +153,7 @@ You can find the `inventory` and `system` services at the following URLs:
 
 == Testing the inventory application
 
-While you can test your application manually, you should rely on automated tests because they trigger a failure whenever a code change introduces a defect. Since the application is a RESTful web service application, you can use JUnit and the RESTful web service Client API to write tests. In testing the functionality of the application, the scopes and dependencies are being tested.
+While you can test your application manually, you should rely on automated tests because they trigger a failure whenever a code change introduces a defect. Because the application is a RESTful web service application, you can use JUnit and the RESTful web service Client API to write tests. In testing the functionality of the application, the scopes and dependencies are being tested.
 
 [role="code_command hotspot", subs="quotes"]
 ----
