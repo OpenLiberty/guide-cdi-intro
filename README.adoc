@@ -70,10 +70,9 @@ You will use CDI to inject dependencies into the inventory manager application a
 
 Navigate to the `start` directory to begin.
 ifdef::cloud-hosted[]
-```
+```bash
 cd /home/project/guide-cdi-intro/start
 ```
-{: codeblock}
 endif::[]
 
 [role='command']
