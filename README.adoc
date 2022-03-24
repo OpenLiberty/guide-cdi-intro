@@ -161,6 +161,12 @@ While you can test your application manually, you should rely on automated tests
 `src/test/java/it/io/openliberty/guides/inventory/InventoryEndpointIT.java`
 ----
 
+InventoryEndpointIT.java
+[source, Java, linenums, role='code_column hide_tags=copyright']
+----
+include::finish/src/test/java/it/io/openliberty/guides/inventory/InventoryEndpointIT.java[]
+----
+
 The [hotspot=BeforeAll file=0]`@BeforeAll` annotation is placed on a method that runs before any of the test cases. In this case, the [hotspot=oneTimeSetup file=0]`oneTimeSetup()` method retrieves the port number for the Open Liberty server and builds a base URL string that is used throughout the tests.
 
 The [hotspot=BeforeEach file=0]`@BeforeEach` and [hotspot=AfterEach file=0]`@AfterEach` annotations are placed on methods that run before and after every test case. These methods are generally used to perform any setup and teardown tasks. In this case, the [hotspot=setup file=0]`setup()` method creates a restfulWS client, which makes HTTP requests to the `inventory` service. The [hotspot=teardown file=0]`teardown()` method simply destroys this client instance.
@@ -176,12 +182,6 @@ See the following descriptions of the test cases:
 To force these test cases to run in a particular order, annotate your [hotspot file=0]`InventoryEndpointIT` test class with the [hotspot=TestMethodOrder file=0]`@TestMethodOrder(OrderAnnotation.class)` annotation. [hotspot=TestMethodOrder file=0]`OrderAnnotation.class` runs test methods in numerical order, according to the values specified in the [hotspot=Order1 hotspot=Order2 hotspot=Order3 file=0]`@Order` annotation. You can also create a custom `MethodOrderer` class or use built-in `MethodOrderer` implementations, such as `OrderAnnotation.class`, `Alphanumeric.class`, or `Random.class`. Label your test cases with the [hotspot=Test1 hotspot=Test2 hotspot=Test3 file=0]`@Test` annotation so that they automatically run when your test class runs.
 
 Finally, the [hotspot file=1]`src/test/java/it/io/openliberty/guides/system/SystemEndpointIT.java` file is included for you to test the basic functionality of the `system` service. If a test failure occurs, then you might have introduced a bug into the code.
-
-InventoryEndpointIT.java
-[source, Java, linenums, role='code_column hide_tags=copyright']
-----
-include::finish/src/test/java/it/io/openliberty/guides/inventory/InventoryEndpointIT.java[]
-----
 
 SystemEndpointIT.java
 [source, Java, linenums, role='code_column hide_tags=copyright']
