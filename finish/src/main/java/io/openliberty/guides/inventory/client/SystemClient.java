@@ -1,6 +1,6 @@
 // tag::copyright[]
 /*******************************************************************************
- * Copyright (c) 2017, 2019 IBM Corporation and others.
+ * Copyright (c) 2017, 2022 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,15 +12,15 @@
 // end::copyright[]
 package io.openliberty.guides.inventory.client;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Invocation.Builder;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.client.Client;
+import jakarta.ws.rs.client.ClientBuilder;
+import jakarta.ws.rs.client.Invocation.Builder;
+import jakarta.ws.rs.core.HttpHeaders;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response.Status;
 import java.util.Properties;
 import java.net.URI;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
@@ -38,7 +38,8 @@ public class SystemClient {
 
   // Wrapper function that gets properties
   public Properties getProperties(String hostname) {
-    String url = buildUrl(PROTOCOL, hostname, Integer.valueOf(SYS_HTTP_PORT), SYSTEM_PROPERTIES);
+    String url = buildUrl(
+      PROTOCOL, hostname, Integer.valueOf(SYS_HTTP_PORT), SYSTEM_PROPERTIES);
     Builder clientBuilder = buildClientBuilder(url);
     return getPropertiesHelper(clientBuilder);
   }
@@ -74,7 +75,8 @@ public class SystemClient {
       Builder builder = client.target(urlString).request();
       return builder.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON);
     } catch (Exception e) {
-      System.err.println("Exception thrown while building the client: " + e.getMessage());
+      System.err.println(
+        "Exception thrown while building the client: " + e.getMessage());
       return null;
     }
   }
@@ -91,7 +93,8 @@ public class SystemClient {
     } catch (RuntimeException e) {
       System.err.println("Runtime exception: " + e.getMessage());
     } catch (Exception e) {
-      System.err.println("Exception thrown while invoking the request: " + e.getMessage());
+      System.err.println(
+        "Exception thrown while invoking the request: " + e.getMessage());
     }
     return null;
   }
