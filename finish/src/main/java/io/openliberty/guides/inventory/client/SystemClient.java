@@ -40,8 +40,13 @@ public class SystemClient {
   public Properties getProperties(String hostname) {
     String url = buildUrl(
       PROTOCOL, hostname, Integer.valueOf(SYS_HTTP_PORT), SYSTEM_PROPERTIES);
-    Builder clientBuilder = buildClientBuilder(url);
-    return getPropertiesHelper(clientBuilder);
+    Client client = ClientBuilder.newClient();
+    try {
+      Builder clientBuilder = buildClientBuilder(url, client);
+      return getPropertiesHelper(clientBuilder);
+    } finally {
+      client.close();
+    }
   }
 
   // tag::doc[]
@@ -69,9 +74,8 @@ public class SystemClient {
   }
 
   // Method that creates the client builder
-  protected Builder buildClientBuilder(String urlString) {
+  protected Builder buildClientBuilder(String urlString, Client client) {
     try {
-      Client client = ClientBuilder.newClient();
       Builder builder = client.target(urlString).request();
       return builder.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON);
     } catch (Exception e) {
