@@ -37,69 +37,31 @@ public class SystemClient {
 
   // Wrapper function that gets properties
   public Properties getProperties(String hostname) {
-    String url = buildUrl(
-      PROTOCOL, hostname, Integer.valueOf(SYS_HTTP_PORT), SYSTEM_PROPERTIES);
+    Properties properties = null;
     Client client = ClientBuilder.newClient();
     try {
-      Builder clientBuilder = buildClientBuilder(url, client);
-      return getPropertiesHelper(clientBuilder);
-    } finally {
-      client.close();
-    }
-  }
+      // Build the URL
+      URI uri = new URI(
+        PROTOCOL, null, hostname, Integer.valueOf(SYS_HTTP_PORT), 
+        SYSTEM_PROPERTIES, null, null);
+      String url = uri.toString();
 
-  // tag::doc[]
-  /**
-   * Builds the URI string to the system service for a particular host.
-   * @param protocol
-   *          - http or https.
-   * @param host
-   *          - name of host.
-   * @param port
-   *          - port number.
-   * @param path
-   *          - Note that the path needs to start with a slash!!!
-   * @return String representation of the URI to the system properties service.
-   */
-  // end::doc[]
-  protected String buildUrl(String protocol, String host, int port, String path) {
-    try {
-      URI uri = new URI(protocol, null, host, port, path, null, null);
-      return uri.toString();
-    } catch (Exception e) {
-      System.err.println("Exception thrown while building the URL: " + e.getMessage());
-      return null;
-    }
-  }
+      // Create the client builder
+      Builder builder = client.target(url).request()
+                              .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON);
 
-  // Method that creates the client builder
-  protected Builder buildClientBuilder(String urlString, Client client) {
-    try {
-      Builder builder = client.target(urlString).request();
-      return builder.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON);
-    } catch (Exception e) {
-      System.err.println(
-        "Exception thrown while building the client: " + e.getMessage());
-      return null;
-    }
-  }
-
-  // Helper method that processes the request
-  protected Properties getPropertiesHelper(Builder builder) {
-    try {
+      // Process the request
       Response response = builder.get();
       if (response.getStatus() == Status.OK.getStatusCode()) {
-        return response.readEntity(Properties.class);
+        properties = response.readEntity(Properties.class);
       } else {
         System.err.println("Response Status is not OK.");
       }
-    } catch (RuntimeException e) {
-      System.err.println("Runtime exception: " + e.getMessage());
     } catch (Exception e) {
-      System.err.println(
-        "Exception thrown while invoking the request: " + e.getMessage());
+      System.err.println("Exception thrown while getting properties: " + e.getMessage());
+    } finally {
+      client.close();
     }
-    return null;
+    return properties;
   }
-
 }
