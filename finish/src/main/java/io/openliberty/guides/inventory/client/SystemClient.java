@@ -42,13 +42,14 @@ public class SystemClient {
     try {
       // Build the URL
       URI uri = new URI(
-        PROTOCOL, null, hostname, Integer.valueOf(SYS_HTTP_PORT), 
+        PROTOCOL, null, hostname, Integer.valueOf(SYS_HTTP_PORT),
         SYSTEM_PROPERTIES, null, null);
       String url = uri.toString();
 
       // Create the client builder
       Builder builder = client.target(url).request()
-                              .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON);
+                              .header(HttpHeaders.CONTENT_TYPE,
+                                      MediaType.APPLICATION_JSON);
 
       // Process the request
       Response response = builder.get();
@@ -58,7 +59,8 @@ public class SystemClient {
         System.err.println("Response Status is not OK.");
       }
     } catch (Exception e) {
-      System.err.println("Exception thrown while getting properties: " + e.getMessage());
+      System.err.println(
+        "Exception thrown while getting properties: " + e.getMessage());
     } finally {
       client.close();
     }
