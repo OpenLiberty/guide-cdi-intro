@@ -52,37 +52,23 @@ public class SystemClient {
   }
 
   // Method that creates the client builder
-  protected Builder getBuilder(String hostname, Client client) throws Exception {
-    try {
-      URI uri = new URI(
-        PROTOCOL, null, hostname, Integer.valueOf(SYS_HTTP_PORT),
-        SYSTEM_PROPERTIES, null, null);
-      String urlString = uri.toString();
-      Builder builder = client.target(urlString).request();
-      return builder.header(HttpHeaders.CONTENT_TYPE,
-                            MediaType.APPLICATION_JSON);
-    } catch (Exception e) {
-      System.err.println(
-        "Exception thrown while building the client: " + e.getMessage());
-      return null;
-    }
+  private Builder getBuilder(String hostname, Client client) throws Exception {
+    URI uri = new URI(
+      PROTOCOL, null, hostname, Integer.valueOf(SYS_HTTP_PORT),
+      SYSTEM_PROPERTIES, null, null);
+    String urlString = uri.toString();
+    Builder builder = client.target(urlString).request();
+    return builder.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON);
   }
 
   // Helper method that processes the request
-  protected Properties getPropertiesHelper(Builder builder) {
-    try {
-      Response response = builder.get();
-      if (response.getStatus() == Status.OK.getStatusCode()) {
-        return response.readEntity(Properties.class);
-      } else {
-        System.err.println("Response Status is not OK.");
-      }
-    } catch (RuntimeException e) {
-      System.err.println("Runtime exception: " + e.getMessage());
-    } catch (Exception e) {
-      System.err.println(
-        "Exception thrown while invoking the request: " + e.getMessage());
+  private Properties getPropertiesHelper(Builder builder) throws Exception {
+    Response response = builder.get();
+    if (response.getStatus() == Status.OK.getStatusCode()) {
+      return response.readEntity(Properties.class);
+    } else {
+      System.err.println("Response Status is not OK.");
+      return null;
     }
-    return null;
   }
 }
