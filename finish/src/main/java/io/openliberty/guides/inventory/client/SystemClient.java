@@ -40,24 +40,8 @@ public class SystemClient {
     Properties properties = null;
     Client client = ClientBuilder.newClient();
     try {
-      // Build the URL
-      URI uri = new URI(
-        PROTOCOL, null, hostname, Integer.valueOf(SYS_HTTP_PORT),
-        SYSTEM_PROPERTIES, null, null);
-      String url = uri.toString();
-
-      // Create the client builder
-      Builder builder = client.target(url).request()
-                              .header(HttpHeaders.CONTENT_TYPE,
-                                      MediaType.APPLICATION_JSON);
-
-      // Process the request
-      Response response = builder.get();
-      if (response.getStatus() == Status.OK.getStatusCode()) {
-        properties = response.readEntity(Properties.class);
-      } else {
-        System.err.println("Response Status is not OK.");
-      }
+      Builder builder = getBuilder(hostname, client);
+      properties = getPropertiesHelper(builder);
     } catch (Exception e) {
       System.err.println(
         "Exception thrown while getting properties: " + e.getMessage());
@@ -65,5 +49,40 @@ public class SystemClient {
       client.close();
     }
     return properties;
+  }
+
+  // Method that creates the client builder
+  protected Builder getBuilder(String hostname, Client client) throws Exception {
+    try {
+      URI uri = new URI(
+        PROTOCOL, null, hostname, Integer.valueOf(SYS_HTTP_PORT),
+        SYSTEM_PROPERTIES, null, null);
+      String urlString = uri.toString();
+      Builder builder = client.target(urlString).request();
+      return builder.header(HttpHeaders.CONTENT_TYPE,
+                            MediaType.APPLICATION_JSON);
+    } catch (Exception e) {
+      System.err.println(
+        "Exception thrown while building the client: " + e.getMessage());
+      return null;
+    }
+  }
+
+  // Helper method that processes the request
+  protected Properties getPropertiesHelper(Builder builder) {
+    try {
+      Response response = builder.get();
+      if (response.getStatus() == Status.OK.getStatusCode()) {
+        return response.readEntity(Properties.class);
+      } else {
+        System.err.println("Response Status is not OK.");
+      }
+    } catch (RuntimeException e) {
+      System.err.println("Runtime exception: " + e.getMessage());
+    } catch (Exception e) {
+      System.err.println(
+        "Exception thrown while invoking the request: " + e.getMessage());
+    }
+    return null;
   }
 }
