@@ -14,6 +14,7 @@ package it.io.openliberty.guides.inventory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import jakarta.json.JsonArray;
 import jakarta.json.JsonObject;
