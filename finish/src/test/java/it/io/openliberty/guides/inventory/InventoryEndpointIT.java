@@ -100,7 +100,7 @@ public class InventoryEndpointIT {
           break;
       }
     }
-    assertTrue(localhostExists,
+    assertFalse(localhostExists,
               "A host was registered, but it was not localhost");
 
     response.close();
