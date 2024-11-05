@@ -11,6 +11,9 @@ jobs:
     outputs:
       canSkip: ${{ steps.Checker.outputs.canSkip }}
     steps:
+      - name: Prepare
+        run: |
+          python -m pip install lxml
       - name: Get files
         uses: actions/checkout@v2
       - name: Get tools
