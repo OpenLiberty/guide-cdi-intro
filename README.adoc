@@ -31,6 +31,8 @@ Learn how to use Contexts and Dependency Injection (CDI) to manage scopes and in
 
 == What you'll learn
 
+Test
+
 You will learn how to use Contexts and Dependency Injection (CDI) to manage scopes and inject dependencies in a simple inventory management application.
 
 The application that you will be working with is an `inventory` service, which stores the information about various JVMs that run on different systems. Whenever a request is made to the `inventory` service to retrieve the JVM system properties of a particular host, the `inventory` service communicates with the `system` service on that host to get these system properties. The system properties are then stored and returned.
