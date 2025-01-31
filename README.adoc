@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2023 IBM Corporation and others.
+// Copyright (c) 2017, 2025 IBM Corporation and others.
 // Licensed under Creative Commons Attribution-NoDerivatives
 // 4.0 International (CC BY-ND 4.0)
 //   https://creativecommons.org/licenses/by-nd/4.0/
@@ -14,7 +14,7 @@
 :page-essential-order: 2
 :page-description: Learn how to use Contexts and Dependency Injection (CDI) to manage and inject dependencies into microservices.
 :guide-author: Open Liberty
-:page-tags: ['MicroProfile', 'Jakarta EE']
+:page-tags: ['microprofile', 'jakarta-ee']
 :page-permalink: /guides/{projectid}
 :page-related-guides: ['rest-intro']
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/prod
@@ -141,10 +141,11 @@ include::finish/src/main/java/io/openliberty/guides/inventory/client/SystemClien
 [role='command']
 include::{common-includes}/devmode-build.adoc[]
 
-You can find the `inventory` and `system` services at the following URLs:
+You can find the `system` and `inventory` services at the following URLs:
 
-* http://localhost:9080/inventory/systems[http://localhost:9080/inventory/systems^]
 * http://localhost:9080/system/properties[http://localhost:9080/system/properties^]
+* http://localhost:9080/inventory/systems/localhost[http://localhost:9080/inventory/systems/localhost^]
+* http://localhost:9080/inventory/systems[http://localhost:9080/inventory/systems^]
 
 // =================================================================================================
 // Testing
