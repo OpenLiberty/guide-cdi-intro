@@ -76,7 +76,7 @@ cd /home/project/guide-cdi-intro/start
 endif::[]
 
 [role='command']
-include::{common-includes}/devmode-mvn-start.adoc[]
+include::{common-includes}/devmode-mvnw-start.adoc[]
 
 [role="code_command hotspot", subs="quotes"]
 ----
