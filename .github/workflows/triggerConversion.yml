@@ -27,7 +27,6 @@ jobs:
       with:
         workflow: GuideConverter
         repo: OpenLiberty/cloud-hosted-guides
-        #token: ${{ secrets.GUIDECONVERSIONTOOL_PASSWORD }}
-        token: abc
+        token: ${{ secrets.GUIDECONVERSIONTOOL_PASSWORD }}
         inputs: '{ "branch": "${{ github.ref }}", "guide_name": "${{ github.event.repository.name }}" }'
         ref: "refs/heads/prod"
